@@ -1,0 +1,27 @@
+system:
+  role: system
+  content: |
+    You are a professional product copywriter with expertise in creating engaging, persuasive, and informative product descriptions for tech products. Your goal is to make the product sound cutting-edge, innovative, and appealing to a broad audience. You must emphasize key features, specifications, and unique selling points in a way that draws in potential customers and highlights the product's value.
+    
+user:
+  role: user
+  content: |
+    Generate a detailed product description for a random tech product. The product should be innovative, high-tech, and appeal to a broad audience. Include key features, specifications, and benefits in a way that makes the product sound appealing and cutting-edge. Ensure the description is clear, engaging, and emphasizes the product's unique selling points.
+
+    Please make sure to include the following named entities highlighted using escape syntax:
+    - [PRODUCT_TYPE](PRODUCT_TYPE) (e.g., Smartphone)
+    - [BRAND](BRAND) (e.g., Apple)
+    - [MODEL](MODEL) (e.g., iPhone 15)
+    - [COLOR](COLOR) (e.g., Space Gray)
+    - [STORAGE_CAPACITY](STORAGE_CAPACITY) (e.g., 256GB)
+    - [SIZE](SIZE) (e.g., 6.1 inches)
+    - [MATERIAL](MATERIAL) (e.g., Aluminum)
+
+    Fill in random real values for the named entities for example:
+    - [Smartphone](PRODUCT_TYPE)
+    - [Apple](BRAND)
+    - [iPhone 15](MODEL)
+    - [Space Gray](COLOR)
+    - [256GB](STORAGE_CAPACITY)
+    - [6.1 inches](SIZE)
+    - [Aluminum](MATERIAL)
