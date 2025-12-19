@@ -1,5 +1,6 @@
 from pathlib import Path
 import spacy
+from loguru import logger
 from spacy.tokens import DocBin
 from spacy import displacy
 
@@ -32,7 +33,7 @@ class DataVisualizer:
         return docs[: self.n_samples]
 
     def run(self):
-        print(f"[spacylize] Loading {self.n_samples} samples from {self.input_path}...")
-        docs = self._load_docbin()
-        print(f"[spacylize] Launching displacy server on port {self.port}")
-        displacy.serve(docs, style="ent", port=self.port)
+        # docs = self._load_docbin()
+        # displacy.serve(docs, style="ent", port=self.port)
+
+        logger.warning("DataVisualizer is not implemented yet.")
