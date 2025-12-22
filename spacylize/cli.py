@@ -47,7 +47,7 @@ def generate_data(
         ...,
         "--task",
         help="The SpaCy task (e.g., ner, textcat).",
-    )
+    ),
 ):
     """
     Generates training data using an LLM based on a prompt configuration.
@@ -64,7 +64,7 @@ def generate_data(
             prompt_config_path=str(prompt_config),
             n_samples=n_samples,
             output_path=output_path,
-            task=task
+            task=task,
         )
         generator.run()
     except Exception as e:
@@ -122,6 +122,7 @@ def visualize_data(
         typer.echo(f"[Error] {e}")
         raise typer.Exit(code=1)
 
+
 @app.command(
     name="validate",
     help="Validate a SpaCy dataset and produce a quality report.",
@@ -143,10 +144,18 @@ def validate_dataset(
     help="Split a SpaCy binary dataset into training and dev sets.",
 )
 def split_dataset(
-    input_file: Path = typer.Option(..., "--input", "-i", help="Path to the SpaCy dataset (.spacy)."),
-    train_file: Path = typer.Option("train.spacy", "--train", "-t", help="Output path for training set."),
-    dev_file: Path = typer.Option("dev.spacy", "--dev", "-d", help="Output path for dev set."),
-    dev_size: float = typer.Option(0.2, "--dev-size", help="Fraction of data for dev set."),
+    input_file: Path = typer.Option(
+        ..., "--input", "-i", help="Path to the SpaCy dataset (.spacy)."
+    ),
+    train_file: Path = typer.Option(
+        "train.spacy", "--train", "-t", help="Output path for training set."
+    ),
+    dev_file: Path = typer.Option(
+        "dev.spacy", "--dev", "-d", help="Output path for dev set."
+    ),
+    dev_size: float = typer.Option(
+        0.2, "--dev-size", help="Fraction of data for dev set."
+    ),
     seed: int = typer.Option(42, "--seed", help="Random seed for reproducibility."),
 ):
     splitter = DataSpliter(input_file, train_file, dev_file, dev_size, seed)
@@ -157,13 +166,28 @@ def split_dataset(
     name="train",
     help="Train a SpaCy pipeline with LLM-generated data.",
 )
-
 def train_pipeline(
-    train_data: Path = typer.Option(..., "--train-data", "-t", help="Path to the SpaCy training data file (.spacy)."),
-    base_model: str = typer.Option("en_core_web_sm", "--base-model", "-b", help="Base SpaCy model to train/fine-tune."),
-    output_model: Path = typer.Option("models/trained_model", "--output-model", "-o", help="Path to save the trained SpaCy pipeline."),
-    n_iter: int = typer.Option(100, "--n-iter", "-n", help="Number of training iterations."),
-    dropout: float = typer.Option(0.3, "--dropout", help="Dropout rate during training."),
+    train_data: Path = typer.Option(
+        ..., "--train-data", "-t", help="Path to the SpaCy training data file (.spacy)."
+    ),
+    base_model: str = typer.Option(
+        "en_core_web_sm",
+        "--base-model",
+        "-b",
+        help="Base SpaCy model to train/fine-tune.",
+    ),
+    output_model: Path = typer.Option(
+        "models/trained_model",
+        "--output-model",
+        "-o",
+        help="Path to save the trained SpaCy pipeline.",
+    ),
+    n_iter: int = typer.Option(
+        100, "--n-iter", "-n", help="Number of training iterations."
+    ),
+    dropout: float = typer.Option(
+        0.3, "--dropout", help="Dropout rate during training."
+    ),
 ):
     trainer = ModelTrainer(train_data, base_model, output_model, n_iter, dropout)
     trainer.run()
@@ -174,11 +198,16 @@ def train_pipeline(
     help="Evaluate a trained SpaCy model.",
 )
 def evaluate_model(
-    model_path: Path = typer.Option(..., "--model", "-m", help="Path to the trained SpaCy model."),
-    eval_data: Path = typer.Option(..., "--data", "-d", help="Path to the evaluation data (.spacy)."),
+    model_path: Path = typer.Option(
+        ..., "--model", "-m", help="Path to the trained SpaCy model."
+    ),
+    eval_data: Path = typer.Option(
+        ..., "--data", "-d", help="Path to the evaluation data (.spacy)."
+    ),
 ):
     evaluator = ModelEvaluater(model_path, eval_data)
     evaluator.run()
+
 
 if __name__ == "__main__":
     app()

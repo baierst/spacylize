@@ -1,42 +1,55 @@
-import os
-import yaml
+from typing import Optional
+import dotenv
 from litellm import completion
+
+dotenv.load_dotenv()
 
 
 class LLMClient:
-    def __init__(self, api_key: str):
-        os.environ["OPENAI_API_KEY"] = api_key
 
-    def load_prompt(self, file_path: str):
-        """Load prompt from YAML file."""
-        with open(file_path, 'r') as file:
-            return yaml.safe_load(file)
+    def __init__(
+        self,
+        model: str,
+        api_key: Optional[str] = None,
+        api_base: Optional[str] = None,
+        max_tokens: int = 1024,
+    ):
+        self.model = model
+        self.api_key = api_key or ""
+        self.api_base = api_base
+        self.max_tokens = max_tokens
 
-    def get_response(self, messages: list) -> str:
-        """Generate response from the model using the provided messages."""
-        response = completion(model="openai/gpt-4o", messages=messages)
-        return response['choices'][0]['message']['content']
+    def generate(self, prompt: str, system_prompt: Optional[str] = None) -> str:
+        messages = []
+        if system_prompt:
+            messages.append({"role": "system", "content": system_prompt})
+        messages.append({"role": "user", "content": prompt})
 
+        response = completion(
+            model=self.model,
+            messages=messages,
+            api_key=self.api_key,
+            api_base=self.api_base,
+            max_tokens=self.max_tokens,
+        )
 
-def main():
-    # Load API Key (make sure to securely load it, here it's hardcoded for simplicity)
-    api_key = "your-openai-api-key"  # Replace with your actual OpenAI API key
-
-    # Create an LLMClient instance
-    client = LLMClient(api_key)
-
-    # Load the prompt from the prompt.yaml file
-    prompt = client.load_prompt("prompt.yaml")
-
-    # Get the system and user messages from the prompt
-    messages = [prompt['system'], prompt['user']]
-
-    # Get the response from the LLM model
-    response = client.get_response(messages)
-
-    # Print the response
-    print(response)
+        return response["choices"][0]["message"]["content"]
 
 
-if __name__ == "__main__":
-    main()
+# # OpenAI
+# llm_openai = LLMClient(model="gpt-4o-mini", api_key=os.getenv("OPENAI_API_KEY"))
+# print(llm_openai.generate("Generate a random sentence."))
+#
+# # Anthropic
+# llm_anthropic = LLMClient(
+#     model="anthropic/claude-opus-4-5-20251101",
+#     api_key=os.getenv("ANTHROPIC_API_KEY")
+# )
+# print(llm_anthropic.generate("Generate a random sentence."))
+#
+# # Local Ollama
+# llm_local = LLMClient(
+#     model="ollama/guanaco-7b",
+#     api_base="http://localhost:11434"  # optional if default
+# )
+# print(llm_local.generate("Generate a random sentence."))
