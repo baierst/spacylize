@@ -17,14 +17,6 @@ dependencies = [
     "spacy>=3.8.11",
 ]
 
-[project.optional-dependencies]
-dev = [
-    "pytest",
-    "black",
-    "mypy",
-    "flake8"
-]
-
 [project.scripts]
 spacylize = "spacylize.cli:app"
 
@@ -34,5 +26,6 @@ build-backend = "setuptools.build_meta"
 
 [dependency-groups]
 dev = [
+    "black>=25.11.0",
     "pytest>=8.4.2",
 ]

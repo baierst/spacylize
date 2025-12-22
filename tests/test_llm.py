@@ -6,22 +6,11 @@ from spacylize.llm import LLMClient
 
 @pytest.fixture
 def mock_completion_response():
-    return {
-        "choices": [
-            {
-                "message": {
-                    "content": "This is a mocked response."
-                }
-            }
-        ]
-    }
+    return {"choices": [{"message": {"content": "This is a mocked response."}}]}
 
 
 @patch("spacylize.llm.completion")
-def test_generate_without_system_prompt(
-    mock_completion,
-    mock_completion_response
-):
+def test_generate_without_system_prompt(mock_completion, mock_completion_response):
     mock_completion.return_value = mock_completion_response
 
     client = LLMClient(
@@ -37,9 +26,7 @@ def test_generate_without_system_prompt(
 
     mock_completion.assert_called_once_with(
         model="gpt-4o-mini",
-        messages=[
-            {"role": "user", "content": "Hello"}
-        ],
+        messages=[{"role": "user", "content": "Hello"}],
         api_key="test-key",
         api_base=None,
         max_tokens=100,
@@ -47,10 +34,7 @@ def test_generate_without_system_prompt(
 
 
 @patch("spacylize.llm.completion")
-def test_generate_with_system_prompt(
-    mock_completion,
-    mock_completion_response
-):
+def test_generate_with_system_prompt(mock_completion, mock_completion_response):
     mock_completion.return_value = mock_completion_response
 
     client = LLMClient(
@@ -60,8 +44,7 @@ def test_generate_with_system_prompt(
     )
 
     result = client.generate(
-        prompt="Tell me a joke.",
-        system_prompt="You are a funny assistant."
+        prompt="Tell me a joke.", system_prompt="You are a funny assistant."
     )
 
     assert result == "This is a mocked response."
@@ -79,10 +62,7 @@ def test_generate_with_system_prompt(
 
 
 @patch("spacylize.llm.completion")
-def test_generate_with_api_base(
-    mock_completion,
-    mock_completion_response
-):
+def test_generate_with_api_base(mock_completion, mock_completion_response):
     mock_completion.return_value = mock_completion_response
 
     client = LLMClient(

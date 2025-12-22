@@ -20,11 +20,16 @@ def test_generate_command_success(tmp_path):
             app,
             [
                 "generate",
-                "--llm", "gpt-4",
-                "--prompt-config", str(prompt_config),
-                "--task", "ner",
-                "--n-samples", "10",
-                "--output-path", str(tmp_path / "out.spacy"),
+                "--llm",
+                "gpt-4",
+                "--prompt-config",
+                str(prompt_config),
+                "--task",
+                "ner",
+                "--n-samples",
+                "10",
+                "--output-path",
+                str(tmp_path / "out.spacy"),
             ],
         )
 
@@ -44,9 +49,12 @@ def test_generate_command_failure(tmp_path):
             app,
             [
                 "generate",
-                "--llm", "gpt-4",
-                "--prompt-config", str(prompt_config),
-                "--task", "ner",
+                "--llm",
+                "gpt-4",
+                "--prompt-config",
+                str(prompt_config),
+                "--task",
+                "ner",
             ],
         )
 
@@ -62,10 +70,14 @@ def test_visualize_command():
             app,
             [
                 "visualize",
-                "--input-path", "data.spacy",
-                "--task", "ner",
-                "--n-samples", "3",
-                "--port", "5005",
+                "--input-path",
+                "data.spacy",
+                "--task",
+                "ner",
+                "--n-samples",
+                "3",
+                "--port",
+                "5005",
             ],
         )
 
@@ -81,7 +93,8 @@ def test_validate_command():
             app,
             [
                 "validate",
-                "--dataset", "data.spacy",
+                "--dataset",
+                "data.spacy",
             ],
         )
 
@@ -98,11 +111,16 @@ def test_split_command():
             app,
             [
                 "split",
-                "--input", "data.spacy",
-                "--train", "train.spacy",
-                "--dev", "dev.spacy",
-                "--dev-size", "0.25",
-                "--seed", "123",
+                "--input",
+                "data.spacy",
+                "--train",
+                "train.spacy",
+                "--dev",
+                "dev.spacy",
+                "--dev-size",
+                "0.25",
+                "--seed",
+                "123",
             ],
         )
 
@@ -118,11 +136,16 @@ def test_train_command():
             app,
             [
                 "train",
-                "--train-data", "train.spacy",
-                "--base-model", "en_core_web_sm",
-                "--output-model", "model/",
-                "--n-iter", "50",
-                "--dropout", "0.2",
+                "--train-data",
+                "train.spacy",
+                "--base-model",
+                "en_core_web_sm",
+                "--output-model",
+                "model/",
+                "--n-iter",
+                "50",
+                "--dropout",
+                "0.2",
             ],
         )
 
@@ -138,8 +161,10 @@ def test_evaluate_command():
             app,
             [
                 "evaluate",
-                "--model", "model/",
-                "--data", "eval.spacy",
+                "--model",
+                "model/",
+                "--data",
+                "eval.spacy",
             ],
         )
 
