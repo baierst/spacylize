@@ -10,8 +10,11 @@ runner = CliRunner()
 
 
 def test_generate_command_success(tmp_path):
-    prompt_config = tmp_path / "prompt.yaml"
-    prompt_config.write_text("dummy: config")
+    prompt_config_path = tmp_path / "prompt.yaml"
+    prompt_config_path.write_text("dummy: config")
+
+    llm_config_path = tmp_path / "llm.yaml"
+    llm_config_path.write_text("dummy: config")
 
     with patch("spacylize.cli.DataGenerator") as mock_generator:
         instance = mock_generator.return_value
@@ -20,10 +23,10 @@ def test_generate_command_success(tmp_path):
             app,
             [
                 "generate",
-                "--llm",
-                "gpt-4",
-                "--prompt-config",
-                str(prompt_config),
+                "--llm-config-path",
+                llm_config_path,
+                "--prompt-config-path",
+                prompt_config_path,
                 "--task",
                 "ner",
                 "--n-samples",
@@ -39,8 +42,11 @@ def test_generate_command_success(tmp_path):
 
 
 def test_generate_command_failure(tmp_path):
-    prompt_config = tmp_path / "prompt.yaml"
-    prompt_config.write_text("dummy: config")
+    prompt_config_path = tmp_path / "prompt.yaml"
+    prompt_config_path.write_text("dummy: config")
+
+    llm_config_path = tmp_path / "llm.yaml"
+    llm_config_path.write_text("dummy: config")
 
     with patch("spacylize.cli.DataGenerator") as mock_generator:
         mock_generator.side_effect = Exception("Boom")
@@ -49,10 +55,10 @@ def test_generate_command_failure(tmp_path):
             app,
             [
                 "generate",
-                "--llm",
-                "gpt-4",
-                "--prompt-config",
-                str(prompt_config),
+                "--llm-config-path",
+                llm_config_path,
+                "--prompt-config-path",
+                prompt_config_path,
                 "--task",
                 "ner",
             ],

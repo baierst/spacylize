@@ -37,7 +37,7 @@ examples:
 ### 2. Generate Training Data:
 
 ```bash
-spacylize generate --llm "Mistral-7B-v0.1" --prompt-config examples/ecomerce/promt.yaml --n-samples 2000 --output-path examples/ecomerce/train.spacy --task ner
+spacylize generate --llm-config-path examples/ecomerce/llm.yaml --prompt-config-path examples/ecomerce/promt.yaml --n-samples 2000 --output-path examples/ecomerce/train.txt --task ner
 ```
 
 This command uses the `Mistral-7B-v0.1` model to generate 2000 synthetic product descriptions based on the `examples/ecomerce/prompt.yaml` configuration and saves the annotated data in `examples/ecomerce/train.spacy`.
