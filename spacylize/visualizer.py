@@ -33,7 +33,5 @@ class DataVisualizer:
         return docs[: self.n_samples]
 
     def run(self):
-        # docs = self._load_docbin()
-        # displacy.serve(docs, style="ent", port=self.port)
-
-        logger.warning("DataVisualizer is not implemented yet.")
+        docs = self._load_docbin()
+        displacy.serve(docs, style="ent", port=self.port)

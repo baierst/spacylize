@@ -21,18 +21,18 @@ app = typer.Typer(
     help="Generate training data using an LLM.",
 )
 def generate_data(
-    llm: str = typer.Option(
+    llm_config_path: Path = typer.Option(
         ...,
-        "--llm",
-        help="The LLM to use (e.g., gpt-4, mistralai/Mistral-7B-Instruct-v0.2).",
+        "--llm-config-path",
+        help="Path to the LLM configuration YAML file.",
     ),
-    prompt_config: Path = typer.Option(
+    prompt_config_path: Path = typer.Option(
         ...,
-        "--prompt-config",
+        "--prompt-config-path",
         help="Path to the prompt configuration YAML file.",
     ),
     n_samples: int = typer.Option(
-        2000,
+        10,
         "--n-samples",
         "-n",
         help="Number of samples to generate.",
@@ -53,15 +53,16 @@ def generate_data(
     Generates training data using an LLM based on a prompt configuration.
     """
     typer.echo("Generating training data...")
-    typer.echo(f"  LLM: {llm}")
-    typer.echo(f"  Prompt config: {prompt_config}")
+    typer.echo(f"  LLM config path: {llm_config_path}")
+    typer.echo(f"  Prompt config path: {prompt_config_path}")
     typer.echo(f"  Number of samples: {n_samples}")
     typer.echo(f"  Output path: {output_path}")
     typer.echo(f"  Task: {task}")
+
     try:
         generator = DataGenerator(
-            llm_model=llm,
-            prompt_config_path=str(prompt_config),
+            llm_config_path=llm_config_path,
+            prompt_config_path=prompt_config_path,
             n_samples=n_samples,
             output_path=output_path,
             task=task,
