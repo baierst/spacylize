@@ -10,18 +10,14 @@ class PromptMessage(BaseModel):
     role: Literal["system", "user", "assistant"]
     content: str
 
-    model_config = {
-        "extra": "forbid"
-    }
+    model_config = {"extra": "forbid"}
 
 
 class PromptConfig(BaseModel):
     system: PromptMessage
     user: PromptMessage
 
-    model_config = {
-        "extra": "forbid"
-    }
+    model_config = {"extra": "forbid"}
 
 
 _ENV_VAR_PATTERN = re.compile(r"\$\{([^}]+)\}")

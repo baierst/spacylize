@@ -41,6 +41,7 @@ def create_docbin(path: Path, n_docs: int = 3):
     doc_bin = DocBin(docs=docs)
     doc_bin.to_disk(path)
 
+
 def test_load_docbin_limits_samples(tmp_path):
     data_path = tmp_path / "data.spacy"
     create_docbin(data_path, n_docs=10)
@@ -55,6 +56,7 @@ def test_load_docbin_limits_samples(tmp_path):
 
     assert len(docs) == 4
     assert all(isinstance(doc, Doc) for doc in docs)
+
 
 def test_run_calls_displacy_serve(tmp_path):
     data_path = tmp_path / "data.spacy"

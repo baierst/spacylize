@@ -13,9 +13,7 @@ class LLMConfig(BaseModel):
     api_base: Optional[str] = None
     max_tokens: int = 1024
 
-    model_config = {
-        "extra": "forbid"
-    }
+    model_config = {"extra": "forbid"}
 
 
 _ENV_VAR_PATTERN = re.compile(r"\$\{([^}]+)\}")

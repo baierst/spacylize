@@ -7,12 +7,14 @@ from spacy.tokens import DocBin
 
 from spacylize.generator import DataGenerator
 
+
 def test_parse_annotated_text_single_entity():
     text = "Hello [John Doe](PERSON), welcome!"
     clean_text, entities = DataGenerator.parse_annotated_text(text)
 
     assert clean_text == "Hello John Doe, welcome!"
     assert entities == [(6, 14, "PERSON")]
+
 
 def test_parse_annotated_text_multiple_entities():
     text = "[Alice](PERSON) works at [OpenAI](ORG)."
@@ -23,6 +25,7 @@ def test_parse_annotated_text_multiple_entities():
         (0, 5, "PERSON"),
         (15, 21, "ORG"),
     ]
+
 
 @patch("spacylize.generator.load_llm_config")
 @patch("spacylize.generator.load_prompt_config")

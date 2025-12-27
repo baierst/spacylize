@@ -130,13 +130,30 @@ def visualize_data(
 )
 def validate_dataset(
     dataset: Path = typer.Option(
-        ..., "--dataset", "-d", help="Path to the SpaCy dataset (.spacy) to validate."
+        ...,
+        "--dataset",
+        "-d",
+        help="Path to the SpaCy dataset (.spacy) to validate.",
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+    ),
+    output_folder: Path = typer.Option(
+        ...,
+        "--output-folder",
+        "-o",
+        help="Folder where the validation report files will be written.",
+        file_okay=False,
+        dir_okay=True,
     ),
 ):
     """
     CLI entry point for validating a SpaCy dataset.
     """
-    validator = DataValidator(dataset)
+    validator = DataValidator(
+        dataset_path=dataset,
+        output_folder=output_folder,
+    )
     validator.run()
 
 
