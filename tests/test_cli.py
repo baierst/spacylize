@@ -91,7 +91,13 @@ def test_visualize_command():
         instance.run.assert_called_once()
 
 
-def test_validate_command():
+def test_validate_command(tmp_path):
+    # Create a dummy dataset file so Typer passes validation
+    dataset_file = tmp_path / "data.spacy"
+    dataset_file.touch()
+
+    output_folder = tmp_path / "reports"
+
     with patch("spacylize.cli.DataValidator") as mock_validator:
         instance = mock_validator.return_value
 
@@ -100,12 +106,18 @@ def test_validate_command():
             [
                 "validate",
                 "--dataset",
-                "data.spacy",
+                str(dataset_file),
+                "--output-folder",
+                str(output_folder),
             ],
         )
 
         assert result.exit_code == 0
-        mock_validator.assert_called_once_with(Path("data.spacy"))
+
+        mock_validator.assert_called_once_with(
+            dataset_path=dataset_file,
+            output_folder=output_folder,
+        )
         instance.run.assert_called_once()
 
 

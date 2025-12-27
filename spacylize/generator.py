@@ -9,7 +9,12 @@ from spacylize.prompt_config import load_prompt_config
 
 class DataGenerator:
     def __init__(
-        self, llm_config_path: Path, prompt_config_path: Path, n_samples, output_path, task
+        self,
+        llm_config_path: Path,
+        prompt_config_path: Path,
+        n_samples,
+        output_path,
+        task,
     ):
         llm_config = load_llm_config(llm_config_path)
 
@@ -37,7 +42,7 @@ class DataGenerator:
         """
         import re
 
-        pattern = re.compile(r'\[([^\]]+)\]\(([^)]+)\)')
+        pattern = re.compile(r"\[([^\]]+)\]\(([^)]+)\)")
         entities = []
         clean_text = ""
         last_end = 0
