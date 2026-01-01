@@ -1,3 +1,8 @@
+"""LLM configuration loading module.
+
+This module provides functionality to load and validate LLM configuration
+from YAML files, including environment variable expansion.
+"""
 import os
 import re
 from pathlib import Path
@@ -8,6 +13,18 @@ from pydantic import BaseModel, Field, ValidationError
 
 
 class LLMConfig(BaseModel):
+    """Configuration model for LLM settings.
+
+    Defines the structure and validation rules for LLM configuration
+    including model selection, authentication, and generation parameters.
+
+    Attributes:
+        model: The model identifier for LiteLLM.
+        api_key: Optional API key for authentication.
+        api_base: Optional custom API base URL.
+        max_tokens: Maximum number of tokens to generate.
+    """
+
     model: str
     api_key: Optional[str] = Field(default=None)
     api_base: Optional[str] = None
@@ -20,6 +37,17 @@ _ENV_VAR_PATTERN = re.compile(r"\$\{([^}]+)\}")
 
 
 def _expand_env_vars(value: Any) -> Any:
+    """Recursively expand environment variable references in configuration values.
+
+    Replaces ${VAR_NAME} patterns with their environment variable values.
+    Supports nested dictionaries and lists.
+
+    Args:
+        value: Configuration value to process (str, dict, list, or other).
+
+    Returns:
+        The value with environment variables expanded.
+    """
     if isinstance(value, str):
         match = _ENV_VAR_PATTERN.fullmatch(value)
         if match:
@@ -36,6 +64,17 @@ def _expand_env_vars(value: Any) -> Any:
 
 
 def load_llm_config(path: Path) -> LLMConfig:
+    """Load and validate LLM configuration from a YAML file.
+
+    Args:
+        path: Path to the YAML configuration file.
+
+    Returns:
+        LLMConfig: Validated LLM configuration object.
+
+    Raises:
+        RuntimeError: If the configuration is invalid or fails validation.
+    """
     with open(path, "r") as f:
         raw = yaml.safe_load(f)
 

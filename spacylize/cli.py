@@ -1,3 +1,9 @@
+"""Command-line interface for Spacylize.
+
+This module provides the main CLI application for Spacylize, enabling users
+to generate, validate, visualize, split, train, and evaluate SpaCy NER datasets
+using LLM-powered data generation.
+"""
 import typer
 from pathlib import Path
 
@@ -176,6 +182,9 @@ def split_dataset(
     ),
     seed: int = typer.Option(42, "--seed", help="Random seed for reproducibility."),
 ):
+    """
+    CLI entry point for splitting a SpaCy dataset.
+    """
     splitter = DataSpliter(input_file, train_file, dev_file, dev_size, seed)
     splitter.run()
 

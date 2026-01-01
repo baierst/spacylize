@@ -5,7 +5,7 @@ description = "A SpaCy add-on for LLM-powered data generation and training."
 authors = [
     { name = "Stephan Baier" }
 ]
-license = { text = "Apache-2.0" }
+license = { text = "MIT" }
 readme = "README.md"
 requires-python = ">=3.9,<3.13"
 keywords = ["spacy", "llm", "nlp", "data generation", "training", "distillation"]
@@ -16,6 +16,7 @@ dependencies = [
     "matplotlib>=3.9.4",
     "pyyaml>=6.0.3",
     "spacy>=3.8.11",
+    "sphinx>=7.4.7",
 ]
 
 [project.scripts]

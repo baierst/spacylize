@@ -1,3 +1,9 @@
+"""Dataset validation module for SpaCy training data quality assurance.
+
+This module provides functionality to validate SpaCy datasets, generate
+quality reports with statistics, and create visualizations of dataset
+characteristics.
+"""
 import json
 import statistics
 from pathlib import Path
@@ -7,7 +13,27 @@ import matplotlib.pyplot as plt
 
 
 class DataValidator:
+    """Validator for SpaCy datasets that generates quality reports and visualizations.
+
+    Analyzes datasets to compute statistics about document lengths, entity
+    distributions, and other quality metrics. Outputs both JSON reports and
+    visualization plots.
+
+    Attributes:
+        dataset_path: Path to the SpaCy dataset file (.spacy).
+        output_folder: Folder where reports will be saved.
+        nlp: Blank SpaCy language model for processing.
+        json_path: Path where JSON report will be saved.
+        png_path: Path where visualization plots will be saved.
+    """
+
     def __init__(self, dataset_path: str, output_folder: str):
+        """Initialize the DataValidator.
+
+        Args:
+            dataset_path: Path to the SpaCy dataset file (.spacy) to validate.
+            output_folder: Directory where validation reports will be saved.
+        """
         self.dataset_path = Path(dataset_path)
         self.output_folder = Path(output_folder)
         self.nlp = spacy.blank("en")
@@ -17,6 +43,11 @@ class DataValidator:
         self.png_path = self.output_folder / f"{dataset_name}_report.png"
 
     def run(self):
+        """Run the validation process and generate reports.
+
+        Analyzes the dataset, computes statistics, and generates both
+        a JSON report and visualization plots.
+        """
         docs = self._load_docs()
 
         doc_lengths = []
@@ -70,10 +101,23 @@ class DataValidator:
         )
 
     def _load_docs(self):
+        """Load documents from the SpaCy binary dataset.
+
+        Returns:
+            list: List of SpaCy Doc objects from the dataset.
+        """
         doc_bin = DocBin().from_disk(self.dataset_path)
         return list(doc_bin.get_docs(self.nlp.vocab))
 
     def _summary(self, values):
+        """Compute summary statistics for a list of values.
+
+        Args:
+            values: List of numeric values.
+
+        Returns:
+            dict: Dictionary with 'min', 'max', and 'mean' keys.
+        """
         if not values:
             return {"min": 0, "max": 0, "mean": 0}
 
@@ -84,6 +128,11 @@ class DataValidator:
         }
 
     def _write_json(self, report):
+        """Write the validation report to a JSON file.
+
+        Args:
+            report: Dictionary containing validation statistics.
+        """
         self.output_folder.mkdir(parents=True, exist_ok=True)
         with self.json_path.open("w", encoding="utf8") as f:
             json.dump(report, f, indent=2)
@@ -95,6 +144,14 @@ class DataValidator:
         entity_label_counts,
         entity_lengths,
     ):
+        """Generate and save visualization plots for the dataset.
+
+        Args:
+            doc_lengths: List of document lengths in tokens.
+            ents_per_doc: List of entity counts per document.
+            entity_label_counts: Dictionary mapping entity labels to counts.
+            entity_lengths: List of entity lengths in tokens.
+        """
         self.output_folder.mkdir(parents=True, exist_ok=True)
 
         fig, axes = plt.subplots(2, 2, figsize=(14, 10))
