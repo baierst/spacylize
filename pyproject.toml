@@ -31,3 +31,9 @@ dev = [
     "black>=25.11.0",
     "pytest>=8.4.2",
 ]
+
+docs = [
+    "sphinx>=7",
+    "sphinx-rtd-theme",
+    "myst-parser",
+]
