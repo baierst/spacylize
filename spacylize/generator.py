@@ -1,3 +1,9 @@
+"""Data generation module for creating SpaCy training datasets using LLMs.
+
+This module provides functionality to generate annotated training data for
+SpaCy NER tasks using Large Language Models. The generated data is parsed
+and stored in SpaCy's binary format.
+"""
 from pathlib import Path
 import spacy
 from spacy.tokens import DocBin
@@ -16,6 +22,15 @@ class DataGenerator:
         output_path,
         task,
     ):
+        """Initialize the DataGenerator.
+
+        Args:
+            llm_config_path: Path to the LLM configuration YAML file.
+            prompt_config_path: Path to the prompt configuration YAML file.
+            n_samples: Number of training samples to generate.
+            output_path: Path where the generated .spacy file will be saved.
+            task: The SpaCy task type (e.g., 'ner', 'textcat').
+        """
         llm_config = load_llm_config(llm_config_path)
 
         llm_client = LLMClient(
@@ -36,9 +51,15 @@ class DataGenerator:
 
     @staticmethod
     def parse_annotated_text(text: str):
-        """
-        Parse inline [TEXT](LABEL) annotations into SpaCy entities.
-        Returns: clean_text, list of (start, end, label)
+        """Parse inline [TEXT](LABEL) annotations into SpaCy entities.
+
+        Args:
+            text: Annotated text with inline [entity_text](LABEL) markers.
+
+        Returns:
+            tuple: (clean_text, entities) where clean_text is the text without
+                   annotation markers and entities is a list of (start, end, label)
+                   tuples representing entity spans.
         """
         import re
 
@@ -65,6 +86,11 @@ class DataGenerator:
         return clean_text, entities
 
     def run(self):
+        """Run the data generation process.
+
+        Generates n_samples of annotated text using the configured LLM,
+        parses the annotations, and saves the results to a SpaCy binary file.
+        """
         nlp = spacy.blank("en")
         doc_bin = DocBin(store_user_data=True)
 
