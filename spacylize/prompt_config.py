@@ -3,6 +3,7 @@
 This module provides functionality to load and validate prompt configurations
 from YAML files for LLM data generation tasks.
 """
+
 from pathlib import Path
 from typing import Literal, Any
 import os

@@ -4,6 +4,7 @@ This module provides functionality to generate annotated training data for
 SpaCy NER tasks using Large Language Models. The generated data is parsed
 and stored in SpaCy's binary format.
 """
+
 from pathlib import Path
 import spacy
 from spacy.tokens import DocBin

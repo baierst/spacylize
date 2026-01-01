@@ -4,6 +4,7 @@ This module provides the main CLI application for Spacylize, enabling users
 to generate, validate, visualize, split, train, and evaluate SpaCy NER datasets
 using LLM-powered data generation.
 """
+
 import typer
 from pathlib import Path
 
