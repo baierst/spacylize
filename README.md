@@ -1,4 +1,6 @@
 # Spacylize
+**Documentation:** https://baierst.github.io/spacylize
+
 Spacylize is a tool that distills the capabilities of large language models into compact, efficient spaCy models.
 
 **Prerequisites:**
