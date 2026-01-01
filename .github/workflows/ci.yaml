@@ -28,8 +28,8 @@ jobs:
 
       - name: Check formatting with Black
         run: |
-          black --check .
+          uv run black --check .
 
       - name: Run tests
         run: |
-          pytest
+          uv run pytest
