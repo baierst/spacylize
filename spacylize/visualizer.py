@@ -3,6 +3,7 @@
 This module provides functionality to visualize SpaCy NER datasets using
 SpaCy's displacy server, enabling interactive exploration of annotated entities.
 """
+
 from pathlib import Path
 import spacy
 from loguru import logger

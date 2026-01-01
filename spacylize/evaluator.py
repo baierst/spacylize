@@ -3,6 +3,7 @@
 This module provides functionality to evaluate trained SpaCy models against
 test datasets and compute performance metrics.
 """
+
 from pathlib import Path
 
 from loguru import logger
