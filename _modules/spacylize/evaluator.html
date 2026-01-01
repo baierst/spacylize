@@ -1,0 +1,277 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>spacylize.evaluator &mdash; Spacylize 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Spacylize
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">API Modules</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/cli.html">Command Line Interface</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../api/cli.html#spacylize.cli.generate_data"><code class="docutils literal notranslate"><span class="pre">generate_data()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/cli.html#spacylize.cli.visualize_data"><code class="docutils literal notranslate"><span class="pre">visualize_data()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/cli.html#spacylize.cli.validate_dataset"><code class="docutils literal notranslate"><span class="pre">validate_dataset()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/cli.html#spacylize.cli.split_dataset"><code class="docutils literal notranslate"><span class="pre">split_dataset()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/cli.html#spacylize.cli.train_pipeline"><code class="docutils literal notranslate"><span class="pre">train_pipeline()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/cli.html#spacylize.cli.evaluate_model"><code class="docutils literal notranslate"><span class="pre">evaluate_model()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/generator.html">Data Generation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../api/generator.html#spacylize.generator.DataGenerator"><code class="docutils literal notranslate"><span class="pre">DataGenerator</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/generator.html#spacylize.generator.DataGenerator.__init__"><code class="docutils literal notranslate"><span class="pre">DataGenerator.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/generator.html#spacylize.generator.DataGenerator.parse_annotated_text"><code class="docutils literal notranslate"><span class="pre">DataGenerator.parse_annotated_text()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/generator.html#spacylize.generator.DataGenerator.run"><code class="docutils literal notranslate"><span class="pre">DataGenerator.run()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/validator.html">Data Validation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../api/validator.html#spacylize.validator.DataValidator"><code class="docutils literal notranslate"><span class="pre">DataValidator</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/validator.html#spacylize.validator.DataValidator.dataset_path"><code class="docutils literal notranslate"><span class="pre">DataValidator.dataset_path</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/validator.html#spacylize.validator.DataValidator.output_folder"><code class="docutils literal notranslate"><span class="pre">DataValidator.output_folder</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/validator.html#spacylize.validator.DataValidator.nlp"><code class="docutils literal notranslate"><span class="pre">DataValidator.nlp</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/validator.html#spacylize.validator.DataValidator.json_path"><code class="docutils literal notranslate"><span class="pre">DataValidator.json_path</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/validator.html#spacylize.validator.DataValidator.png_path"><code class="docutils literal notranslate"><span class="pre">DataValidator.png_path</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/validator.html#spacylize.validator.DataValidator.__init__"><code class="docutils literal notranslate"><span class="pre">DataValidator.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/validator.html#spacylize.validator.DataValidator.run"><code class="docutils literal notranslate"><span class="pre">DataValidator.run()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/visualizer.html">Data Visualization</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../api/visualizer.html#spacylize.visualizer.DataVisualizer"><code class="docutils literal notranslate"><span class="pre">DataVisualizer</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/visualizer.html#spacylize.visualizer.DataVisualizer.input_path"><code class="docutils literal notranslate"><span class="pre">DataVisualizer.input_path</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/visualizer.html#spacylize.visualizer.DataVisualizer.task"><code class="docutils literal notranslate"><span class="pre">DataVisualizer.task</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/visualizer.html#spacylize.visualizer.DataVisualizer.n_samples"><code class="docutils literal notranslate"><span class="pre">DataVisualizer.n_samples</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/visualizer.html#spacylize.visualizer.DataVisualizer.port"><code class="docutils literal notranslate"><span class="pre">DataVisualizer.port</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/visualizer.html#spacylize.visualizer.DataVisualizer.__init__"><code class="docutils literal notranslate"><span class="pre">DataVisualizer.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/visualizer.html#spacylize.visualizer.DataVisualizer.run"><code class="docutils literal notranslate"><span class="pre">DataVisualizer.run()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/llm.html">LLM Client</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../api/llm.html#spacylize.llm.LLMClient"><code class="docutils literal notranslate"><span class="pre">LLMClient</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/llm.html#spacylize.llm.LLMClient.model"><code class="docutils literal notranslate"><span class="pre">LLMClient.model</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/llm.html#spacylize.llm.LLMClient.api_key"><code class="docutils literal notranslate"><span class="pre">LLMClient.api_key</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/llm.html#spacylize.llm.LLMClient.api_base"><code class="docutils literal notranslate"><span class="pre">LLMClient.api_base</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/llm.html#spacylize.llm.LLMClient.max_tokens"><code class="docutils literal notranslate"><span class="pre">LLMClient.max_tokens</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/llm.html#spacylize.llm.LLMClient.__init__"><code class="docutils literal notranslate"><span class="pre">LLMClient.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/llm.html#spacylize.llm.LLMClient.generate"><code class="docutils literal notranslate"><span class="pre">LLMClient.generate()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/llm_config.html">LLM Configuration</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../api/llm_config.html#spacylize.llm_config.LLMConfig"><code class="docutils literal notranslate"><span class="pre">LLMConfig</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/llm_config.html#spacylize.llm_config.LLMConfig.model"><code class="docutils literal notranslate"><span class="pre">LLMConfig.model</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/llm_config.html#spacylize.llm_config.LLMConfig.api_key"><code class="docutils literal notranslate"><span class="pre">LLMConfig.api_key</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/llm_config.html#spacylize.llm_config.LLMConfig.api_base"><code class="docutils literal notranslate"><span class="pre">LLMConfig.api_base</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/llm_config.html#spacylize.llm_config.LLMConfig.max_tokens"><code class="docutils literal notranslate"><span class="pre">LLMConfig.max_tokens</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/llm_config.html#id0"><code class="docutils literal notranslate"><span class="pre">LLMConfig.model</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/llm_config.html#id1"><code class="docutils literal notranslate"><span class="pre">LLMConfig.api_key</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/llm_config.html#id2"><code class="docutils literal notranslate"><span class="pre">LLMConfig.api_base</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/llm_config.html#id3"><code class="docutils literal notranslate"><span class="pre">LLMConfig.max_tokens</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/llm_config.html#spacylize.llm_config.LLMConfig.model_config"><code class="docutils literal notranslate"><span class="pre">LLMConfig.model_config</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/llm_config.html#spacylize.llm_config.load_llm_config"><code class="docutils literal notranslate"><span class="pre">load_llm_config()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/prompt_config.html">Prompt Configuration</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../api/prompt_config.html#spacylize.prompt_config.PromptMessage"><code class="docutils literal notranslate"><span class="pre">PromptMessage</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/prompt_config.html#spacylize.prompt_config.PromptMessage.role"><code class="docutils literal notranslate"><span class="pre">PromptMessage.role</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/prompt_config.html#spacylize.prompt_config.PromptMessage.content"><code class="docutils literal notranslate"><span class="pre">PromptMessage.content</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/prompt_config.html#id0"><code class="docutils literal notranslate"><span class="pre">PromptMessage.role</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/prompt_config.html#id1"><code class="docutils literal notranslate"><span class="pre">PromptMessage.content</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/prompt_config.html#spacylize.prompt_config.PromptMessage.model_config"><code class="docutils literal notranslate"><span class="pre">PromptMessage.model_config</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/prompt_config.html#spacylize.prompt_config.PromptConfig"><code class="docutils literal notranslate"><span class="pre">PromptConfig</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/prompt_config.html#spacylize.prompt_config.PromptConfig.system"><code class="docutils literal notranslate"><span class="pre">PromptConfig.system</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/prompt_config.html#spacylize.prompt_config.PromptConfig.user"><code class="docutils literal notranslate"><span class="pre">PromptConfig.user</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/prompt_config.html#id2"><code class="docutils literal notranslate"><span class="pre">PromptConfig.system</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/prompt_config.html#id3"><code class="docutils literal notranslate"><span class="pre">PromptConfig.user</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/prompt_config.html#spacylize.prompt_config.PromptConfig.model_config"><code class="docutils literal notranslate"><span class="pre">PromptConfig.model_config</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/prompt_config.html#spacylize.prompt_config.load_prompt_config"><code class="docutils literal notranslate"><span class="pre">load_prompt_config()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/splitter.html">Dataset Splitting</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../api/splitter.html#spacylize.splitter.DataSpliter"><code class="docutils literal notranslate"><span class="pre">DataSpliter</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/splitter.html#spacylize.splitter.DataSpliter.input_file"><code class="docutils literal notranslate"><span class="pre">DataSpliter.input_file</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/splitter.html#spacylize.splitter.DataSpliter.train_file"><code class="docutils literal notranslate"><span class="pre">DataSpliter.train_file</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/splitter.html#spacylize.splitter.DataSpliter.dev_file"><code class="docutils literal notranslate"><span class="pre">DataSpliter.dev_file</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/splitter.html#spacylize.splitter.DataSpliter.dev_size"><code class="docutils literal notranslate"><span class="pre">DataSpliter.dev_size</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/splitter.html#spacylize.splitter.DataSpliter.seed"><code class="docutils literal notranslate"><span class="pre">DataSpliter.seed</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/splitter.html#spacylize.splitter.DataSpliter.__init__"><code class="docutils literal notranslate"><span class="pre">DataSpliter.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/splitter.html#spacylize.splitter.DataSpliter.run"><code class="docutils literal notranslate"><span class="pre">DataSpliter.run()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/trainer.html">Model Training</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../api/trainer.html#spacylize.trainer.ModelTrainer"><code class="docutils literal notranslate"><span class="pre">ModelTrainer</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/trainer.html#spacylize.trainer.ModelTrainer.train_data"><code class="docutils literal notranslate"><span class="pre">ModelTrainer.train_data</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/trainer.html#spacylize.trainer.ModelTrainer.base_model"><code class="docutils literal notranslate"><span class="pre">ModelTrainer.base_model</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/trainer.html#spacylize.trainer.ModelTrainer.output_model"><code class="docutils literal notranslate"><span class="pre">ModelTrainer.output_model</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/trainer.html#spacylize.trainer.ModelTrainer.n_iter"><code class="docutils literal notranslate"><span class="pre">ModelTrainer.n_iter</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/trainer.html#spacylize.trainer.ModelTrainer.dropout"><code class="docutils literal notranslate"><span class="pre">ModelTrainer.dropout</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/trainer.html#spacylize.trainer.ModelTrainer.__init__"><code class="docutils literal notranslate"><span class="pre">ModelTrainer.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/trainer.html#spacylize.trainer.ModelTrainer.run"><code class="docutils literal notranslate"><span class="pre">ModelTrainer.run()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/evaluator.html">Model Evaluation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../api/evaluator.html#spacylize.evaluator.ModelEvaluater"><code class="docutils literal notranslate"><span class="pre">ModelEvaluater</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/evaluator.html#spacylize.evaluator.ModelEvaluater.model_path"><code class="docutils literal notranslate"><span class="pre">ModelEvaluater.model_path</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/evaluator.html#spacylize.evaluator.ModelEvaluater.eval_data"><code class="docutils literal notranslate"><span class="pre">ModelEvaluater.eval_data</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/evaluator.html#spacylize.evaluator.ModelEvaluater.__init__"><code class="docutils literal notranslate"><span class="pre">ModelEvaluater.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/evaluator.html#spacylize.evaluator.ModelEvaluater.run"><code class="docutils literal notranslate"><span class="pre">ModelEvaluater.run()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Spacylize</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">spacylize.evaluator</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for spacylize.evaluator</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Model evaluation module for assessing SpaCy model performance.</span>
+
+<span class="sd">This module provides functionality to evaluate trained SpaCy models against</span>
+<span class="sd">test datasets and compute performance metrics.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">loguru</span><span class="w"> </span><span class="kn">import</span> <span class="n">logger</span>
+
+
+<div class="viewcode-block" id="ModelEvaluater">
+<a class="viewcode-back" href="../../api/evaluator.html#spacylize.evaluator.ModelEvaluater">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ModelEvaluater</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Evaluator for trained SpaCy models.</span>
+
+<span class="sd">    Evaluates a trained SpaCy model against a test dataset to measure</span>
+<span class="sd">    performance metrics like precision, recall, and F1 score.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        model_path: Path to the trained SpaCy model directory.</span>
+<span class="sd">        eval_data: Path to the evaluation dataset (.spacy file).</span>
+
+<span class="sd">    Note:</span>
+<span class="sd">        This class is not yet fully implemented.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="ModelEvaluater.__init__">
+<a class="viewcode-back" href="../../api/evaluator.html#spacylize.evaluator.ModelEvaluater.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">eval_data</span><span class="p">:</span> <span class="n">Path</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the ModelEvaluater.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            model_path: Path to the trained SpaCy model directory.</span>
+<span class="sd">            eval_data: Path to the evaluation data file (.spacy).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model_path</span> <span class="o">=</span> <span class="n">model_path</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eval_data</span> <span class="o">=</span> <span class="n">eval_data</span></div>
+
+
+<div class="viewcode-block" id="ModelEvaluater.run">
+<a class="viewcode-back" href="../../api/evaluator.html#spacylize.evaluator.ModelEvaluater.run">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Run the evaluation process.</span>
+
+<span class="sd">        Note:</span>
+<span class="sd">            This method is not yet implemented.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;ModelEvaluater is not yet implemented.&quot;</span><span class="p">)</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Stephan Baier.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
