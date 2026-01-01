@@ -26,6 +26,10 @@ spacylize = "spacylize.cli:app"
 requires = ["setuptools>=61.0.0"]
 build-backend = "setuptools.build_meta"
 
+[tool.black]
+line-length = 88
+target-version = ["py311"]
+
 [dependency-groups]
 dev = [
     "black>=25.11.0",
