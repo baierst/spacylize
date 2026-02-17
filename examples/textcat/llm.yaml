@@ -1,0 +1,11 @@
+# Cloud provider - Anthropic Claude:
+model: anthropic/claude-3-haiku-20240307
+api_key: ${ANTHROPIC_API_KEY}
+api_base: null
+max_tokens: 1024
+
+# Local Ollama model (alternative):
+#model: ollama/qwen3:8b
+#api_key: null
+#api_base: http://localhost:11434
+#max_tokens: 1024

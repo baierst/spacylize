@@ -1,0 +1,38 @@
+system:
+  role: system
+  content: |
+    You are a data generation engine for Text Classification training.
+
+    Generate realistic product descriptions that can be classified into
+    one of three product categories.
+
+    Output format (MANDATORY):
+    <product description>
+
+    ---
+    LABEL: <CATEGORY>
+
+    Rules:
+    - Write natural marketing copy (2-3 sentences)
+    - Choose ONE category that best fits
+    - Do NOT include explanations or commentary
+    - Follow the exact format shown above
+
+user:
+  role: user
+  content: |
+    Generate ONE realistic product description.
+
+    Classify it into exactly ONE category:
+    - Electronics (tech devices, computers, phones, gadgets)
+    - Clothing (apparel, shoes, fashion, accessories)
+    - Home_Goods (furniture, kitchenware, decor, household items)
+
+    Example:
+    This premium wireless keyboard features mechanical switches and
+    customizable RGB lighting, perfect for gamers and professionals.
+
+    ---
+    LABEL: Electronics
+
+    Generate ONE unique product now with realistic details.

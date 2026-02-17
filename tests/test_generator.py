@@ -9,16 +9,20 @@ from spacylize.generator import DataGenerator
 
 
 def test_parse_annotated_text_single_entity():
+    from spacylize.generator import NERParser
+
     text = "Hello [John Doe](PERSON), welcome!"
-    clean_text, entities = DataGenerator.parse_annotated_text(text)
+    clean_text, entities = NERParser.parse(text)
 
     assert clean_text == "Hello John Doe, welcome!"
     assert entities == [(6, 14, "PERSON")]
 
 
 def test_parse_annotated_text_multiple_entities():
+    from spacylize.generator import NERParser
+
     text = "[Alice](PERSON) works at [OpenAI](ORG)."
-    clean_text, entities = DataGenerator.parse_annotated_text(text)
+    clean_text, entities = NERParser.parse(text)
 
     assert clean_text == "Alice works at OpenAI."
     assert entities == [
