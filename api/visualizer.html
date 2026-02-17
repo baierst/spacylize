@@ -8,14 +8,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Data Visualization &mdash; Spacylize 0.1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
 
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="../_static/documentation_options.js?v=01f34227"></script>
-      <script src="../_static/doctools.js?v=9bcbadda"></script>
-      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -54,9 +54,37 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="generator.html">Data Generation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="generator.html#spacylize.generator.TaskParser"><code class="docutils literal notranslate"><span class="pre">TaskParser</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generator.html#spacylize.generator.TaskParser.parse"><code class="docutils literal notranslate"><span class="pre">TaskParser.parse()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="generator.html#spacylize.generator.DocumentBuilder"><code class="docutils literal notranslate"><span class="pre">DocumentBuilder</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generator.html#spacylize.generator.DocumentBuilder.build"><code class="docutils literal notranslate"><span class="pre">DocumentBuilder.build()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="generator.html#spacylize.generator.NERParser"><code class="docutils literal notranslate"><span class="pre">NERParser</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generator.html#spacylize.generator.NERParser.parse"><code class="docutils literal notranslate"><span class="pre">NERParser.parse()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="generator.html#spacylize.generator.NERDocumentBuilder"><code class="docutils literal notranslate"><span class="pre">NERDocumentBuilder</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generator.html#spacylize.generator.NERDocumentBuilder.build"><code class="docutils literal notranslate"><span class="pre">NERDocumentBuilder.build()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="generator.html#spacylize.generator.TextCatParser"><code class="docutils literal notranslate"><span class="pre">TextCatParser</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generator.html#spacylize.generator.TextCatParser.parse"><code class="docutils literal notranslate"><span class="pre">TextCatParser.parse()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="generator.html#spacylize.generator.TextCatDocumentBuilder"><code class="docutils literal notranslate"><span class="pre">TextCatDocumentBuilder</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generator.html#spacylize.generator.TextCatDocumentBuilder.build"><code class="docutils literal notranslate"><span class="pre">TextCatDocumentBuilder.build()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="generator.html#spacylize.generator.TaskHandler"><code class="docutils literal notranslate"><span class="pre">TaskHandler</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generator.html#spacylize.generator.TaskHandler.get_handler"><code class="docutils literal notranslate"><span class="pre">TaskHandler.get_handler()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="generator.html#spacylize.generator.TaskHandler.supported_tasks"><code class="docutils literal notranslate"><span class="pre">TaskHandler.supported_tasks()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="generator.html#spacylize.generator.DataGenerator"><code class="docutils literal notranslate"><span class="pre">DataGenerator</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="generator.html#spacylize.generator.DataGenerator.__init__"><code class="docutils literal notranslate"><span class="pre">DataGenerator.__init__()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="generator.html#spacylize.generator.DataGenerator.parse_annotated_text"><code class="docutils literal notranslate"><span class="pre">DataGenerator.parse_annotated_text()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="generator.html#spacylize.generator.DataGenerator.run"><code class="docutils literal notranslate"><span class="pre">DataGenerator.run()</span></code></a></li>
 </ul>
 </li>
@@ -66,6 +94,7 @@
 <li class="toctree-l2"><a class="reference internal" href="validator.html#spacylize.validator.DataValidator"><code class="docutils literal notranslate"><span class="pre">DataValidator</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="validator.html#spacylize.validator.DataValidator.dataset_path"><code class="docutils literal notranslate"><span class="pre">DataValidator.dataset_path</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="validator.html#spacylize.validator.DataValidator.output_folder"><code class="docutils literal notranslate"><span class="pre">DataValidator.output_folder</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="validator.html#spacylize.validator.DataValidator.task"><code class="docutils literal notranslate"><span class="pre">DataValidator.task</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="validator.html#spacylize.validator.DataValidator.nlp"><code class="docutils literal notranslate"><span class="pre">DataValidator.nlp</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="validator.html#spacylize.validator.DataValidator.json_path"><code class="docutils literal notranslate"><span class="pre">DataValidator.json_path</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="validator.html#spacylize.validator.DataValidator.png_path"><code class="docutils literal notranslate"><span class="pre">DataValidator.png_path</span></code></a></li>
@@ -200,15 +229,15 @@
   <section id="module-spacylize.visualizer">
 <span id="data-visualization"></span><h1>Data Visualization<a class="headerlink" href="#module-spacylize.visualizer" title="Link to this heading"></a></h1>
 <p>Data visualization module for exploring SpaCy datasets.</p>
-<p>This module provides functionality to visualize SpaCy NER datasets using
-SpaCy’s displacy server, enabling interactive exploration of annotated entities.</p>
+<p>This module provides functionality to visualize SpaCy NER and text classification
+datasets using SpaCy’s displacy server and custom HTML visualization.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="spacylize.visualizer.DataVisualizer">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">spacylize.visualizer.</span></span><span class="sig-name descname"><span class="pre">DataVisualizer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_samples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5002</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spacylize/visualizer.html#DataVisualizer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spacylize.visualizer.DataVisualizer" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">spacylize.visualizer.</span></span><span class="sig-name descname"><span class="pre">DataVisualizer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_samples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5002</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spacylize/visualizer.html#DataVisualizer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spacylize.visualizer.DataVisualizer" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Visualizer for SpaCy datasets using displacy server.</p>
-<p>Loads a SpaCy dataset and serves an interactive visualization using
-SpaCy’s built-in displacy server for exploring entity annotations.</p>
+<p>Visualizer for SpaCy datasets.</p>
+<p>Loads a SpaCy dataset and serves an interactive visualization.
+Supports both NER (using displacy) and text classification (custom HTML).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -228,7 +257,7 @@ SpaCy’s built-in displacy server for exploring entity annotations.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="spacylize.visualizer.DataVisualizer.task">
 <span class="sig-name descname"><span class="pre">task</span></span><a class="headerlink" href="#spacylize.visualizer.DataVisualizer.task" title="Link to this definition"></a></dt>
-<dd><p>The SpaCy task type (currently only ‘ner’ is supported).</p>
+<dd><p>The SpaCy task type (‘ner’ or ‘textcat’).</p>
 </dd></dl>
 
 <dl class="py attribute">
@@ -240,18 +269,18 @@ SpaCy’s built-in displacy server for exploring entity annotations.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="spacylize.visualizer.DataVisualizer.port">
 <span class="sig-name descname"><span class="pre">port</span></span><a class="headerlink" href="#spacylize.visualizer.DataVisualizer.port" title="Link to this definition"></a></dt>
-<dd><p>Port number for the displacy server.</p>
+<dd><p>Port number for the server.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="spacylize.visualizer.DataVisualizer.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_samples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5002</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spacylize/visualizer.html#DataVisualizer.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spacylize.visualizer.DataVisualizer.__init__" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_samples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5002</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spacylize/visualizer.html#DataVisualizer.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spacylize.visualizer.DataVisualizer.__init__" title="Link to this definition"></a></dt>
 <dd><p>Initialize the DataVisualizer.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>input_path</strong> (<em>Path</em>) – Path to the SpaCy data file (.spacy).</p></li>
-<li><p><strong>task</strong> (<em>str</em>) – The SpaCy task type (e.g., ‘ner’).</p></li>
+<li><p><strong>task</strong> (<em>str</em>) – Optional task type (‘ner’ or ‘textcat’). Auto-detects if not specified.</p></li>
 <li><p><strong>n_samples</strong> (<em>int</em>) – Number of samples to visualize. Defaults to 5.</p></li>
 <li><p><strong>port</strong> (<em>int</em>) – Port to serve the visualization. Defaults to 5002.</p></li>
 </ul>
@@ -259,7 +288,7 @@ SpaCy’s built-in displacy server for exploring entity annotations.</p>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
 <li><p><strong>FileNotFoundError</strong> – If the input file does not exist.</p></li>
-<li><p><strong>ValueError</strong> – If the task is not supported.</p></li>
+<li><p><strong>ValueError</strong> – If the task is invalid or cannot be detected.</p></li>
 </ul>
 </dd>
 </dl>
@@ -269,8 +298,8 @@ SpaCy’s built-in displacy server for exploring entity annotations.</p>
 <dt class="sig sig-object py" id="spacylize.visualizer.DataVisualizer.run">
 <span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spacylize/visualizer.html#DataVisualizer.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spacylize.visualizer.DataVisualizer.run" title="Link to this definition"></a></dt>
 <dd><p>Run the visualization server.</p>
-<p>Loads the dataset and starts the displacy server to visualize
-entity annotations in a web browser.</p>
+<p>Loads the dataset and starts the appropriate visualization server
+based on the task type (NER or textcat).</p>
 </dd></dl>
 
 </dd></dl>

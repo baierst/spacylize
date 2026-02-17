@@ -8,14 +8,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Data Generation &mdash; Spacylize 0.1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
 
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="../_static/documentation_options.js?v=01f34227"></script>
-      <script src="../_static/doctools.js?v=9bcbadda"></script>
-      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -54,9 +54,37 @@
 </ul>
 </li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Data Generation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#spacylize.generator.TaskParser"><code class="docutils literal notranslate"><span class="pre">TaskParser</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#spacylize.generator.TaskParser.parse"><code class="docutils literal notranslate"><span class="pre">TaskParser.parse()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#spacylize.generator.DocumentBuilder"><code class="docutils literal notranslate"><span class="pre">DocumentBuilder</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#spacylize.generator.DocumentBuilder.build"><code class="docutils literal notranslate"><span class="pre">DocumentBuilder.build()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#spacylize.generator.NERParser"><code class="docutils literal notranslate"><span class="pre">NERParser</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#spacylize.generator.NERParser.parse"><code class="docutils literal notranslate"><span class="pre">NERParser.parse()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#spacylize.generator.NERDocumentBuilder"><code class="docutils literal notranslate"><span class="pre">NERDocumentBuilder</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#spacylize.generator.NERDocumentBuilder.build"><code class="docutils literal notranslate"><span class="pre">NERDocumentBuilder.build()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#spacylize.generator.TextCatParser"><code class="docutils literal notranslate"><span class="pre">TextCatParser</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#spacylize.generator.TextCatParser.parse"><code class="docutils literal notranslate"><span class="pre">TextCatParser.parse()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#spacylize.generator.TextCatDocumentBuilder"><code class="docutils literal notranslate"><span class="pre">TextCatDocumentBuilder</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#spacylize.generator.TextCatDocumentBuilder.build"><code class="docutils literal notranslate"><span class="pre">TextCatDocumentBuilder.build()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#spacylize.generator.TaskHandler"><code class="docutils literal notranslate"><span class="pre">TaskHandler</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#spacylize.generator.TaskHandler.get_handler"><code class="docutils literal notranslate"><span class="pre">TaskHandler.get_handler()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#spacylize.generator.TaskHandler.supported_tasks"><code class="docutils literal notranslate"><span class="pre">TaskHandler.supported_tasks()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#spacylize.generator.DataGenerator"><code class="docutils literal notranslate"><span class="pre">DataGenerator</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#spacylize.generator.DataGenerator.__init__"><code class="docutils literal notranslate"><span class="pre">DataGenerator.__init__()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#spacylize.generator.DataGenerator.parse_annotated_text"><code class="docutils literal notranslate"><span class="pre">DataGenerator.parse_annotated_text()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#spacylize.generator.DataGenerator.run"><code class="docutils literal notranslate"><span class="pre">DataGenerator.run()</span></code></a></li>
 </ul>
 </li>
@@ -66,6 +94,7 @@
 <li class="toctree-l2"><a class="reference internal" href="validator.html#spacylize.validator.DataValidator"><code class="docutils literal notranslate"><span class="pre">DataValidator</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="validator.html#spacylize.validator.DataValidator.dataset_path"><code class="docutils literal notranslate"><span class="pre">DataValidator.dataset_path</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="validator.html#spacylize.validator.DataValidator.output_folder"><code class="docutils literal notranslate"><span class="pre">DataValidator.output_folder</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="validator.html#spacylize.validator.DataValidator.task"><code class="docutils literal notranslate"><span class="pre">DataValidator.task</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="validator.html#spacylize.validator.DataValidator.nlp"><code class="docutils literal notranslate"><span class="pre">DataValidator.nlp</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="validator.html#spacylize.validator.DataValidator.json_path"><code class="docutils literal notranslate"><span class="pre">DataValidator.json_path</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="validator.html#spacylize.validator.DataValidator.png_path"><code class="docutils literal notranslate"><span class="pre">DataValidator.png_path</span></code></a></li>
@@ -201,12 +230,199 @@
 <span id="data-generation"></span><h1>Data Generation<a class="headerlink" href="#module-spacylize.generator" title="Link to this heading"></a></h1>
 <p>Data generation module for creating SpaCy training datasets using LLMs.</p>
 <p>This module provides functionality to generate annotated training data for
-SpaCy NER tasks using Large Language Models. The generated data is parsed
-and stored in SpaCy’s binary format.</p>
+SpaCy NER and text classification tasks using Large Language Models.
+The generated data is parsed and stored in SpaCy’s binary format.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="spacylize.generator.TaskParser">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">spacylize.generator.</span></span><span class="sig-name descname"><span class="pre">TaskParser</span></span><a class="reference internal" href="../_modules/spacylize/generator.html#TaskParser"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spacylize.generator.TaskParser" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
+<p>Base class for parsing LLM-generated annotations.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="spacylize.generator.TaskParser.parse">
+<span class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">parse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spacylize/generator.html#TaskParser.parse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spacylize.generator.TaskParser.parse" title="Link to this definition"></a></dt>
+<dd><p>Parse annotated text and return task-specific data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>text</strong> (<em>str</em>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="spacylize.generator.DocumentBuilder">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">spacylize.generator.</span></span><span class="sig-name descname"><span class="pre">DocumentBuilder</span></span><a class="reference internal" href="../_modules/spacylize/generator.html#DocumentBuilder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spacylize.generator.DocumentBuilder" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
+<p>Base class for building SpaCy documents.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="spacylize.generator.DocumentBuilder.build">
+<span class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nlp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parsed_data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spacylize/generator.html#DocumentBuilder.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spacylize.generator.DocumentBuilder.build" title="Link to this definition"></a></dt>
+<dd><p>Build a SpaCy Doc from parsed data.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="spacylize.generator.NERParser">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">spacylize.generator.</span></span><span class="sig-name descname"><span class="pre">NERParser</span></span><a class="reference internal" href="../_modules/spacylize/generator.html#NERParser"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spacylize.generator.NERParser" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#spacylize.generator.TaskParser" title="spacylize.generator.TaskParser"><code class="xref py py-class docutils literal notranslate"><span class="pre">TaskParser</span></code></a></p>
+<p>Parser for NER inline annotations: [TEXT](LABEL)</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="spacylize.generator.NERParser.parse">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">parse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spacylize/generator.html#NERParser.parse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spacylize.generator.NERParser.parse" title="Link to this definition"></a></dt>
+<dd><p>Parse NER annotations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>text</strong> (<em>str</em>) – Annotated text with inline [entity_text](LABEL) markers.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>(clean_text, entities) where clean_text is the text without</dt><dd><p>annotation markers and entities is a list of (start, end, label)
+tuples representing entity spans.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="spacylize.generator.NERDocumentBuilder">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">spacylize.generator.</span></span><span class="sig-name descname"><span class="pre">NERDocumentBuilder</span></span><a class="reference internal" href="../_modules/spacylize/generator.html#NERDocumentBuilder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spacylize.generator.NERDocumentBuilder" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#spacylize.generator.DocumentBuilder" title="spacylize.generator.DocumentBuilder"><code class="xref py py-class docutils literal notranslate"><span class="pre">DocumentBuilder</span></code></a></p>
+<p>Builds SpaCy docs with entity annotations.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="spacylize.generator.NERDocumentBuilder.build">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nlp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parsed_data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spacylize/generator.html#NERDocumentBuilder.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spacylize.generator.NERDocumentBuilder.build" title="Link to this definition"></a></dt>
+<dd><p>Build NER document with entity spans.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>nlp</strong> – SpaCy language model.</p></li>
+<li><p><strong>parsed_data</strong> – Tuple of (clean_text, entities).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>SpaCy Doc with entity annotations.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="spacylize.generator.TextCatParser">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">spacylize.generator.</span></span><span class="sig-name descname"><span class="pre">TextCatParser</span></span><a class="reference internal" href="../_modules/spacylize/generator.html#TextCatParser"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spacylize.generator.TextCatParser" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#spacylize.generator.TaskParser" title="spacylize.generator.TaskParser"><code class="xref py py-class docutils literal notranslate"><span class="pre">TaskParser</span></code></a></p>
+<p>Parser for text classification annotations.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="spacylize.generator.TextCatParser.parse">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">parse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spacylize/generator.html#TextCatParser.parse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spacylize.generator.TextCatParser.parse" title="Link to this definition"></a></dt>
+<dd><p>Parse textcat annotation format.</p>
+<dl>
+<dt>Expected format:</dt><dd><p>Text content</p>
+<p>—
+LABEL: CATEGORY</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>text</strong> (<em>str</em>) – Annotated text with delimiter and label.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>(clean_text, categories_dict) where categories_dict maps</dt><dd><p>category names to confidence scores.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If the format is invalid.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="spacylize.generator.TextCatDocumentBuilder">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">spacylize.generator.</span></span><span class="sig-name descname"><span class="pre">TextCatDocumentBuilder</span></span><a class="reference internal" href="../_modules/spacylize/generator.html#TextCatDocumentBuilder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spacylize.generator.TextCatDocumentBuilder" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#spacylize.generator.DocumentBuilder" title="spacylize.generator.DocumentBuilder"><code class="xref py py-class docutils literal notranslate"><span class="pre">DocumentBuilder</span></code></a></p>
+<p>Builds SpaCy docs with category annotations.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="spacylize.generator.TextCatDocumentBuilder.build">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nlp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parsed_data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spacylize/generator.html#TextCatDocumentBuilder.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spacylize.generator.TextCatDocumentBuilder.build" title="Link to this definition"></a></dt>
+<dd><p>Build textcat document with categories.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>nlp</strong> – SpaCy language model.</p></li>
+<li><p><strong>parsed_data</strong> – Tuple of (clean_text, categories_dict).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>SpaCy Doc with category annotations.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="spacylize.generator.TaskHandler">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">spacylize.generator.</span></span><span class="sig-name descname"><span class="pre">TaskHandler</span></span><a class="reference internal" href="../_modules/spacylize/generator.html#TaskHandler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spacylize.generator.TaskHandler" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Registry for task-specific parsers and builders.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="spacylize.generator.TaskHandler.get_handler">
+<span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">get_handler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">task</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spacylize/generator.html#TaskHandler.get_handler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spacylize.generator.TaskHandler.get_handler" title="Link to this definition"></a></dt>
+<dd><p>Get parser and builder for a task.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>task</strong> (<em>str</em>) – The task type (e.g., ‘ner’, ‘textcat’).</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>(parser_class, builder_class)</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If the task is not supported.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="spacylize.generator.TaskHandler.supported_tasks">
+<span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">supported_tasks</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spacylize/generator.html#TaskHandler.supported_tasks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spacylize.generator.TaskHandler.supported_tasks" title="Link to this definition"></a></dt>
+<dd><p>Get list of supported task types.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List of supported task type strings.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 <dl class="py class">
 <dt class="sig sig-object py" id="spacylize.generator.DataGenerator">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">spacylize.generator.</span></span><span class="sig-name descname"><span class="pre">DataGenerator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">llm_config_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prompt_config_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_samples</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spacylize/generator.html#DataGenerator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spacylize.generator.DataGenerator" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">spacylize.generator.</span></span><span class="sig-name descname"><span class="pre">DataGenerator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">llm_config_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prompt_config_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_samples</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spacylize/generator.html#DataGenerator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spacylize.generator.DataGenerator" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Generator for creating SpaCy training data using LLMs.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -233,33 +449,12 @@ and stored in SpaCy’s binary format.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="spacylize.generator.DataGenerator.parse_annotated_text">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">parse_annotated_text</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spacylize/generator.html#DataGenerator.parse_annotated_text"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spacylize.generator.DataGenerator.parse_annotated_text" title="Link to this definition"></a></dt>
-<dd><p>Parse inline [TEXT](LABEL) annotations into SpaCy entities.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>text</strong> (<em>str</em>) – Annotated text with inline [entity_text](LABEL) markers.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><dl class="simple">
-<dt>(clean_text, entities) where clean_text is the text without</dt><dd><p>annotation markers and entities is a list of (start, end, label)
-tuples representing entity spans.</p>
-</dd>
-</dl>
-</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>tuple</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="spacylize.generator.DataGenerator.run">
 <span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spacylize/generator.html#DataGenerator.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spacylize.generator.DataGenerator.run" title="Link to this definition"></a></dt>
 <dd><p>Run the data generation process.</p>
 <p>Generates n_samples of annotated text using the configured LLM,
-parses the annotations, and saves the results to a SpaCy binary file.</p>
+parses the annotations using task-specific parsers, and saves
+the results to a SpaCy binary file.</p>
 </dd></dl>
 
 </dd></dl>

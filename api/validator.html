@@ -8,14 +8,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Data Validation &mdash; Spacylize 0.1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
 
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="../_static/documentation_options.js?v=01f34227"></script>
-      <script src="../_static/doctools.js?v=9bcbadda"></script>
-      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -54,9 +54,37 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="generator.html">Data Generation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="generator.html#spacylize.generator.TaskParser"><code class="docutils literal notranslate"><span class="pre">TaskParser</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generator.html#spacylize.generator.TaskParser.parse"><code class="docutils literal notranslate"><span class="pre">TaskParser.parse()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="generator.html#spacylize.generator.DocumentBuilder"><code class="docutils literal notranslate"><span class="pre">DocumentBuilder</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generator.html#spacylize.generator.DocumentBuilder.build"><code class="docutils literal notranslate"><span class="pre">DocumentBuilder.build()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="generator.html#spacylize.generator.NERParser"><code class="docutils literal notranslate"><span class="pre">NERParser</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generator.html#spacylize.generator.NERParser.parse"><code class="docutils literal notranslate"><span class="pre">NERParser.parse()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="generator.html#spacylize.generator.NERDocumentBuilder"><code class="docutils literal notranslate"><span class="pre">NERDocumentBuilder</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generator.html#spacylize.generator.NERDocumentBuilder.build"><code class="docutils literal notranslate"><span class="pre">NERDocumentBuilder.build()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="generator.html#spacylize.generator.TextCatParser"><code class="docutils literal notranslate"><span class="pre">TextCatParser</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generator.html#spacylize.generator.TextCatParser.parse"><code class="docutils literal notranslate"><span class="pre">TextCatParser.parse()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="generator.html#spacylize.generator.TextCatDocumentBuilder"><code class="docutils literal notranslate"><span class="pre">TextCatDocumentBuilder</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generator.html#spacylize.generator.TextCatDocumentBuilder.build"><code class="docutils literal notranslate"><span class="pre">TextCatDocumentBuilder.build()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="generator.html#spacylize.generator.TaskHandler"><code class="docutils literal notranslate"><span class="pre">TaskHandler</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generator.html#spacylize.generator.TaskHandler.get_handler"><code class="docutils literal notranslate"><span class="pre">TaskHandler.get_handler()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="generator.html#spacylize.generator.TaskHandler.supported_tasks"><code class="docutils literal notranslate"><span class="pre">TaskHandler.supported_tasks()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="generator.html#spacylize.generator.DataGenerator"><code class="docutils literal notranslate"><span class="pre">DataGenerator</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="generator.html#spacylize.generator.DataGenerator.__init__"><code class="docutils literal notranslate"><span class="pre">DataGenerator.__init__()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="generator.html#spacylize.generator.DataGenerator.parse_annotated_text"><code class="docutils literal notranslate"><span class="pre">DataGenerator.parse_annotated_text()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="generator.html#spacylize.generator.DataGenerator.run"><code class="docutils literal notranslate"><span class="pre">DataGenerator.run()</span></code></a></li>
 </ul>
 </li>
@@ -66,6 +94,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#spacylize.validator.DataValidator"><code class="docutils literal notranslate"><span class="pre">DataValidator</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#spacylize.validator.DataValidator.dataset_path"><code class="docutils literal notranslate"><span class="pre">DataValidator.dataset_path</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#spacylize.validator.DataValidator.output_folder"><code class="docutils literal notranslate"><span class="pre">DataValidator.output_folder</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#spacylize.validator.DataValidator.task"><code class="docutils literal notranslate"><span class="pre">DataValidator.task</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#spacylize.validator.DataValidator.nlp"><code class="docutils literal notranslate"><span class="pre">DataValidator.nlp</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#spacylize.validator.DataValidator.json_path"><code class="docutils literal notranslate"><span class="pre">DataValidator.json_path</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#spacylize.validator.DataValidator.png_path"><code class="docutils literal notranslate"><span class="pre">DataValidator.png_path</span></code></a></li>
@@ -200,22 +229,23 @@
   <section id="module-spacylize.validator">
 <span id="data-validation"></span><h1>Data Validation<a class="headerlink" href="#module-spacylize.validator" title="Link to this heading"></a></h1>
 <p>Dataset validation module for SpaCy training data quality assurance.</p>
-<p>This module provides functionality to validate SpaCy datasets, generate
-quality reports with statistics, and create visualizations of dataset
-characteristics.</p>
+<p>This module provides functionality to validate SpaCy NER and text classification
+datasets, generate quality reports with statistics, and create visualizations
+of dataset characteristics.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="spacylize.validator.DataValidator">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">spacylize.validator.</span></span><span class="sig-name descname"><span class="pre">DataValidator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_folder</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spacylize/validator.html#DataValidator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spacylize.validator.DataValidator" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">spacylize.validator.</span></span><span class="sig-name descname"><span class="pre">DataValidator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spacylize/validator.html#DataValidator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spacylize.validator.DataValidator" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Validator for SpaCy datasets that generates quality reports and visualizations.</p>
-<p>Analyzes datasets to compute statistics about document lengths, entity
-distributions, and other quality metrics. Outputs both JSON reports and
-visualization plots.</p>
+<p>Analyzes datasets to compute statistics about document lengths, entity/category
+distributions, and other quality metrics. Supports both NER and text classification
+tasks. Outputs both JSON reports and visualization plots.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>dataset_path</strong> (<em>str</em>)</p></li>
 <li><p><strong>output_folder</strong> (<em>str</em>)</p></li>
+<li><p><strong>task</strong> (<em>str</em>)</p></li>
 </ul>
 </dd>
 </dl>
@@ -229,6 +259,12 @@ visualization plots.</p>
 <dt class="sig sig-object py" id="spacylize.validator.DataValidator.output_folder">
 <span class="sig-name descname"><span class="pre">output_folder</span></span><a class="headerlink" href="#spacylize.validator.DataValidator.output_folder" title="Link to this definition"></a></dt>
 <dd><p>Folder where reports will be saved.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="spacylize.validator.DataValidator.task">
+<span class="sig-name descname"><span class="pre">task</span></span><a class="headerlink" href="#spacylize.validator.DataValidator.task" title="Link to this definition"></a></dt>
+<dd><p>The SpaCy task type (‘ner’ or ‘textcat’).</p>
 </dd></dl>
 
 <dl class="py attribute">
@@ -251,14 +287,18 @@ visualization plots.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="spacylize.validator.DataValidator.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_folder</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spacylize/validator.html#DataValidator.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spacylize.validator.DataValidator.__init__" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spacylize/validator.html#DataValidator.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spacylize.validator.DataValidator.__init__" title="Link to this definition"></a></dt>
 <dd><p>Initialize the DataValidator.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>dataset_path</strong> (<em>str</em>) – Path to the SpaCy dataset file (.spacy) to validate.</p></li>
 <li><p><strong>output_folder</strong> (<em>str</em>) – Directory where validation reports will be saved.</p></li>
+<li><p><strong>task</strong> (<em>str</em>) – Optional task type (‘ner’ or ‘textcat’). Auto-detects if not specified.</p></li>
 </ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If the task is invalid or cannot be detected.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -267,8 +307,14 @@ visualization plots.</p>
 <dt class="sig sig-object py" id="spacylize.validator.DataValidator.run">
 <span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spacylize/validator.html#DataValidator.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spacylize.validator.DataValidator.run" title="Link to this definition"></a></dt>
 <dd><p>Run the validation process and generate reports.</p>
-<p>Analyzes the dataset, computes statistics, and generates both
-a JSON report and visualization plots.</p>
+<p>Analyzes the dataset using task-specific validation logic,
+computes statistics, and generates both a JSON report and
+visualization plots.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ValueError</strong> – If the task type is not supported.</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>

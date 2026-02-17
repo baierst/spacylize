@@ -7,14 +7,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>spacylize.generator &mdash; Spacylize 0.1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
 
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="../../_static/documentation_options.js?v=01f34227"></script>
-      <script src="../../_static/doctools.js?v=9bcbadda"></script>
-      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
@@ -51,9 +51,37 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/generator.html">Data Generation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../api/generator.html#spacylize.generator.TaskParser"><code class="docutils literal notranslate"><span class="pre">TaskParser</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/generator.html#spacylize.generator.TaskParser.parse"><code class="docutils literal notranslate"><span class="pre">TaskParser.parse()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/generator.html#spacylize.generator.DocumentBuilder"><code class="docutils literal notranslate"><span class="pre">DocumentBuilder</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/generator.html#spacylize.generator.DocumentBuilder.build"><code class="docutils literal notranslate"><span class="pre">DocumentBuilder.build()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/generator.html#spacylize.generator.NERParser"><code class="docutils literal notranslate"><span class="pre">NERParser</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/generator.html#spacylize.generator.NERParser.parse"><code class="docutils literal notranslate"><span class="pre">NERParser.parse()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/generator.html#spacylize.generator.NERDocumentBuilder"><code class="docutils literal notranslate"><span class="pre">NERDocumentBuilder</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/generator.html#spacylize.generator.NERDocumentBuilder.build"><code class="docutils literal notranslate"><span class="pre">NERDocumentBuilder.build()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/generator.html#spacylize.generator.TextCatParser"><code class="docutils literal notranslate"><span class="pre">TextCatParser</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/generator.html#spacylize.generator.TextCatParser.parse"><code class="docutils literal notranslate"><span class="pre">TextCatParser.parse()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/generator.html#spacylize.generator.TextCatDocumentBuilder"><code class="docutils literal notranslate"><span class="pre">TextCatDocumentBuilder</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/generator.html#spacylize.generator.TextCatDocumentBuilder.build"><code class="docutils literal notranslate"><span class="pre">TextCatDocumentBuilder.build()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/generator.html#spacylize.generator.TaskHandler"><code class="docutils literal notranslate"><span class="pre">TaskHandler</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/generator.html#spacylize.generator.TaskHandler.get_handler"><code class="docutils literal notranslate"><span class="pre">TaskHandler.get_handler()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/generator.html#spacylize.generator.TaskHandler.supported_tasks"><code class="docutils literal notranslate"><span class="pre">TaskHandler.supported_tasks()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/generator.html#spacylize.generator.DataGenerator"><code class="docutils literal notranslate"><span class="pre">DataGenerator</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../api/generator.html#spacylize.generator.DataGenerator.__init__"><code class="docutils literal notranslate"><span class="pre">DataGenerator.__init__()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../api/generator.html#spacylize.generator.DataGenerator.parse_annotated_text"><code class="docutils literal notranslate"><span class="pre">DataGenerator.parse_annotated_text()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/generator.html#spacylize.generator.DataGenerator.run"><code class="docutils literal notranslate"><span class="pre">DataGenerator.run()</span></code></a></li>
 </ul>
 </li>
@@ -63,6 +91,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../api/validator.html#spacylize.validator.DataValidator"><code class="docutils literal notranslate"><span class="pre">DataValidator</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../api/validator.html#spacylize.validator.DataValidator.dataset_path"><code class="docutils literal notranslate"><span class="pre">DataValidator.dataset_path</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/validator.html#spacylize.validator.DataValidator.output_folder"><code class="docutils literal notranslate"><span class="pre">DataValidator.output_folder</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/validator.html#spacylize.validator.DataValidator.task"><code class="docutils literal notranslate"><span class="pre">DataValidator.task</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/validator.html#spacylize.validator.DataValidator.nlp"><code class="docutils literal notranslate"><span class="pre">DataValidator.nlp</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/validator.html#spacylize.validator.DataValidator.json_path"><code class="docutils literal notranslate"><span class="pre">DataValidator.json_path</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/validator.html#spacylize.validator.DataValidator.png_path"><code class="docutils literal notranslate"><span class="pre">DataValidator.png_path</span></code></a></li>
@@ -198,11 +227,14 @@
 <span></span><span class="sd">&quot;&quot;&quot;Data generation module for creating SpaCy training datasets using LLMs.</span>
 
 <span class="sd">This module provides functionality to generate annotated training data for</span>
-<span class="sd">SpaCy NER tasks using Large Language Models. The generated data is parsed</span>
-<span class="sd">and stored in SpaCy&#39;s binary format.</span>
+<span class="sd">SpaCy NER and text classification tasks using Large Language Models.</span>
+<span class="sd">The generated data is parsed and stored in SpaCy&#39;s binary format.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+
 <span class="kn">import</span><span class="w"> </span><span class="nn">spacy</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">spacy.tokens</span><span class="w"> </span><span class="kn">import</span> <span class="n">DocBin</span>
 
@@ -211,9 +243,241 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">spacylize.prompt_config</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_prompt_config</span>
 
 
+<div class="viewcode-block" id="TaskParser">
+<a class="viewcode-back" href="../../api/generator.html#spacylize.generator.TaskParser">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TaskParser</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for parsing LLM-generated annotations.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="TaskParser.parse">
+<a class="viewcode-back" href="../../api/generator.html#spacylize.generator.TaskParser.parse">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">parse</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Parse annotated text and return task-specific data.&quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="DocumentBuilder">
+<a class="viewcode-back" href="../../api/generator.html#spacylize.generator.DocumentBuilder">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">DocumentBuilder</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for building SpaCy documents.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="DocumentBuilder.build">
+<a class="viewcode-back" href="../../api/generator.html#spacylize.generator.DocumentBuilder.build">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build</span><span class="p">(</span><span class="n">nlp</span><span class="p">,</span> <span class="n">parsed_data</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Build a SpaCy Doc from parsed data.&quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="NERParser">
+<a class="viewcode-back" href="../../api/generator.html#spacylize.generator.NERParser">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">NERParser</span><span class="p">(</span><span class="n">TaskParser</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Parser for NER inline annotations: [TEXT](LABEL)&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="NERParser.parse">
+<a class="viewcode-back" href="../../api/generator.html#spacylize.generator.NERParser.parse">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">parse</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Parse NER annotations.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            text: Annotated text with inline [entity_text](LABEL) markers.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            tuple: (clean_text, entities) where clean_text is the text without</span>
+<span class="sd">                   annotation markers and entities is a list of (start, end, label)</span>
+<span class="sd">                   tuples representing entity spans.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">pattern</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\[([^\]]+)\]\(([^)]+)\)&quot;</span><span class="p">)</span>
+        <span class="n">entities</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">clean_text</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="n">last_end</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="k">for</span> <span class="n">match</span> <span class="ow">in</span> <span class="n">pattern</span><span class="o">.</span><span class="n">finditer</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+            <span class="n">start_idx</span><span class="p">,</span> <span class="n">end_idx</span> <span class="o">=</span> <span class="n">match</span><span class="o">.</span><span class="n">span</span><span class="p">()</span>
+            <span class="n">entity_text</span> <span class="o">=</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">label</span> <span class="o">=</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+            <span class="n">clean_text</span> <span class="o">+=</span> <span class="n">text</span><span class="p">[</span><span class="n">last_end</span><span class="p">:</span><span class="n">start_idx</span><span class="p">]</span>
+            <span class="n">start</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">clean_text</span><span class="p">)</span>
+
+            <span class="n">clean_text</span> <span class="o">+=</span> <span class="n">entity_text</span>
+            <span class="n">end</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">clean_text</span><span class="p">)</span>
+
+            <span class="n">entities</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">label</span><span class="p">))</span>
+            <span class="n">last_end</span> <span class="o">=</span> <span class="n">end_idx</span>
+
+        <span class="n">clean_text</span> <span class="o">+=</span> <span class="n">text</span><span class="p">[</span><span class="n">last_end</span><span class="p">:]</span>
+        <span class="k">return</span> <span class="n">clean_text</span><span class="p">,</span> <span class="n">entities</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="NERDocumentBuilder">
+<a class="viewcode-back" href="../../api/generator.html#spacylize.generator.NERDocumentBuilder">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">NERDocumentBuilder</span><span class="p">(</span><span class="n">DocumentBuilder</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Builds SpaCy docs with entity annotations.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="NERDocumentBuilder.build">
+<a class="viewcode-back" href="../../api/generator.html#spacylize.generator.NERDocumentBuilder.build">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build</span><span class="p">(</span><span class="n">nlp</span><span class="p">,</span> <span class="n">parsed_data</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Build NER document with entity spans.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            nlp: SpaCy language model.</span>
+<span class="sd">            parsed_data: Tuple of (clean_text, entities).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            SpaCy Doc with entity annotations.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">clean_text</span><span class="p">,</span> <span class="n">entities</span> <span class="o">=</span> <span class="n">parsed_data</span>
+        <span class="n">doc</span> <span class="o">=</span> <span class="n">nlp</span><span class="o">.</span><span class="n">make_doc</span><span class="p">(</span><span class="n">clean_text</span><span class="p">)</span>
+        <span class="n">spans</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">entities</span><span class="p">:</span>
+            <span class="n">span</span> <span class="o">=</span> <span class="n">doc</span><span class="o">.</span><span class="n">char_span</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">span</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">spans</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">span</span><span class="p">)</span>
+
+        <span class="n">doc</span><span class="o">.</span><span class="n">ents</span> <span class="o">=</span> <span class="n">spans</span>
+        <span class="k">return</span> <span class="n">doc</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="TextCatParser">
+<a class="viewcode-back" href="../../api/generator.html#spacylize.generator.TextCatParser">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TextCatParser</span><span class="p">(</span><span class="n">TaskParser</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Parser for text classification annotations.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="TextCatParser.parse">
+<a class="viewcode-back" href="../../api/generator.html#spacylize.generator.TextCatParser.parse">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">parse</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Parse textcat annotation format.</span>
+
+<span class="sd">        Expected format:</span>
+<span class="sd">            Text content</span>
+
+<span class="sd">            ---</span>
+<span class="sd">            LABEL: CATEGORY</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            text: Annotated text with delimiter and label.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            tuple: (clean_text, categories_dict) where categories_dict maps</span>
+<span class="sd">                   category names to confidence scores.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If the format is invalid.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Split on delimiter</span>
+        <span class="n">parts</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;---&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid textcat format: missing &#39;---&#39; delimiter&quot;</span><span class="p">)</span>
+
+        <span class="n">clean_text</span> <span class="o">=</span> <span class="n">parts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="n">label_section</span> <span class="o">=</span> <span class="n">parts</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+
+        <span class="c1"># Extract label using regex</span>
+        <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;LABEL:\s*(\w+)&quot;</span><span class="p">,</span> <span class="n">label_section</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">match</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid textcat format: missing &#39;LABEL:&#39; line&quot;</span><span class="p">)</span>
+
+        <span class="n">category</span> <span class="o">=</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="c1"># Return single-label classification (exclusive)</span>
+        <span class="k">return</span> <span class="n">clean_text</span><span class="p">,</span> <span class="p">{</span><span class="n">category</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">}</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="TextCatDocumentBuilder">
+<a class="viewcode-back" href="../../api/generator.html#spacylize.generator.TextCatDocumentBuilder">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TextCatDocumentBuilder</span><span class="p">(</span><span class="n">DocumentBuilder</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Builds SpaCy docs with category annotations.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="TextCatDocumentBuilder.build">
+<a class="viewcode-back" href="../../api/generator.html#spacylize.generator.TextCatDocumentBuilder.build">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build</span><span class="p">(</span><span class="n">nlp</span><span class="p">,</span> <span class="n">parsed_data</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Build textcat document with categories.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            nlp: SpaCy language model.</span>
+<span class="sd">            parsed_data: Tuple of (clean_text, categories_dict).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            SpaCy Doc with category annotations.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">clean_text</span><span class="p">,</span> <span class="n">categories</span> <span class="o">=</span> <span class="n">parsed_data</span>
+        <span class="n">doc</span> <span class="o">=</span> <span class="n">nlp</span><span class="o">.</span><span class="n">make_doc</span><span class="p">(</span><span class="n">clean_text</span><span class="p">)</span>
+        <span class="n">doc</span><span class="o">.</span><span class="n">cats</span> <span class="o">=</span> <span class="n">categories</span>
+        <span class="k">return</span> <span class="n">doc</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="TaskHandler">
+<a class="viewcode-back" href="../../api/generator.html#spacylize.generator.TaskHandler">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TaskHandler</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Registry for task-specific parsers and builders.&quot;&quot;&quot;</span>
+
+    <span class="n">_HANDLERS</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;ner&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">NERParser</span><span class="p">,</span> <span class="n">NERDocumentBuilder</span><span class="p">),</span>
+        <span class="s2">&quot;textcat&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">TextCatParser</span><span class="p">,</span> <span class="n">TextCatDocumentBuilder</span><span class="p">),</span>
+    <span class="p">}</span>
+
+<div class="viewcode-block" id="TaskHandler.get_handler">
+<a class="viewcode-back" href="../../api/generator.html#spacylize.generator.TaskHandler.get_handler">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_handler</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">task</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get parser and builder for a task.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            task: The task type (e.g., &#39;ner&#39;, &#39;textcat&#39;).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            tuple: (parser_class, builder_class)</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If the task is not supported.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">task</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_HANDLERS</span><span class="p">:</span>
+            <span class="n">supported</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">_HANDLERS</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Unsupported task: &#39;</span><span class="si">{</span><span class="n">task</span><span class="si">}</span><span class="s2">&#39;. Supported tasks: </span><span class="si">{</span><span class="n">supported</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_HANDLERS</span><span class="p">[</span><span class="n">task</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="TaskHandler.supported_tasks">
+<a class="viewcode-back" href="../../api/generator.html#spacylize.generator.TaskHandler.supported_tasks">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">supported_tasks</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get list of supported task types.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            list: List of supported task type strings.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">_HANDLERS</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span></div>
+</div>
+
+
+
 <div class="viewcode-block" id="DataGenerator">
 <a class="viewcode-back" href="../../api/generator.html#spacylize.generator.DataGenerator">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">DataGenerator</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generator for creating SpaCy training data using LLMs.&quot;&quot;&quot;</span>
+
 <div class="viewcode-block" id="DataGenerator.__init__">
 <a class="viewcode-back" href="../../api/generator.html#spacylize.generator.DataGenerator.__init__">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
@@ -252,55 +516,20 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">task</span> <span class="o">=</span> <span class="n">task</span></div>
 
 
-<div class="viewcode-block" id="DataGenerator.parse_annotated_text">
-<a class="viewcode-back" href="../../api/generator.html#spacylize.generator.DataGenerator.parse_annotated_text">[docs]</a>
-    <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">parse_annotated_text</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Parse inline [TEXT](LABEL) annotations into SpaCy entities.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            text: Annotated text with inline [entity_text](LABEL) markers.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            tuple: (clean_text, entities) where clean_text is the text without</span>
-<span class="sd">                   annotation markers and entities is a list of (start, end, label)</span>
-<span class="sd">                   tuples representing entity spans.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
-
-        <span class="n">pattern</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\[([^\]]+)\]\(([^)]+)\)&quot;</span><span class="p">)</span>
-        <span class="n">entities</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">clean_text</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
-        <span class="n">last_end</span> <span class="o">=</span> <span class="mi">0</span>
-
-        <span class="k">for</span> <span class="n">match</span> <span class="ow">in</span> <span class="n">pattern</span><span class="o">.</span><span class="n">finditer</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
-            <span class="n">start_idx</span><span class="p">,</span> <span class="n">end_idx</span> <span class="o">=</span> <span class="n">match</span><span class="o">.</span><span class="n">span</span><span class="p">()</span>
-            <span class="n">entity_text</span> <span class="o">=</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-            <span class="n">label</span> <span class="o">=</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-
-            <span class="n">clean_text</span> <span class="o">+=</span> <span class="n">text</span><span class="p">[</span><span class="n">last_end</span><span class="p">:</span><span class="n">start_idx</span><span class="p">]</span>
-            <span class="n">start</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">clean_text</span><span class="p">)</span>
-
-            <span class="n">clean_text</span> <span class="o">+=</span> <span class="n">entity_text</span>
-            <span class="n">end</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">clean_text</span><span class="p">)</span>
-
-            <span class="n">entities</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">label</span><span class="p">))</span>
-            <span class="n">last_end</span> <span class="o">=</span> <span class="n">end_idx</span>
-
-        <span class="n">clean_text</span> <span class="o">+=</span> <span class="n">text</span><span class="p">[</span><span class="n">last_end</span><span class="p">:]</span>
-        <span class="k">return</span> <span class="n">clean_text</span><span class="p">,</span> <span class="n">entities</span></div>
-
-
 <div class="viewcode-block" id="DataGenerator.run">
 <a class="viewcode-back" href="../../api/generator.html#spacylize.generator.DataGenerator.run">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Run the data generation process.</span>
 
 <span class="sd">        Generates n_samples of annotated text using the configured LLM,</span>
-<span class="sd">        parses the annotations, and saves the results to a SpaCy binary file.</span>
+<span class="sd">        parses the annotations using task-specific parsers, and saves</span>
+<span class="sd">        the results to a SpaCy binary file.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">nlp</span> <span class="o">=</span> <span class="n">spacy</span><span class="o">.</span><span class="n">blank</span><span class="p">(</span><span class="s2">&quot;en&quot;</span><span class="p">)</span>
         <span class="n">doc_bin</span> <span class="o">=</span> <span class="n">DocBin</span><span class="p">(</span><span class="n">store_user_data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="c1"># Get task-specific parser and builder</span>
+        <span class="n">parser_cls</span><span class="p">,</span> <span class="n">builder_cls</span> <span class="o">=</span> <span class="n">TaskHandler</span><span class="o">.</span><span class="n">get_handler</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">task</span><span class="p">)</span>
 
         <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_samples</span><span class="p">):</span>
             <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">llm_client</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span>
@@ -308,21 +537,15 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">prompt_config</span><span class="o">.</span><span class="n">system</span><span class="o">.</span><span class="n">content</span><span class="p">,</span>
             <span class="p">)</span>
 
-            <span class="n">clean_text</span><span class="p">,</span> <span class="n">entities</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parse_annotated_text</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+            <span class="c1"># Parse using task-specific parser</span>
+            <span class="n">parsed_data</span> <span class="o">=</span> <span class="n">parser_cls</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
 
-            <span class="n">doc</span> <span class="o">=</span> <span class="n">nlp</span><span class="o">.</span><span class="n">make_doc</span><span class="p">(</span><span class="n">clean_text</span><span class="p">)</span>
-            <span class="n">spans</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="c1"># Build document using task-specific builder</span>
+            <span class="n">doc</span> <span class="o">=</span> <span class="n">builder_cls</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="n">nlp</span><span class="p">,</span> <span class="n">parsed_data</span><span class="p">)</span>
 
-            <span class="k">for</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">entities</span><span class="p">:</span>
-                <span class="n">span</span> <span class="o">=</span> <span class="n">doc</span><span class="o">.</span><span class="n">char_span</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">span</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                    <span class="n">spans</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">span</span><span class="p">)</span>
-
-            <span class="n">doc</span><span class="o">.</span><span class="n">ents</span> <span class="o">=</span> <span class="n">spans</span>
             <span class="n">doc_bin</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
 
-        <span class="n">output_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_path</span>
-        <span class="n">doc_bin</span><span class="o">.</span><span class="n">to_disk</span><span class="p">(</span><span class="n">output_file</span><span class="p">)</span></div>
+        <span class="n">doc_bin</span><span class="o">.</span><span class="n">to_disk</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">output_path</span><span class="p">)</span></div>
 </div>
 
 </pre></div>
