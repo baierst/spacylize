@@ -22,10 +22,10 @@ def test_init_raises_for_unsupported_task(tmp_path):
     file_path = tmp_path / "data.spacy"
     file_path.write_bytes(b"dummy")
 
-    with pytest.raises(ValueError, match="only 'ner' task is supported"):
+    with pytest.raises(ValueError, match="Unsupported task"):
         DataVisualizer(
             input_path=file_path,
-            task="textcat",
+            task="invalid_task",
         )
 
 

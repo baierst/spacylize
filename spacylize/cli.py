@@ -92,9 +92,9 @@ def visualize_data(
         help="Path to the SpaCy data file (.spacy).",
     ),
     task: str = typer.Option(
-        ...,
+        None,
         "--task",
-        help="The SpaCy task (e.g., ner, textcat).",
+        help="The SpaCy task (e.g., ner, textcat). Auto-detects if not specified.",
     ),
     n_samples: int = typer.Option(
         5,
@@ -153,6 +153,12 @@ def validate_dataset(
         file_okay=False,
         dir_okay=True,
     ),
+    task: str = typer.Option(
+        None,
+        "--task",
+        "-t",
+        help="The SpaCy task type (ner or textcat). Auto-detects if not specified.",
+    ),
 ):
     """
     CLI entry point for validating a SpaCy dataset.
@@ -160,6 +166,7 @@ def validate_dataset(
     validator = DataValidator(
         dataset_path=dataset,
         output_folder=output_folder,
+        task=task,
     )
     validator.run()
 

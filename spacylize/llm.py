@@ -39,7 +39,7 @@ class LLMClient:
             max_tokens: Maximum number of tokens to generate. Defaults to 1024.
         """
         self.model = model
-        self.api_key = api_key or ""
+        self.api_key = api_key
         self.api_base = api_base
         self.max_tokens = max_tokens
 
@@ -58,13 +58,19 @@ class LLMClient:
             messages.append({"role": "system", "content": system_prompt})
         messages.append({"role": "user", "content": prompt})
 
-        response = completion(
-            model=self.model,
-            messages=messages,
-            api_key=self.api_key,
-            api_base=self.api_base,
-            max_tokens=self.max_tokens,
-        )
+        completion_kwargs = {
+            "model": self.model,
+            "messages": messages,
+            "max_tokens": self.max_tokens,
+        }
+
+        if self.api_key:
+            completion_kwargs["api_key"] = self.api_key
+
+        if self.api_base:
+            completion_kwargs["api_base"] = self.api_base
+
+        response = completion(**completion_kwargs)
 
         return response["choices"][0]["message"]["content"]
 

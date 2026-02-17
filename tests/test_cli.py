@@ -117,6 +117,7 @@ def test_validate_command(tmp_path):
         mock_validator.assert_called_once_with(
             dataset_path=dataset_file,
             output_folder=output_folder,
+            task=None,
         )
         instance.run.assert_called_once()
 
