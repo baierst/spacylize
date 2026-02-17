@@ -65,7 +65,9 @@ class DataVisualizer:
             self.task = self._detect_task()
             logger.info(f"Auto-detected task type: {self.task}")
         elif self.task not in ["ner", "textcat"]:
-            raise ValueError(f"Unsupported task: {self.task}. Must be 'ner' or 'textcat'.")
+            raise ValueError(
+                f"Unsupported task: {self.task}. Must be 'ner' or 'textcat'."
+            )
 
     def _detect_task(self) -> str:
         """Auto-detect task type from the dataset.
@@ -132,31 +134,37 @@ class DataVisualizer:
         """
         from http.server import HTTPServer, BaseHTTPRequestHandler
 
-        html = ['<html><head><style>',
-                'body { font-family: Arial, sans-serif; padding: 20px; background: #f5f5f5; }',
-                'h1 { color: #333; }',
-                '.sample { margin: 20px 0; padding: 15px; border: 1px solid #ddd; ',
-                '         background: white; border-radius: 5px; }',
-                '.sample h3 { margin-top: 0; color: #555; }',
-                '.text { font-size: 14px; line-height: 1.6; margin: 10px 0; }',
-                '.categories { margin: 10px 0; }',
-                '.positive { color: green; font-weight: bold; }',
-                '.negative { color: #999; }',
-                '</style></head><body>',
-                '<h1>Text Classification Samples</h1>']
+        html = [
+            "<html><head><style>",
+            "body { font-family: Arial, sans-serif; padding: 20px; background: #f5f5f5; }",
+            "h1 { color: #333; }",
+            ".sample { margin: 20px 0; padding: 15px; border: 1px solid #ddd; ",
+            "         background: white; border-radius: 5px; }",
+            ".sample h3 { margin-top: 0; color: #555; }",
+            ".text { font-size: 14px; line-height: 1.6; margin: 10px 0; }",
+            ".categories { margin: 10px 0; }",
+            ".positive { color: green; font-weight: bold; }",
+            ".negative { color: #999; }",
+            "</style></head><body>",
+            "<h1>Text Classification Samples</h1>",
+        ]
 
         for i, doc in enumerate(docs):
             html.append(f'<div class="sample">')
-            html.append(f'<h3>Sample {i+1}</h3>')
+            html.append(f"<h3>Sample {i+1}</h3>")
             html.append(f'<div class="text"><strong>Text:</strong> {doc.text}</div>')
-            html.append('<div class="categories"><strong>Categories:</strong></div><ul>')
-            for label, score in sorted(doc.cats.items(), key=lambda x: x[1], reverse=True):
-                css_class = 'positive' if score > 0.5 else 'negative'
+            html.append(
+                '<div class="categories"><strong>Categories:</strong></div><ul>'
+            )
+            for label, score in sorted(
+                doc.cats.items(), key=lambda x: x[1], reverse=True
+            ):
+                css_class = "positive" if score > 0.5 else "negative"
                 html.append(f'<li class="{css_class}">{label}: {score:.2f}</li>')
-            html.append('</ul></div>')
+            html.append("</ul></div>")
 
-        html.append('</body></html>')
-        html_content = ''.join(html)
+        html.append("</body></html>")
+        html_content = "".join(html)
 
         class Handler(BaseHTTPRequestHandler):
             def do_GET(self):

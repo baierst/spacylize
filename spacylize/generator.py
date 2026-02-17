@@ -126,7 +126,7 @@ class TextCatParser(TaskParser):
             ValueError: If the format is invalid.
         """
         # Split on delimiter
-        parts = text.split('---')
+        parts = text.split("---")
         if len(parts) != 2:
             raise ValueError("Invalid textcat format: missing '---' delimiter")
 
@@ -134,7 +134,7 @@ class TextCatParser(TaskParser):
         label_section = parts[1].strip()
 
         # Extract label using regex
-        match = re.search(r'LABEL:\s*(\w+)', label_section)
+        match = re.search(r"LABEL:\s*(\w+)", label_section)
         if not match:
             raise ValueError("Invalid textcat format: missing 'LABEL:' line")
 
@@ -168,8 +168,8 @@ class TaskHandler:
     """Registry for task-specific parsers and builders."""
 
     _HANDLERS = {
-        'ner': (NERParser, NERDocumentBuilder),
-        'textcat': (TextCatParser, TextCatDocumentBuilder),
+        "ner": (NERParser, NERDocumentBuilder),
+        "textcat": (TextCatParser, TextCatDocumentBuilder),
     }
 
     @classmethod
@@ -186,7 +186,7 @@ class TaskHandler:
             ValueError: If the task is not supported.
         """
         if task not in cls._HANDLERS:
-            supported = ', '.join(cls._HANDLERS.keys())
+            supported = ", ".join(cls._HANDLERS.keys())
             raise ValueError(
                 f"Unsupported task: '{task}'. Supported tasks: {supported}"
             )

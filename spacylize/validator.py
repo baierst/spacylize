@@ -49,11 +49,14 @@ class DataValidator:
             docs = self._load_docs()
             self.task = self._detect_task(docs)
             from loguru import logger
+
             logger.info(f"Auto-detected task type: {self.task}")
         else:
             self.task = task.lower()
             if self.task not in ["ner", "textcat"]:
-                raise ValueError(f"Unsupported task: {self.task}. Must be 'ner' or 'textcat'.")
+                raise ValueError(
+                    f"Unsupported task: {self.task}. Must be 'ner' or 'textcat'."
+                )
 
         dataset_name = self.dataset_path.stem
         self.json_path = self.output_folder / f"{dataset_name}_report.json"
@@ -306,7 +309,7 @@ class DataValidator:
         fig.suptitle("Text Classification Dataset Validation", fontsize=16)
 
         # Tokens per document
-        axes[0].hist(doc_lengths, bins=30, color='skyblue', edgecolor='black')
+        axes[0].hist(doc_lengths, bins=30, color="skyblue", edgecolor="black")
         axes[0].set_title("Tokens per Document")
         axes[0].set_xlabel("Tokens")
         axes[0].set_ylabel("Count")
@@ -315,11 +318,11 @@ class DataValidator:
         if label_counts:
             labels = list(label_counts.keys())
             counts = list(label_counts.values())
-            axes[1].bar(labels, counts, color='lightcoral', edgecolor='black')
+            axes[1].bar(labels, counts, color="lightcoral", edgecolor="black")
             axes[1].set_title("Label Distribution")
             axes[1].set_xlabel("Category")
             axes[1].set_ylabel("Count")
-            axes[1].tick_params(axis='x', rotation=45)
+            axes[1].tick_params(axis="x", rotation=45)
 
         plt.tight_layout()
         plt.savefig(self.png_path)
