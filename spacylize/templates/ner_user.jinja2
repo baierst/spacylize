@@ -1,0 +1,36 @@
+Generate ONE realistic text sample in the domain: {{ domain }}
+
+Style: {{ tone }}
+Length: {{ length }}
+{% if language != "en" %}
+Language: {{ language }}
+{% endif %}
+{% if temperature %}
+Creativity: {{ "high" if temperature > 0.7 else "moderate" if temperature > 0.4 else "low" }}
+{% endif %}
+
+You must include ALL of the following entities, annotated using the format [TEXT](LABEL):
+
+{% for entity in entities %}
+- {{ entity }}
+{% endfor %}
+
+{% if examples %}
+Examples of correct format:
+{% for example in examples %}
+{{ example.text }}
+{% if example.explanation %}
+  ({{ example.explanation }})
+{% endif %}
+
+{% endfor %}
+{% endif %}
+
+{% if constraints %}
+Important rules:
+{% for constraint in constraints %}
+- {{ constraint }}
+{% endfor %}
+{% endif %}
+
+Generate ONE unique sample now with realistic details. Output ONLY the annotated text.
