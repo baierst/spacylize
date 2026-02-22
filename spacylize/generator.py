@@ -233,7 +233,9 @@ class DataGenerator:
 
         # Pass output folder to save rendered prompts for user verification
         output_folder = Path(output_path).parent
-        prompt_config = load_prompt_config(prompt_config_path, output_folder=output_folder)
+        prompt_config = load_prompt_config(
+            prompt_config_path, output_folder=output_folder
+        )
 
         self.llm_client = llm_client
         self.prompt_config = prompt_config

@@ -48,7 +48,5 @@ class TemplateRegistry:
         """
         if task not in cls._TEMPLATES:
             supported = ", ".join(cls._TEMPLATES.keys())
-            raise ValueError(
-                f"No template for task '{task}'. Supported: {supported}"
-            )
+            raise ValueError(f"No template for task '{task}'. Supported: {supported}")
         return cls._TEMPLATES[task]

@@ -59,9 +59,7 @@ def test_textcat_structured_config_valid():
         language="en",
         temperature=0.8,
         constraints=["Use brand names"],
-        examples=[
-            TextCatExample(text="A wireless keyboard.", category="Electronics")
-        ],
+        examples=[TextCatExample(text="A wireless keyboard.", category="Electronics")],
     )
 
     assert config.task == "textcat"

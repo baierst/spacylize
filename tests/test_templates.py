@@ -141,9 +141,7 @@ def test_textcat_template_render_with_examples():
         "language": "en",
         "temperature": 0.7,
         "constraints": ["Be specific"],
-        "examples": [
-            {"text": "A wireless keyboard.", "category": "Tech"}
-        ],
+        "examples": [{"text": "A wireless keyboard.", "category": "Tech"}],
     }
 
     system_prompt, user_prompt = TextCatTemplate.render(config)

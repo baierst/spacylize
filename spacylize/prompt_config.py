@@ -211,7 +211,9 @@ def _render_structured_config(config: StructuredConfig) -> PromptConfig:
     )
 
 
-def load_prompt_config(path: Path, output_folder: Optional[Path] = None) -> PromptConfig:
+def load_prompt_config(
+    path: Path, output_folder: Optional[Path] = None
+) -> PromptConfig:
     """Load and render structured prompt configuration from YAML.
 
     This function loads a structured configuration file and uses Jinja2 templates
@@ -248,9 +250,7 @@ def load_prompt_config(path: Path, output_folder: Optional[Path] = None) -> Prom
         elif task == "textcat":
             structured_config = TextCatStructuredConfig.model_validate(expanded)
         else:
-            raise RuntimeError(
-                f"Unsupported task: {task}. Must be 'ner' or 'textcat'."
-            )
+            raise RuntimeError(f"Unsupported task: {task}. Must be 'ner' or 'textcat'.")
 
         prompt_config = _render_structured_config(structured_config)
 
