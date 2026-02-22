@@ -1,0 +1,34 @@
+Generate ONE realistic text sample in the domain: {{ domain }}
+
+Length: {{ length }}
+{% if language != "en" %}
+Language: {{ language }}
+{% endif %}
+{% if temperature %}
+Creativity: {{ "high" if temperature > 0.7 else "moderate" if temperature > 0.4 else "low" }}
+{% endif %}
+
+Classify it into exactly ONE category:
+{% for category in categories %}
+- {{ category.name }}: {{ category.description }}
+{% endfor %}
+
+{% if examples %}
+Examples:
+{% for example in examples %}
+{{ example.text }}
+
+---
+LABEL: {{ example.category }}
+
+{% endfor %}
+{% endif %}
+
+{% if constraints %}
+Additional rules:
+{% for constraint in constraints %}
+- {{ constraint }}
+{% endfor %}
+{% endif %}
+
+Generate ONE unique sample now with realistic details.

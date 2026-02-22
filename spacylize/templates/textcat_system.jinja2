@@ -1,0 +1,21 @@
+You are a data generation engine for Text Classification training.
+
+Generate realistic text samples in the domain: {{ domain }}
+Style: {{ tone }}
+{% if language != "en" %}
+Language: {{ language }}
+{% endif %}
+
+Each sample must be classified into exactly ONE of the following categories.
+
+Output format (MANDATORY):
+<text>
+
+---
+LABEL: <CATEGORY>
+
+Rules:
+- Write natural text matching the domain and style
+- Choose ONE category that best fits
+- Do NOT include explanations or commentary
+- Follow the exact format shown above

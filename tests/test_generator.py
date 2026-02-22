@@ -75,3 +75,50 @@ def test_run_generates_docs(
 
     assert mock_llm_client.generate.call_count == 2
     mock_to_disk.assert_called_once_with(output_path)
+
+
+@patch("spacylize.generator.load_llm_config")
+@patch("spacylize.generator.load_prompt_config")
+@patch("spacylize.generator.LLMClient")
+def test_data_generator_saves_rendered_prompts(
+    mock_llm_client_cls,
+    mock_load_prompt_config,
+    mock_load_llm_config,
+    tmp_path,
+):
+    """Test that DataGenerator saves rendered prompts to output folder."""
+    # --- Mock LLM config ---
+    mock_load_llm_config.return_value = MagicMock(
+        model="test-model",
+        api_key="test-key",
+        api_base="http://test",
+        max_tokens=100,
+    )
+
+    # --- Mock prompt config ---
+    mock_prompt = MagicMock()
+    mock_prompt.user.content = "user prompt"
+    mock_prompt.system.content = "system prompt"
+    mock_load_prompt_config.return_value = mock_prompt
+
+    # --- Mock LLM client ---
+    mock_llm_client = MagicMock()
+    mock_llm_client_cls.return_value = mock_llm_client
+
+    output_path = tmp_path / "docs.spacy"
+
+    generator = DataGenerator(
+        llm_config_path=Path("llm.yaml"),
+        prompt_config_path=Path("prompt.yaml"),
+        n_samples=1,
+        output_path=output_path,
+        task="ner",
+    )
+
+    # Verify load_prompt_config was called with output_folder parameter
+    mock_load_prompt_config.assert_called_once()
+    call_args = mock_load_prompt_config.call_args
+
+    # Check that output_folder was passed as keyword argument
+    assert "output_folder" in call_args.kwargs
+    assert call_args.kwargs["output_folder"] == tmp_path
