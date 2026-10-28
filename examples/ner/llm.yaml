@@ -1,8 +1,16 @@
+# Cloud providers (comment out when using local):
 #model: gpt-4o-mini
 #api_key: ${OPENAI_API_KEY}
 #api_base: null
 #max_tokens: 1024
+
 model: anthropic/claude-3-haiku-20240307
 api_key: ${ANTHROPIC_API_KEY}
 api_base: null
 max_tokens: 1024
+
+# Local Ollama model:
+#model: ollama/qwen3:8b
+#api_key: null
+#api_base: http://localhost:11434
+#max_tokens: 1024

@@ -1,0 +1,27 @@
+task: textcat
+
+# Category definitions
+categories:
+  - name: Electronics
+    description: "tech devices, computers, phones, gadgets"
+  - name: Clothing
+    description: "apparel, shoes, fashion, accessories"
+  - name: Home_Goods
+    description: "furniture, kitchenware, decor, household items"
+
+# Generation parameters
+domain: "e-commerce product descriptions"
+tone: "marketing copy"
+length: "2-3 sentences"
+language: "en"
+
+# Quality controls
+temperature: 0.8
+constraints:
+  - "Use specific product features"
+  - "Include brand names where appropriate"
+
+# Few-shot examples
+examples:
+  - text: "This premium wireless keyboard features mechanical switches with customizable RGB lighting and connects via Bluetooth 5.0."
+    category: Electronics

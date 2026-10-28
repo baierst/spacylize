@@ -66,20 +66,7 @@ def test_validator_handles_empty_dataset(tmp_path: Path):
     doc_bin.to_disk(empty_file)
 
     output_folder = tmp_path / "reports"
-    validator = DataValidator(dataset_path=empty_file, output_folder=output_folder)
-    validator.run()
 
-    # JSON and PNG should still exist
-    dataset_name = empty_file.stem
-    json_file = output_folder / f"{dataset_name}_report.json"
-    png_file = output_folder / f"{dataset_name}_report.png"
-
-    assert json_file.exists()
-    assert png_file.exists()
-
-    with json_file.open() as f:
-        report = json.load(f)
-
-    assert report["dataset"]["num_documents"] == 0
-    assert report["dataset"]["num_entities"] == 0
-    assert report["entities"]["by_label"] == {}
+    # Empty dataset should raise ValueError since task cannot be auto-detected
+    with pytest.raises(ValueError, match="Dataset is empty, cannot detect task type"):
+        validator = DataValidator(dataset_path=empty_file, output_folder=output_folder)

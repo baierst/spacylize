@@ -24,13 +24,14 @@ def test_generate_without_system_prompt(mock_completion, mock_completion_respons
     # Assertions
     assert result == "This is a mocked response."
 
-    mock_completion.assert_called_once_with(
-        model="gpt-4o-mini",
-        messages=[{"role": "user", "content": "Hello"}],
-        api_key="test-key",
-        api_base=None,
-        max_tokens=100,
-    )
+    mock_completion.assert_called_once()
+    _, kwargs = mock_completion.call_args
+
+    assert kwargs["model"] == "gpt-4o-mini"
+    assert kwargs["messages"] == [{"role": "user", "content": "Hello"}]
+    assert kwargs["api_key"] == "test-key"
+    assert kwargs["max_tokens"] == 100
+    assert "api_base" not in kwargs  # api_base should not be in kwargs when None
 
 
 @patch("spacylize.llm.completion")
@@ -49,16 +50,17 @@ def test_generate_with_system_prompt(mock_completion, mock_completion_response):
 
     assert result == "This is a mocked response."
 
-    mock_completion.assert_called_once_with(
-        model="anthropic/claude-opus-4-5-20251101",
-        messages=[
-            {"role": "system", "content": "You are a funny assistant."},
-            {"role": "user", "content": "Tell me a joke."},
-        ],
-        api_key="test-key",
-        api_base=None,
-        max_tokens=200,
-    )
+    mock_completion.assert_called_once()
+    _, kwargs = mock_completion.call_args
+
+    assert kwargs["model"] == "anthropic/claude-opus-4-5-20251101"
+    assert kwargs["messages"] == [
+        {"role": "system", "content": "You are a funny assistant."},
+        {"role": "user", "content": "Tell me a joke."},
+    ]
+    assert kwargs["api_key"] == "test-key"
+    assert kwargs["max_tokens"] == 200
+    assert "api_base" not in kwargs  # api_base should not be in kwargs when None
 
 
 @patch("spacylize.llm.completion")
