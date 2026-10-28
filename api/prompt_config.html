@@ -141,6 +141,7 @@
 <li class="toctree-l3"><a class="reference internal" href="llm_config.html#spacylize.llm_config.LLMConfig.model_config"><code class="docutils literal notranslate"><span class="pre">LLMConfig.model_config</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="llm_config.html#spacylize.llm_config.expand_env_vars"><code class="docutils literal notranslate"><span class="pre">expand_env_vars()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="llm_config.html#spacylize.llm_config.load_llm_config"><code class="docutils literal notranslate"><span class="pre">load_llm_config()</span></code></a></li>
 </ul>
 </li>
@@ -156,16 +157,18 @@
 <li class="toctree-l2"><a class="reference internal" href="#spacylize.prompt_config.PromptConfig"><code class="docutils literal notranslate"><span class="pre">PromptConfig</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#spacylize.prompt_config.PromptConfig.system"><code class="docutils literal notranslate"><span class="pre">PromptConfig.system</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#spacylize.prompt_config.PromptConfig.user"><code class="docutils literal notranslate"><span class="pre">PromptConfig.user</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#spacylize.prompt_config.PromptConfig.temperature"><code class="docutils literal notranslate"><span class="pre">PromptConfig.temperature</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id2"><code class="docutils literal notranslate"><span class="pre">PromptConfig.system</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id3"><code class="docutils literal notranslate"><span class="pre">PromptConfig.user</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4"><code class="docutils literal notranslate"><span class="pre">PromptConfig.temperature</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#spacylize.prompt_config.PromptConfig.model_config"><code class="docutils literal notranslate"><span class="pre">PromptConfig.model_config</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#spacylize.prompt_config.NERExample"><code class="docutils literal notranslate"><span class="pre">NERExample</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#spacylize.prompt_config.NERExample.text"><code class="docutils literal notranslate"><span class="pre">NERExample.text</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#spacylize.prompt_config.NERExample.explanation"><code class="docutils literal notranslate"><span class="pre">NERExample.explanation</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id4"><code class="docutils literal notranslate"><span class="pre">NERExample.text</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id5"><code class="docutils literal notranslate"><span class="pre">NERExample.explanation</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id5"><code class="docutils literal notranslate"><span class="pre">NERExample.text</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id6"><code class="docutils literal notranslate"><span class="pre">NERExample.explanation</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#spacylize.prompt_config.NERExample.model_config"><code class="docutils literal notranslate"><span class="pre">NERExample.model_config</span></code></a></li>
 </ul>
 </li>
@@ -179,15 +182,15 @@
 <li class="toctree-l3"><a class="reference internal" href="#spacylize.prompt_config.NERStructuredConfig.temperature"><code class="docutils literal notranslate"><span class="pre">NERStructuredConfig.temperature</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#spacylize.prompt_config.NERStructuredConfig.constraints"><code class="docutils literal notranslate"><span class="pre">NERStructuredConfig.constraints</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#spacylize.prompt_config.NERStructuredConfig.examples"><code class="docutils literal notranslate"><span class="pre">NERStructuredConfig.examples</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id6"><code class="docutils literal notranslate"><span class="pre">NERStructuredConfig.task</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id7"><code class="docutils literal notranslate"><span class="pre">NERStructuredConfig.entities</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id8"><code class="docutils literal notranslate"><span class="pre">NERStructuredConfig.domain</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id9"><code class="docutils literal notranslate"><span class="pre">NERStructuredConfig.tone</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id10"><code class="docutils literal notranslate"><span class="pre">NERStructuredConfig.length</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id11"><code class="docutils literal notranslate"><span class="pre">NERStructuredConfig.language</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id12"><code class="docutils literal notranslate"><span class="pre">NERStructuredConfig.temperature</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id13"><code class="docutils literal notranslate"><span class="pre">NERStructuredConfig.constraints</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id14"><code class="docutils literal notranslate"><span class="pre">NERStructuredConfig.examples</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id7"><code class="docutils literal notranslate"><span class="pre">NERStructuredConfig.task</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id8"><code class="docutils literal notranslate"><span class="pre">NERStructuredConfig.entities</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id9"><code class="docutils literal notranslate"><span class="pre">NERStructuredConfig.domain</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id10"><code class="docutils literal notranslate"><span class="pre">NERStructuredConfig.tone</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id11"><code class="docutils literal notranslate"><span class="pre">NERStructuredConfig.length</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id12"><code class="docutils literal notranslate"><span class="pre">NERStructuredConfig.language</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id13"><code class="docutils literal notranslate"><span class="pre">NERStructuredConfig.temperature</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id14"><code class="docutils literal notranslate"><span class="pre">NERStructuredConfig.constraints</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id15"><code class="docutils literal notranslate"><span class="pre">NERStructuredConfig.examples</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#spacylize.prompt_config.NERStructuredConfig.validate_entities"><code class="docutils literal notranslate"><span class="pre">NERStructuredConfig.validate_entities()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#spacylize.prompt_config.NERStructuredConfig.model_config"><code class="docutils literal notranslate"><span class="pre">NERStructuredConfig.model_config</span></code></a></li>
 </ul>
@@ -195,16 +198,16 @@
 <li class="toctree-l2"><a class="reference internal" href="#spacylize.prompt_config.TextCatCategory"><code class="docutils literal notranslate"><span class="pre">TextCatCategory</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#spacylize.prompt_config.TextCatCategory.name"><code class="docutils literal notranslate"><span class="pre">TextCatCategory.name</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#spacylize.prompt_config.TextCatCategory.description"><code class="docutils literal notranslate"><span class="pre">TextCatCategory.description</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id15"><code class="docutils literal notranslate"><span class="pre">TextCatCategory.name</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id16"><code class="docutils literal notranslate"><span class="pre">TextCatCategory.description</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id16"><code class="docutils literal notranslate"><span class="pre">TextCatCategory.name</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id17"><code class="docutils literal notranslate"><span class="pre">TextCatCategory.description</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#spacylize.prompt_config.TextCatCategory.model_config"><code class="docutils literal notranslate"><span class="pre">TextCatCategory.model_config</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#spacylize.prompt_config.TextCatExample"><code class="docutils literal notranslate"><span class="pre">TextCatExample</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#spacylize.prompt_config.TextCatExample.text"><code class="docutils literal notranslate"><span class="pre">TextCatExample.text</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#spacylize.prompt_config.TextCatExample.category"><code class="docutils literal notranslate"><span class="pre">TextCatExample.category</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id17"><code class="docutils literal notranslate"><span class="pre">TextCatExample.text</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id18"><code class="docutils literal notranslate"><span class="pre">TextCatExample.category</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id18"><code class="docutils literal notranslate"><span class="pre">TextCatExample.text</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id19"><code class="docutils literal notranslate"><span class="pre">TextCatExample.category</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#spacylize.prompt_config.TextCatExample.model_config"><code class="docutils literal notranslate"><span class="pre">TextCatExample.model_config</span></code></a></li>
 </ul>
 </li>
@@ -218,15 +221,15 @@
 <li class="toctree-l3"><a class="reference internal" href="#spacylize.prompt_config.TextCatStructuredConfig.temperature"><code class="docutils literal notranslate"><span class="pre">TextCatStructuredConfig.temperature</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#spacylize.prompt_config.TextCatStructuredConfig.constraints"><code class="docutils literal notranslate"><span class="pre">TextCatStructuredConfig.constraints</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#spacylize.prompt_config.TextCatStructuredConfig.examples"><code class="docutils literal notranslate"><span class="pre">TextCatStructuredConfig.examples</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id19"><code class="docutils literal notranslate"><span class="pre">TextCatStructuredConfig.task</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id20"><code class="docutils literal notranslate"><span class="pre">TextCatStructuredConfig.categories</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id21"><code class="docutils literal notranslate"><span class="pre">TextCatStructuredConfig.domain</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id22"><code class="docutils literal notranslate"><span class="pre">TextCatStructuredConfig.tone</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id23"><code class="docutils literal notranslate"><span class="pre">TextCatStructuredConfig.length</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id24"><code class="docutils literal notranslate"><span class="pre">TextCatStructuredConfig.language</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id25"><code class="docutils literal notranslate"><span class="pre">TextCatStructuredConfig.temperature</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id26"><code class="docutils literal notranslate"><span class="pre">TextCatStructuredConfig.constraints</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id27"><code class="docutils literal notranslate"><span class="pre">TextCatStructuredConfig.examples</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id20"><code class="docutils literal notranslate"><span class="pre">TextCatStructuredConfig.task</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id21"><code class="docutils literal notranslate"><span class="pre">TextCatStructuredConfig.categories</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id22"><code class="docutils literal notranslate"><span class="pre">TextCatStructuredConfig.domain</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id23"><code class="docutils literal notranslate"><span class="pre">TextCatStructuredConfig.tone</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id24"><code class="docutils literal notranslate"><span class="pre">TextCatStructuredConfig.length</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id25"><code class="docutils literal notranslate"><span class="pre">TextCatStructuredConfig.language</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id26"><code class="docutils literal notranslate"><span class="pre">TextCatStructuredConfig.temperature</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id27"><code class="docutils literal notranslate"><span class="pre">TextCatStructuredConfig.constraints</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id28"><code class="docutils literal notranslate"><span class="pre">TextCatStructuredConfig.examples</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#spacylize.prompt_config.TextCatStructuredConfig.validate_categories"><code class="docutils literal notranslate"><span class="pre">TextCatStructuredConfig.validate_categories()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#spacylize.prompt_config.TextCatStructuredConfig.model_config"><code class="docutils literal notranslate"><span class="pre">TextCatStructuredConfig.model_config</span></code></a></li>
 </ul>
@@ -235,14 +238,14 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="splitter.html">Dataset Splitting</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="splitter.html#spacylize.splitter.DataSpliter"><code class="docutils literal notranslate"><span class="pre">DataSpliter</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="splitter.html#spacylize.splitter.DataSpliter.input_file"><code class="docutils literal notranslate"><span class="pre">DataSpliter.input_file</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="splitter.html#spacylize.splitter.DataSpliter.train_file"><code class="docutils literal notranslate"><span class="pre">DataSpliter.train_file</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="splitter.html#spacylize.splitter.DataSpliter.dev_file"><code class="docutils literal notranslate"><span class="pre">DataSpliter.dev_file</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="splitter.html#spacylize.splitter.DataSpliter.dev_size"><code class="docutils literal notranslate"><span class="pre">DataSpliter.dev_size</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="splitter.html#spacylize.splitter.DataSpliter.seed"><code class="docutils literal notranslate"><span class="pre">DataSpliter.seed</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="splitter.html#spacylize.splitter.DataSpliter.__init__"><code class="docutils literal notranslate"><span class="pre">DataSpliter.__init__()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="splitter.html#spacylize.splitter.DataSpliter.run"><code class="docutils literal notranslate"><span class="pre">DataSpliter.run()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="splitter.html#spacylize.splitter.DataSplitter"><code class="docutils literal notranslate"><span class="pre">DataSplitter</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="splitter.html#spacylize.splitter.DataSplitter.input_file"><code class="docutils literal notranslate"><span class="pre">DataSplitter.input_file</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="splitter.html#spacylize.splitter.DataSplitter.train_file"><code class="docutils literal notranslate"><span class="pre">DataSplitter.train_file</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="splitter.html#spacylize.splitter.DataSplitter.dev_file"><code class="docutils literal notranslate"><span class="pre">DataSplitter.dev_file</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="splitter.html#spacylize.splitter.DataSplitter.dev_size"><code class="docutils literal notranslate"><span class="pre">DataSplitter.dev_size</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="splitter.html#spacylize.splitter.DataSplitter.seed"><code class="docutils literal notranslate"><span class="pre">DataSplitter.seed</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="splitter.html#spacylize.splitter.DataSplitter.__init__"><code class="docutils literal notranslate"><span class="pre">DataSplitter.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="splitter.html#spacylize.splitter.DataSplitter.run"><code class="docutils literal notranslate"><span class="pre">DataSplitter.run()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -261,11 +264,11 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="evaluator.html">Model Evaluation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="evaluator.html#spacylize.evaluator.ModelEvaluater"><code class="docutils literal notranslate"><span class="pre">ModelEvaluater</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="evaluator.html#spacylize.evaluator.ModelEvaluater.model_path"><code class="docutils literal notranslate"><span class="pre">ModelEvaluater.model_path</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="evaluator.html#spacylize.evaluator.ModelEvaluater.eval_data"><code class="docutils literal notranslate"><span class="pre">ModelEvaluater.eval_data</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="evaluator.html#spacylize.evaluator.ModelEvaluater.__init__"><code class="docutils literal notranslate"><span class="pre">ModelEvaluater.__init__()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="evaluator.html#spacylize.evaluator.ModelEvaluater.run"><code class="docutils literal notranslate"><span class="pre">ModelEvaluater.run()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="evaluator.html#spacylize.evaluator.ModelEvaluator"><code class="docutils literal notranslate"><span class="pre">ModelEvaluator</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="evaluator.html#spacylize.evaluator.ModelEvaluator.model_path"><code class="docutils literal notranslate"><span class="pre">ModelEvaluator.model_path</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="evaluator.html#spacylize.evaluator.ModelEvaluator.eval_data"><code class="docutils literal notranslate"><span class="pre">ModelEvaluator.eval_data</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="evaluator.html#spacylize.evaluator.ModelEvaluator.__init__"><code class="docutils literal notranslate"><span class="pre">ModelEvaluator.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="evaluator.html#spacylize.evaluator.ModelEvaluator.run"><code class="docutils literal notranslate"><span class="pre">ModelEvaluator.run()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -356,7 +359,7 @@ from YAML files for LLM data generation tasks.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="spacylize.prompt_config.PromptConfig">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">spacylize.prompt_config.</span></span><span class="sig-name descname"><span class="pre">PromptConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">system</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spacylize/prompt_config.html#PromptConfig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spacylize.prompt_config.PromptConfig" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">spacylize.prompt_config.</span></span><span class="sig-name descname"><span class="pre">PromptConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">system</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temperature</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spacylize/prompt_config.html#PromptConfig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spacylize.prompt_config.PromptConfig" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
 <p>Configuration model for prompt templates.</p>
 <p>Defines the structure for prompt configurations including system
@@ -366,6 +369,7 @@ and user messages for LLM interactions.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>system</strong> (<a class="reference internal" href="#spacylize.prompt_config.PromptMessage" title="spacylize.prompt_config.PromptMessage"><em>PromptMessage</em></a>)</p></li>
 <li><p><strong>user</strong> (<a class="reference internal" href="#spacylize.prompt_config.PromptMessage" title="spacylize.prompt_config.PromptMessage"><em>PromptMessage</em></a>)</p></li>
+<li><p><strong>temperature</strong> (<em>float</em><em> | </em><em>None</em>)</p></li>
 </ul>
 </dd>
 </dl>
@@ -392,6 +396,17 @@ and user messages for LLM interactions.</p>
 </dd></dl>
 
 <dl class="py attribute">
+<dt class="sig sig-object py" id="spacylize.prompt_config.PromptConfig.temperature">
+<span class="sig-name descname"><span class="pre">temperature</span></span><a class="headerlink" href="#spacylize.prompt_config.PromptConfig.temperature" title="Link to this definition"></a></dt>
+<dd><p>Optional LLM sampling temperature for generation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float | None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="id2">
 <span class="sig-name descname"><span class="pre">system</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#spacylize.prompt_config.PromptMessage" title="spacylize.prompt_config.PromptMessage"><span class="pre">PromptMessage</span></a></span><a class="headerlink" href="#id2" title="Link to this definition"></a></dt>
 <dd></dd></dl>
@@ -399,6 +414,11 @@ and user messages for LLM interactions.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id3">
 <span class="sig-name descname"><span class="pre">user</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#spacylize.prompt_config.PromptMessage" title="spacylize.prompt_config.PromptMessage"><span class="pre">PromptMessage</span></a></span><a class="headerlink" href="#id3" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id4">
+<span class="sig-name descname"><span class="pre">temperature</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><a class="headerlink" href="#id4" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -445,13 +465,13 @@ and user messages for LLM interactions.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id4">
-<span class="sig-name descname"><span class="pre">text</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span><a class="headerlink" href="#id4" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id5">
+<span class="sig-name descname"><span class="pre">text</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span><a class="headerlink" href="#id5" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id5">
-<span class="sig-name descname"><span class="pre">explanation</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><a class="headerlink" href="#id5" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id6">
+<span class="sig-name descname"><span class="pre">explanation</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><a class="headerlink" href="#id6" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -583,48 +603,48 @@ and user messages for LLM interactions.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id6">
-<span class="sig-name descname"><span class="pre">task</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'ner'</span></span><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#id6" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
 <dt class="sig sig-object py" id="id7">
-<span class="sig-name descname"><span class="pre">entities</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#id7" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">task</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'ner'</span></span><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#id7" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id8">
-<span class="sig-name descname"><span class="pre">domain</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span><a class="headerlink" href="#id8" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">entities</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#id8" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id9">
-<span class="sig-name descname"><span class="pre">tone</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><a class="headerlink" href="#id9" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">domain</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span><a class="headerlink" href="#id9" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id10">
-<span class="sig-name descname"><span class="pre">length</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><a class="headerlink" href="#id10" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">tone</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><a class="headerlink" href="#id10" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id11">
-<span class="sig-name descname"><span class="pre">language</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><a class="headerlink" href="#id11" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">length</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><a class="headerlink" href="#id11" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id12">
-<span class="sig-name descname"><span class="pre">temperature</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><a class="headerlink" href="#id12" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">language</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><a class="headerlink" href="#id12" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id13">
-<span class="sig-name descname"><span class="pre">constraints</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><a class="headerlink" href="#id13" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">temperature</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><a class="headerlink" href="#id13" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id14">
-<span class="sig-name descname"><span class="pre">examples</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#spacylize.prompt_config.NERExample" title="spacylize.prompt_config.NERExample"><span class="pre">NERExample</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><a class="headerlink" href="#id14" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">constraints</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><a class="headerlink" href="#id14" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id15">
+<span class="sig-name descname"><span class="pre">examples</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#spacylize.prompt_config.NERExample" title="spacylize.prompt_config.NERExample"><span class="pre">NERExample</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><a class="headerlink" href="#id15" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -677,13 +697,13 @@ and user messages for LLM interactions.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id15">
-<span class="sig-name descname"><span class="pre">name</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span><a class="headerlink" href="#id15" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id16">
+<span class="sig-name descname"><span class="pre">name</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span><a class="headerlink" href="#id16" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id16">
-<span class="sig-name descname"><span class="pre">description</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span><a class="headerlink" href="#id16" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id17">
+<span class="sig-name descname"><span class="pre">description</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span><a class="headerlink" href="#id17" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -730,13 +750,13 @@ and user messages for LLM interactions.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id17">
-<span class="sig-name descname"><span class="pre">text</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span><a class="headerlink" href="#id17" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id18">
+<span class="sig-name descname"><span class="pre">text</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span><a class="headerlink" href="#id18" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id18">
-<span class="sig-name descname"><span class="pre">category</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span><a class="headerlink" href="#id18" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id19">
+<span class="sig-name descname"><span class="pre">category</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span><a class="headerlink" href="#id19" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -868,48 +888,48 @@ and user messages for LLM interactions.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id19">
-<span class="sig-name descname"><span class="pre">task</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'textcat'</span></span><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#id19" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
 <dt class="sig sig-object py" id="id20">
-<span class="sig-name descname"><span class="pre">categories</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#spacylize.prompt_config.TextCatCategory" title="spacylize.prompt_config.TextCatCategory"><span class="pre">TextCatCategory</span></a><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#id20" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">task</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'textcat'</span></span><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#id20" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id21">
-<span class="sig-name descname"><span class="pre">domain</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span><a class="headerlink" href="#id21" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">categories</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#spacylize.prompt_config.TextCatCategory" title="spacylize.prompt_config.TextCatCategory"><span class="pre">TextCatCategory</span></a><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#id21" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id22">
-<span class="sig-name descname"><span class="pre">tone</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><a class="headerlink" href="#id22" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">domain</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span><a class="headerlink" href="#id22" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id23">
-<span class="sig-name descname"><span class="pre">length</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><a class="headerlink" href="#id23" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">tone</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><a class="headerlink" href="#id23" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id24">
-<span class="sig-name descname"><span class="pre">language</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><a class="headerlink" href="#id24" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">length</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><a class="headerlink" href="#id24" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id25">
-<span class="sig-name descname"><span class="pre">temperature</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><a class="headerlink" href="#id25" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">language</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><a class="headerlink" href="#id25" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id26">
-<span class="sig-name descname"><span class="pre">constraints</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><a class="headerlink" href="#id26" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">temperature</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><a class="headerlink" href="#id26" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id27">
-<span class="sig-name descname"><span class="pre">examples</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#spacylize.prompt_config.TextCatExample" title="spacylize.prompt_config.TextCatExample"><span class="pre">TextCatExample</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><a class="headerlink" href="#id27" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">constraints</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><a class="headerlink" href="#id27" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id28">
+<span class="sig-name descname"><span class="pre">examples</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#spacylize.prompt_config.TextCatExample" title="spacylize.prompt_config.TextCatExample"><span class="pre">TextCatExample</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><a class="headerlink" href="#id28" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
