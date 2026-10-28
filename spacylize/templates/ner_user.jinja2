@@ -5,9 +5,6 @@ Length: {{ length }}
 {% if language != "en" %}
 Language: {{ language }}
 {% endif %}
-{% if temperature %}
-Creativity: {{ "high" if temperature > 0.7 else "moderate" if temperature > 0.4 else "low" }}
-{% endif %}
 
 You must include ALL of the following entities, annotated using the format [TEXT](LABEL):
 

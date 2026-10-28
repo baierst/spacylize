@@ -54,6 +54,7 @@ def test_run_generates_docs(
     mock_prompt = MagicMock()
     mock_prompt.user.content = "user prompt"
     mock_prompt.system.content = "system prompt"
+    mock_prompt.temperature = 0.9
     mock_load_prompt_config.return_value = mock_prompt
 
     # --- Mock LLM client ---
@@ -74,6 +75,9 @@ def test_run_generates_docs(
     generator.run()
 
     assert mock_llm_client.generate.call_count == 2
+    mock_llm_client.generate.assert_called_with(
+        "user prompt", "system prompt", temperature=0.9
+    )
     mock_to_disk.assert_called_once_with(output_path)
 
 

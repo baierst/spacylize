@@ -4,12 +4,16 @@
 Spacylize is a tool that distills the capabilities of large language models into compact, efficient spaCy models.
 
 **Prerequisites:**
-* Python 3.8+
+* Python 3.10+
+* [uv](https://docs.astral.sh/uv/)
 
 **Installation:**
 ```bash
-pip install -e .
+uv sync
 ```
+
+Run the CLI with `uv run spacylize --help`. For development, install the dev tools with `uv sync --group dev`
+and run the checks with `uv run black --check .` and `uv run pytest`.
 
 # Configuration Guide
 
@@ -126,40 +130,13 @@ You can review `system_prompt.txt` and `user_prompt.txt` to see exactly what pro
 - **Prompt tuning**: Adjusting your structured config to improve results
 - **Transparency**: Knowing exactly what instructions the LLM received
 
-## Migration from Old Format
-
-**⚠️ Breaking Change:** Explicit `system` and `user` prompt fields are no longer supported.
-
-If you have an old config like this:
-
-```yaml
-system:
-  role: system
-  content: |
-    You are a data generation engine...
-user:
-  role: user
-  content: |
-    Generate ONE example...
-```
-
-**Convert it to structured format:**
-
-1. Add `task: ner` or `task: textcat` at the top
-2. Extract your entities or categories from the old prompts
-3. Define `domain` (what the text is about)
-4. Optionally set `tone`, `length`, `temperature`, `language`
-5. Optionally add `constraints` and `examples`
-
-See the example configs in `examples/ner/prompt.yaml` and `examples/textcat/prompt.yaml` for reference.
-
 # Usage Example:
 
 This example demonstrates how to use `spacylize` to generate training data and train a SpaCy model to identify key attributes from e-commerce product descriptions.
 
 ### 1. Create a Prompt Configuration for E-commerce Attributes:
 
-See example: `examples/ecommerce/prompt.yaml`
+See example: `examples/ner/prompt.yaml`
 
 ### 2. Generate Training Data:
 

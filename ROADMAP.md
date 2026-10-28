@@ -58,16 +58,16 @@ pipeline is trained on it.
 
 *Goal: the README workflow works from generation to a trained, evaluated model, for NER and textcat.*
 
-- 📋 **`split`** – implement `DataSpliter.run()`: shuffled train/dev split with seed and dev fraction
+- 📋 **`split`** – implement `DataSplitter.run()`: shuffled train/dev split with seed and dev fraction
 - 📋 **`train`** – implement `ModelTrainer.run()`: train NER and textcat pipelines from a base model,
   using spaCy's own config and training loop (`spacy init config` / `spacy train`)
-- 📋 **`evaluate`** – implement `ModelEvaluater.run()`: precision, recall and F1 per label (NER),
+- 📋 **`evaluate`** – implement `ModelEvaluator.run()`: precision, recall and F1 per label (NER),
   accuracy and macro F1 (textcat)
 - 📋 Tests for splitter, trainer and evaluator
-- 📋 Housekeeping
-  - rename `ModelEvaluater` → `ModelEvaluator`, `DataSpliter` → `DataSplitter`
-  - fix the README: Python 3.10+ (not 3.8+), example path `examples/ner/prompt.yaml` (not `examples/ecommerce/…`)
-  - choose one package manager (uv or Poetry) and drop the other lockfile
+- ✅ Housekeeping
+  - ✅ rename `ModelEvaluater` → `ModelEvaluator`, `DataSpliter` → `DataSplitter`
+  - ✅ fix README and Sphinx docs: Python 3.10+, example paths under `examples/ner/`, remove the migration guide
+  - ✅ use uv as the only package manager and drop `poetry.lock`
 
 ## Milestone 2 — Local models & generation quality (v0.0.3)
 
@@ -77,7 +77,7 @@ pipeline is trained on it.
   - 📋 test the Ollama setup end to end and make it the default in the examples
   - 📋 documentation for setting up local models, with recommended models
 - 🚧 **Sample diversity** – the prompt is rendered once, so every sample gets the same prompt; still to do:
-  - 📋 pass `temperature` from the prompt config to the LLM call (today it only changes a "Creativity" hint in the prompt text)
+  - ✅ pass `temperature` from the prompt config to the LLM call
   - 📋 per-sample variation, e.g. value lists for `domain` / `tone` / `length` that are sampled for every request
 - 📋 Report dropped annotations: count NER entities that don't align with token boundaries and textcat outputs that fail to parse
 - 📋 Robustness: retries, rate limiting and a progress bar for large `--n-samples`

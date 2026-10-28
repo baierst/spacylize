@@ -9,7 +9,7 @@ from pathlib import Path
 from loguru import logger
 
 
-class ModelEvaluater:
+class ModelEvaluator:
     """Evaluator for trained SpaCy models.
 
     Evaluates a trained SpaCy model against a test dataset to measure
@@ -24,7 +24,7 @@ class ModelEvaluater:
     """
 
     def __init__(self, model_path: Path, eval_data: Path):
-        """Initialize the ModelEvaluater.
+        """Initialize the ModelEvaluator.
 
         Args:
             model_path: Path to the trained SpaCy model directory.
@@ -39,4 +39,4 @@ class ModelEvaluater:
         Note:
             This method is not yet implemented.
         """
-        logger.warning("ModelEvaluater is not yet implemented.")
+        logger.warning("ModelEvaluator is not yet implemented.")

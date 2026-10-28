@@ -37,7 +37,7 @@ class LLMConfig(BaseModel):
 _ENV_VAR_PATTERN = re.compile(r"\$\{([^}]+)\}")
 
 
-def _expand_env_vars(value: Any) -> Any:
+def expand_env_vars(value: Any) -> Any:
     """Recursively expand environment variable references in configuration values.
 
     Replaces ${VAR_NAME} patterns with their environment variable values.
@@ -56,10 +56,10 @@ def _expand_env_vars(value: Any) -> Any:
         return value
 
     if isinstance(value, dict):
-        return {k: _expand_env_vars(v) for k, v in value.items()}
+        return {k: expand_env_vars(v) for k, v in value.items()}
 
     if isinstance(value, list):
-        return [_expand_env_vars(v) for v in value]
+        return [expand_env_vars(v) for v in value]
 
     return value
 
@@ -79,7 +79,7 @@ def load_llm_config(path: Path) -> LLMConfig:
     with open(path, "r") as f:
         raw = yaml.safe_load(f)
 
-    expanded = _expand_env_vars(raw)
+    expanded = expand_env_vars(raw)
 
     try:
         return LLMConfig.model_validate(expanded)
