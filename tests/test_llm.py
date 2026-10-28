@@ -32,6 +32,7 @@ def test_generate_without_system_prompt(mock_completion, mock_completion_respons
     assert kwargs["api_key"] == "test-key"
     assert kwargs["max_tokens"] == 100
     assert "api_base" not in kwargs  # api_base should not be in kwargs when None
+    assert "temperature" not in kwargs  # provider default when not set
 
 
 @patch("spacylize.llm.completion")
@@ -81,3 +82,15 @@ def test_generate_with_api_base(mock_completion, mock_completion_response):
     _, kwargs = mock_completion.call_args
 
     assert kwargs["api_base"] == "http://localhost:11434"
+
+
+@patch("spacylize.llm.completion")
+def test_generate_with_temperature(mock_completion, mock_completion_response):
+    mock_completion.return_value = mock_completion_response
+
+    client = LLMClient(model="gpt-4o-mini", api_key="test-key")
+
+    client.generate("Hello", temperature=0.3)
+
+    _, kwargs = mock_completion.call_args
+    assert kwargs["temperature"] == 0.3

@@ -123,7 +123,7 @@ def test_validate_command(tmp_path):
 
 
 def test_split_command():
-    with patch("spacylize.cli.DataSpliter") as mock_splitter:
+    with patch("spacylize.cli.DataSplitter") as mock_splitter:
         instance = mock_splitter.return_value
 
         result = runner.invoke(
@@ -173,7 +173,7 @@ def test_train_command():
 
 
 def test_evaluate_command():
-    with patch("spacylize.cli.ModelEvaluater") as mock_evaluator:
+    with patch("spacylize.cli.ModelEvaluator") as mock_evaluator:
         instance = mock_evaluator.return_value
 
         result = runner.invoke(
@@ -189,3 +189,16 @@ def test_evaluate_command():
 
         assert result.exit_code == 0
         instance.run.assert_called_once()
+
+
+def test_evaluate_command_error_exits_cleanly():
+    with patch("spacylize.cli.ModelEvaluator") as mock_evaluator:
+        mock_evaluator.return_value.run.side_effect = RuntimeError("boom")
+
+        result = runner.invoke(
+            app,
+            ["evaluate", "--model", "model/", "--data", "eval.spacy"],
+        )
+
+        assert result.exit_code == 1
+        assert "[Error] boom" in result.output

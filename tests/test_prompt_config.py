@@ -108,6 +108,7 @@ examples:
     assert "Named Entity Recognition" in prompt_config.system.content
     assert "PERSON" in prompt_config.user.content
     assert "ORG" in prompt_config.user.content
+    assert prompt_config.temperature == 0.7
 
 
 def test_load_prompt_config_textcat_from_yaml(tmp_path):

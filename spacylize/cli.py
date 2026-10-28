@@ -8,9 +8,9 @@ using LLM-powered data generation.
 import typer
 from pathlib import Path
 
-from spacylize.evaluator import ModelEvaluater
+from spacylize.evaluator import ModelEvaluator
 from spacylize.generator import DataGenerator
-from spacylize.splitter import DataSpliter
+from spacylize.splitter import DataSplitter
 from spacylize.trainer import ModelTrainer
 from spacylize.validator import DataValidator
 from spacylize.visualizer import DataVisualizer
@@ -163,12 +163,16 @@ def validate_dataset(
     """
     CLI entry point for validating a SpaCy dataset.
     """
-    validator = DataValidator(
-        dataset_path=dataset,
-        output_folder=output_folder,
-        task=task,
-    )
-    validator.run()
+    try:
+        validator = DataValidator(
+            dataset_path=dataset,
+            output_folder=output_folder,
+            task=task,
+        )
+        validator.run()
+    except Exception as e:
+        typer.echo(f"[Error] {e}")
+        raise typer.Exit(code=1)
 
 
 @app.command(
@@ -193,8 +197,12 @@ def split_dataset(
     """
     CLI entry point for splitting a SpaCy dataset.
     """
-    splitter = DataSpliter(input_file, train_file, dev_file, dev_size, seed)
-    splitter.run()
+    try:
+        splitter = DataSplitter(input_file, train_file, dev_file, dev_size, seed)
+        splitter.run()
+    except Exception as e:
+        typer.echo(f"[Error] {e}")
+        raise typer.Exit(code=1)
 
 
 @app.command(
@@ -224,8 +232,12 @@ def train_pipeline(
         0.3, "--dropout", help="Dropout rate during training."
     ),
 ):
-    trainer = ModelTrainer(train_data, base_model, output_model, n_iter, dropout)
-    trainer.run()
+    try:
+        trainer = ModelTrainer(train_data, base_model, output_model, n_iter, dropout)
+        trainer.run()
+    except Exception as e:
+        typer.echo(f"[Error] {e}")
+        raise typer.Exit(code=1)
 
 
 @app.command(
@@ -240,8 +252,12 @@ def evaluate_model(
         ..., "--data", "-d", help="Path to the evaluation data (.spacy)."
     ),
 ):
-    evaluator = ModelEvaluater(model_path, eval_data)
-    evaluator.run()
+    try:
+        evaluator = ModelEvaluator(model_path, eval_data)
+        evaluator.run()
+    except Exception as e:
+        typer.echo(f"[Error] {e}")
+        raise typer.Exit(code=1)
 
 
 if __name__ == "__main__":

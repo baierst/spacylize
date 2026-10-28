@@ -261,6 +261,7 @@ class DataGenerator:
             result = self.llm_client.generate(
                 self.prompt_config.user.content,
                 self.prompt_config.system.content,
+                temperature=self.prompt_config.temperature,
             )
 
             # Parse using task-specific parser

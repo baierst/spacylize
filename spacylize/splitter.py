@@ -9,7 +9,7 @@ from pathlib import Path
 from loguru import logger
 
 
-class DataSpliter:
+class DataSplitter:
     """Splitter for SpaCy datasets into training and development sets.
 
     Splits a SpaCy binary dataset into separate training and development
@@ -34,7 +34,7 @@ class DataSpliter:
         dev_size: float,
         seed: int,
     ):
-        """Initialize the DataSpliter.
+        """Initialize the DataSplitter.
 
         Args:
             input_file: Path to the input SpaCy dataset (.spacy).
@@ -55,4 +55,4 @@ class DataSpliter:
         Note:
             This method is not yet implemented.
         """
-        logger.warning("DataSpliter is not yet implemented.")
+        logger.warning("DataSplitter is not yet implemented.")

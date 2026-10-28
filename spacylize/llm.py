@@ -43,12 +43,18 @@ class LLMClient:
         self.api_base = api_base
         self.max_tokens = max_tokens
 
-    def generate(self, prompt: str, system_prompt: Optional[str] = None) -> str:
+    def generate(
+        self,
+        prompt: str,
+        system_prompt: Optional[str] = None,
+        temperature: Optional[float] = None,
+    ) -> str:
         """Generate text using the configured LLM.
 
         Args:
             prompt: The user prompt to send to the LLM.
             system_prompt: Optional system prompt to set context or instructions.
+            temperature: Optional sampling temperature. Uses the provider default if None.
 
         Returns:
             str: The generated text response from the LLM.
@@ -70,25 +76,9 @@ class LLMClient:
         if self.api_base:
             completion_kwargs["api_base"] = self.api_base
 
+        if temperature is not None:
+            completion_kwargs["temperature"] = temperature
+
         response = completion(**completion_kwargs)
 
         return response["choices"][0]["message"]["content"]
-
-
-# # OpenAI
-# llm_openai = LLMClient(model="gpt-4o-mini", api_key=os.getenv("OPENAI_API_KEY"))
-# print(llm_openai.generate("Generate a random sentence."))
-#
-# # Anthropic
-# llm_anthropic = LLMClient(
-#     model="anthropic/claude-opus-4-5-20251101",
-#     api_key=os.getenv("ANTHROPIC_API_KEY")
-# )
-# print(llm_anthropic.generate("Generate a random sentence."))
-#
-# # Local Ollama
-# llm_local = LLMClient(
-#     model="ollama/guanaco-7b",
-#     api_base="http://localhost:11434"  # optional if default
-# )
-# print(llm_local.generate("Generate a random sentence."))

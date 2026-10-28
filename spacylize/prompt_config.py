@@ -5,11 +5,11 @@ from YAML files for LLM data generation tasks.
 """
 
 from pathlib import Path
-from typing import Literal, Any, Optional, List
-import os
-import re
+from typing import Literal, Optional, List
 import yaml
 from pydantic import BaseModel, ValidationError, Field, field_validator
+
+from spacylize.llm_config import expand_env_vars
 
 
 class PromptMessage(BaseModel):
@@ -35,10 +35,12 @@ class PromptConfig(BaseModel):
     Attributes:
         system: System prompt message for setting LLM behavior.
         user: User prompt message for the main task instruction.
+        temperature: Optional LLM sampling temperature for generation.
     """
 
     system: PromptMessage
     user: PromptMessage
+    temperature: Optional[float] = None
 
     model_config = {"extra": "forbid"}
 
@@ -157,36 +159,6 @@ class TextCatStructuredConfig(BaseModel):
 StructuredConfig = NERStructuredConfig | TextCatStructuredConfig
 
 
-_ENV_VAR_PATTERN = re.compile(r"\$\{([^}]+)\}")
-
-
-def _expand_env_vars(value: Any) -> Any:
-    """Recursively expand environment variable references in configuration values.
-
-    Replaces ${VAR_NAME} patterns with their environment variable values.
-    Supports nested dictionaries and lists.
-
-    Args:
-        value: Configuration value to process (str, dict, list, or other).
-
-    Returns:
-        The value with environment variables expanded.
-    """
-    if isinstance(value, str):
-        match = _ENV_VAR_PATTERN.fullmatch(value)
-        if match:
-            return os.getenv(match.group(1))
-        return value
-
-    if isinstance(value, dict):
-        return {k: _expand_env_vars(v) for k, v in value.items()}
-
-    if isinstance(value, list):
-        return [_expand_env_vars(v) for v in value]
-
-    return value
-
-
 def _render_structured_config(config: StructuredConfig) -> PromptConfig:
     """Render structured config to PromptConfig using templates.
 
@@ -208,6 +180,7 @@ def _render_structured_config(config: StructuredConfig) -> PromptConfig:
     return PromptConfig(
         system=PromptMessage(role="system", content=system_content),
         user=PromptMessage(role="user", content=user_content),
+        temperature=config.temperature,
     )
 
 
@@ -236,7 +209,7 @@ def load_prompt_config(
     with open(path, "r") as f:
         raw = yaml.safe_load(f)
 
-    expanded = _expand_env_vars(raw)
+    expanded = expand_env_vars(raw)
 
     try:
         task = expanded.get("task")
