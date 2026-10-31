@@ -72,7 +72,7 @@ class NERStructuredConfig(BaseModel):
         tone: Writing style (e.g., "professional", "casual", "technical").
         length: Expected length of generated text (e.g., "2-3 sentences").
         language: ISO language code (e.g., "en", "de", "es").
-        temperature: LLM temperature for generation (0.0-1.0).
+        temperature: Optional LLM temperature (0.0-1.0). Omitted if None.
         constraints: Additional rules or constraints for generation.
         examples: Few-shot examples to guide the LLM.
     """
@@ -83,7 +83,7 @@ class NERStructuredConfig(BaseModel):
     tone: Optional[str] = "professional"
     length: Optional[str] = "1-2 paragraphs"
     language: Optional[str] = "en"
-    temperature: Optional[float] = Field(0.7, ge=0.0, le=1.0)
+    temperature: Optional[float] = Field(None, ge=0.0, le=1.0)
     constraints: Optional[List[str]] = []
     examples: Optional[List[NERExample]] = []
 
@@ -132,7 +132,7 @@ class TextCatStructuredConfig(BaseModel):
         tone: Writing style (e.g., "professional", "casual", "marketing").
         length: Expected length of generated text (e.g., "2-3 sentences").
         language: ISO language code (e.g., "en", "de", "es").
-        temperature: LLM temperature for generation (0.0-1.0).
+        temperature: Optional LLM temperature (0.0-1.0). Omitted if None.
         constraints: Additional rules or constraints for generation.
         examples: Few-shot examples to guide the LLM.
     """
@@ -143,7 +143,7 @@ class TextCatStructuredConfig(BaseModel):
     tone: Optional[str] = "professional"
     length: Optional[str] = "2-3 sentences"
     language: Optional[str] = "en"
-    temperature: Optional[float] = Field(0.7, ge=0.0, le=1.0)
+    temperature: Optional[float] = Field(None, ge=0.0, le=1.0)
     constraints: Optional[List[str]] = []
     examples: Optional[List[TextCatExample]] = []
 

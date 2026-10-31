@@ -19,10 +19,10 @@ Generate 300 product descriptions with category labels:
 
 ```bash
 spacylize generate \
-  --llm-config-path examples/textcat/llm.yaml \
-  --prompt-config-path examples/textcat/prompt.yaml \
+  --llm-config-path examples/textcat/input/llm.yaml \
+  --prompt-config-path examples/textcat/input/prompt.yaml \
   --n-samples 300 \
-  --output-path examples/textcat/train.spacy \
+  --output-path examples/textcat/output/train.spacy \
   --task textcat
 ```
 
@@ -32,7 +32,7 @@ View generated samples in your browser:
 
 ```bash
 spacylize visualize \
-  --input-path examples/textcat/train.spacy \
+  --input-path examples/textcat/output/train.spacy \
   --n-samples 10 \
   --port 5002
 ```
@@ -45,8 +45,8 @@ Check the quality and distribution of the generated dataset:
 
 ```bash
 spacylize validate \
-  --dataset examples/textcat/train.spacy \
-  --output-folder examples/textcat
+  --dataset examples/textcat/output/train.spacy \
+  --output-folder examples/textcat/output
 ```
 
 This will generate:
