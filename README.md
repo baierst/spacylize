@@ -42,7 +42,6 @@ length: "2-3 sentences"
 language: "en"  # ISO code: en, de, es, fr, etc.
 
 # Quality controls (optional)
-temperature: 0.7  # 0.0-1.0, controls randomness
 constraints:
   - "Use real company and person names"
   - "Include realistic dates"
@@ -63,7 +62,7 @@ examples:
 - `tone`: Writing style (default: "professional")
 - `length`: Expected text length (default: "1-2 paragraphs")
 - `language`: ISO language code (default: "en")
-- `temperature`: Generation randomness 0.0-1.0 (default: 0.7)
+- `temperature`: Generation randomness 0.0-1.0 (default: provider default; not supported by current Claude models)
 - `constraints`: List of additional rules
 - `examples`: List of few-shot examples with `text` and optional `explanation`
 
@@ -90,7 +89,6 @@ length: "2-3 sentences"
 language: "en"
 
 # Quality controls (optional)
-temperature: 0.8
 constraints:
   - "Use specific product features"
   - "Include brand names where appropriate"
@@ -110,7 +108,7 @@ examples:
 - `tone`: Writing style (default: "professional")
 - `length`: Expected text length (default: "2-3 sentences")
 - `language`: ISO language code (default: "en")
-- `temperature`: Generation randomness 0.0-1.0 (default: 0.7)
+- `temperature`: Generation randomness 0.0-1.0 (default: provider default; not supported by current Claude models)
 - `constraints`: List of additional rules
 - `examples`: List of few-shot examples with `text` and `category`
 
@@ -136,40 +134,40 @@ This example demonstrates how to use `spacylize` to generate training data and t
 
 ### 1. Create a Prompt Configuration for E-commerce Attributes:
 
-See example: `examples/ner/prompt.yaml`
+See example: `examples/ner/input/prompt.yaml`
 
 ### 2. Generate Training Data:
 
 ```bash
-spacylize generate --llm-config-path examples/ner/llm.yaml --prompt-config-path examples/ner/prompt.yaml --n-samples 2000 --output-path examples/ner/train.spacy --task ner
+spacylize generate --llm-config-path examples/ner/input/llm.yaml --prompt-config-path examples/ner/input/prompt.yaml --n-samples 2000 --output-path examples/ner/output/train.spacy --task ner
 ```
 
 ### 3. Visualize Generated Data:
 
 ```bash
-spacylize visualize --input-path examples/ner/train.spacy --n-samples 5 --port 5002
+spacylize visualize --input-path examples/ner/output/train.spacy --n-samples 5 --port 5002
 ```
 
 ### 4. Validate Data:
 
 ```bash
-spacylize validate --dataset examples/ner/train.spacy --output-folder examples/ner
+spacylize validate --dataset examples/ner/output/train.spacy --output-folder examples/ner/output
 ```
 
 ### 5. Split Dataset into Train/Test Sets
 
 ```bash
-spacylize split --input examples/ner/train.spacy --train examples/ner/train_split.spacy --dev examples/ner/dev_split.spacy --dev-size 0.2 --seed 42
+spacylize split --input examples/ner/output/train.spacy --train examples/ner/output/train_split.spacy --dev examples/ner/output/dev_split.spacy --dev-size 0.2 --seed 42
 ```
 
 ### 6. Train a SpaCy Model for Attribute Extraction:
 
 ```bash
-spacylize train --train-data examples/ner/train_split.spacy --base-model en_core_web_sm --output-model examples/ner/ecommerce_attribute_model --n-iter 100 --dropout 0.3
+spacylize train --train-data examples/ner/output/train_split.spacy --base-model en_core_web_sm --output-model examples/ner/output/ecommerce_attribute_model --n-iter 100 --dropout 0.3
 ```
 
 ### 7. Evaluate a Trained SpaCy Model
 
 ```bash
-spacylize evaluate --model examples/ner/ecommerce_attribute_model --data examples/ner/dev_split.spacy
+spacylize evaluate --model examples/ner/output/ecommerce_attribute_model --data examples/ner/output/dev_split.spacy
 ```

@@ -16,7 +16,6 @@ length: "2-3 sentences"
 language: "en"
 
 # Quality controls
-temperature: 0.8
 constraints:
   - "Use specific product features"
   - "Include brand names where appropriate"

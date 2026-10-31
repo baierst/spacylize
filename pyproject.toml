@@ -29,6 +29,9 @@ spacylize = "spacylize.cli:app"
 requires = ["setuptools>=61.0.0"]
 build-backend = "setuptools.build_meta"
 
+[tool.setuptools.package-data]
+spacylize = ["templates/*.jinja2"]
+
 [tool.black]
 line-length = 88
 target-version = ["py311"]

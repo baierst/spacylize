@@ -17,7 +17,6 @@ length: "1-2 short paragraphs"
 language: "en"
 
 # Quality controls
-temperature: 0.7
 constraints:
   - "Use realistic, coherent values"
   - "Do NOT reuse the same entity text for different labels"

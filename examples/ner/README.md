@@ -24,10 +24,10 @@ Generate 2000 annotated product descriptions:
 
 ```bash
 spacylize generate \
-  --llm-config-path examples/ner/llm.yaml \
-  --prompt-config-path examples/ner/prompt.yaml \
+  --llm-config-path examples/ner/input/llm.yaml \
+  --prompt-config-path examples/ner/input/prompt.yaml \
   --n-samples 2000 \
-  --output-path examples/ner/train.spacy \
+  --output-path examples/ner/output/train.spacy \
   --task ner
 ```
 
@@ -37,7 +37,7 @@ View annotated samples with entity highlighting in your browser:
 
 ```bash
 spacylize visualize \
-  --input-path examples/ner/train.spacy \
+  --input-path examples/ner/output/train.spacy \
   --n-samples 10 \
   --port 5002
 ```
@@ -50,8 +50,8 @@ Check the quality and distribution of entities:
 
 ```bash
 spacylize validate \
-  --dataset examples/ner/train.spacy \
-  --output-folder examples/ner
+  --dataset examples/ner/output/train.spacy \
+  --output-folder examples/ner/output
 ```
 
 This will generate:
@@ -68,9 +68,9 @@ Split the data into training and development sets:
 
 ```bash
 spacylize split \
-  --input examples/ner/train.spacy \
-  --train examples/ner/train_split.spacy \
-  --dev examples/ner/dev_split.spacy \
+  --input examples/ner/output/train.spacy \
+  --train examples/ner/output/train_split.spacy \
+  --dev examples/ner/output/dev_split.spacy \
   --dev-size 0.2 \
   --seed 42
 ```
@@ -81,9 +81,9 @@ Train a custom SpaCy NER model:
 
 ```bash
 spacylize train \
-  --train-data examples/ner/train_split.spacy \
+  --train-data examples/ner/output/train_split.spacy \
   --base-model en_core_web_sm \
-  --output-model examples/ner/product_ner_model \
+  --output-model examples/ner/output/product_ner_model \
   --n-iter 100 \
   --dropout 0.3
 ```
@@ -94,8 +94,8 @@ Evaluate the trained model on the development set:
 
 ```bash
 spacylize evaluate \
-  --model examples/ner/product_ner_model \
-  --data examples/ner/dev_split.spacy
+  --model examples/ner/output/product_ner_model \
+  --data examples/ner/output/dev_split.spacy
 ```
 
 ## Expected Output Format
