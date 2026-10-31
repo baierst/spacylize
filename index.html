@@ -317,41 +317,41 @@
 <p>This example demonstrates how to use spacylize to generate training data and train a SpaCy model to identify key attributes from e-commerce product descriptions.</p>
 <section id="create-a-prompt-configuration-for-e-commerce-attributes">
 <h2>1. Create a Prompt Configuration for E-commerce Attributes<a class="headerlink" href="#create-a-prompt-configuration-for-e-commerce-attributes" title="Link to this heading"></a></h2>
-<p>See example: <code class="docutils literal notranslate"><span class="pre">examples/ner/prompt.yaml</span></code></p>
+<p>See example: <code class="docutils literal notranslate"><span class="pre">examples/ner/input/prompt.yaml</span></code></p>
 </section>
 <section id="generate-training-data">
 <h2>2. Generate Training Data<a class="headerlink" href="#generate-training-data" title="Link to this heading"></a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>spacylize<span class="w"> </span>generate<span class="w"> </span>--llm-config-path<span class="w"> </span>examples/ner/llm.yaml<span class="w"> </span>--prompt-config-path<span class="w"> </span>examples/ner/prompt.yaml<span class="w"> </span>--n-samples<span class="w"> </span><span class="m">2000</span><span class="w"> </span>--output-path<span class="w"> </span>examples/ner/train.spacy<span class="w"> </span>--task<span class="w"> </span>ner
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>spacylize<span class="w"> </span>generate<span class="w"> </span>--llm-config-path<span class="w"> </span>examples/ner/input/llm.yaml<span class="w"> </span>--prompt-config-path<span class="w"> </span>examples/ner/input/prompt.yaml<span class="w"> </span>--n-samples<span class="w"> </span><span class="m">2000</span><span class="w"> </span>--output-path<span class="w"> </span>examples/ner/output/train.spacy<span class="w"> </span>--task<span class="w"> </span>ner
 </pre></div>
 </div>
 </section>
 <section id="visualize-generated-data">
 <h2>3. Visualize Generated Data<a class="headerlink" href="#visualize-generated-data" title="Link to this heading"></a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>spacylize<span class="w"> </span>visualize<span class="w"> </span>--input-path<span class="w"> </span>examples/ner/train.spacy<span class="w"> </span>--n-samples<span class="w"> </span><span class="m">5</span><span class="w"> </span>--port<span class="w"> </span><span class="m">5002</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>spacylize<span class="w"> </span>visualize<span class="w"> </span>--input-path<span class="w"> </span>examples/ner/output/train.spacy<span class="w"> </span>--n-samples<span class="w"> </span><span class="m">5</span><span class="w"> </span>--port<span class="w"> </span><span class="m">5002</span>
 </pre></div>
 </div>
 </section>
 <section id="validate-data">
 <h2>4. Validate Data<a class="headerlink" href="#validate-data" title="Link to this heading"></a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>spacylize<span class="w"> </span>validate<span class="w"> </span>--dataset<span class="w"> </span>examples/ner/train.spacy<span class="w"> </span>--output-folder<span class="w"> </span>examples/ner
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>spacylize<span class="w"> </span>validate<span class="w"> </span>--dataset<span class="w"> </span>examples/ner/output/train.spacy<span class="w"> </span>--output-folder<span class="w"> </span>examples/ner/output
 </pre></div>
 </div>
 </section>
 <section id="split-dataset-into-train-test-sets">
 <h2>5. Split Dataset into Train/Test Sets<a class="headerlink" href="#split-dataset-into-train-test-sets" title="Link to this heading"></a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>spacylize<span class="w"> </span>split<span class="w"> </span>--input<span class="w"> </span>examples/ner/train.spacy<span class="w"> </span>--train<span class="w"> </span>examples/ner/train_split.spacy<span class="w"> </span>--dev<span class="w"> </span>examples/ner/dev_split.spacy<span class="w"> </span>--dev-size<span class="w"> </span><span class="m">0</span>.2<span class="w"> </span>--seed<span class="w"> </span><span class="m">42</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>spacylize<span class="w"> </span>split<span class="w"> </span>--input<span class="w"> </span>examples/ner/output/train.spacy<span class="w"> </span>--train<span class="w"> </span>examples/ner/output/train_split.spacy<span class="w"> </span>--dev<span class="w"> </span>examples/ner/output/dev_split.spacy<span class="w"> </span>--dev-size<span class="w"> </span><span class="m">0</span>.2<span class="w"> </span>--seed<span class="w"> </span><span class="m">42</span>
 </pre></div>
 </div>
 </section>
 <section id="train-a-spacy-model-for-attribute-extraction">
 <h2>6. Train a SpaCy Model for Attribute Extraction<a class="headerlink" href="#train-a-spacy-model-for-attribute-extraction" title="Link to this heading"></a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>spacylize<span class="w"> </span>train<span class="w"> </span>--train-data<span class="w"> </span>examples/ner/train_split.spacy<span class="w"> </span>--base-model<span class="w"> </span>en_core_web_sm<span class="w"> </span>--output-model<span class="w"> </span>examples/ner/ecommerce_attribute_model<span class="w"> </span>--n-iter<span class="w"> </span><span class="m">100</span><span class="w"> </span>--dropout<span class="w"> </span><span class="m">0</span>.3
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>spacylize<span class="w"> </span>train<span class="w"> </span>--train-data<span class="w"> </span>examples/ner/output/train_split.spacy<span class="w"> </span>--base-model<span class="w"> </span>en_core_web_sm<span class="w"> </span>--output-model<span class="w"> </span>examples/ner/output/ecommerce_attribute_model<span class="w"> </span>--n-iter<span class="w"> </span><span class="m">100</span><span class="w"> </span>--dropout<span class="w"> </span><span class="m">0</span>.3
 </pre></div>
 </div>
 </section>
 <section id="evaluate-a-trained-spacy-model">
 <h2>7. Evaluate a Trained SpaCy Model<a class="headerlink" href="#evaluate-a-trained-spacy-model" title="Link to this heading"></a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>spacylize<span class="w"> </span>evaluate<span class="w"> </span>--model<span class="w"> </span>examples/ner/ecommerce_attribute_model<span class="w"> </span>--data<span class="w"> </span>examples/ner/dev_split.spacy
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>spacylize<span class="w"> </span>evaluate<span class="w"> </span>--model<span class="w"> </span>examples/ner/output/ecommerce_attribute_model<span class="w"> </span>--data<span class="w"> </span>examples/ner/output/dev_split.spacy
 </pre></div>
 </div>
 </section>

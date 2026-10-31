@@ -24,49 +24,49 @@ This example demonstrates how to use spacylize to generate training data and tra
 1. Create a Prompt Configuration for E-commerce Attributes
 -----------------------------------------------------------
 
-See example: ``examples/ner/prompt.yaml``
+See example: ``examples/ner/input/prompt.yaml``
 
 2. Generate Training Data
 --------------------------
 
 .. code-block:: bash
 
-   spacylize generate --llm-config-path examples/ner/llm.yaml --prompt-config-path examples/ner/prompt.yaml --n-samples 2000 --output-path examples/ner/train.spacy --task ner
+   spacylize generate --llm-config-path examples/ner/input/llm.yaml --prompt-config-path examples/ner/input/prompt.yaml --n-samples 2000 --output-path examples/ner/output/train.spacy --task ner
 
 3. Visualize Generated Data
 ----------------------------
 
 .. code-block:: bash
 
-   spacylize visualize --input-path examples/ner/train.spacy --n-samples 5 --port 5002
+   spacylize visualize --input-path examples/ner/output/train.spacy --n-samples 5 --port 5002
 
 4. Validate Data
 -----------------
 
 .. code-block:: bash
 
-   spacylize validate --dataset examples/ner/train.spacy --output-folder examples/ner
+   spacylize validate --dataset examples/ner/output/train.spacy --output-folder examples/ner/output
 
 5. Split Dataset into Train/Test Sets
 --------------------------------------
 
 .. code-block:: bash
 
-   spacylize split --input examples/ner/train.spacy --train examples/ner/train_split.spacy --dev examples/ner/dev_split.spacy --dev-size 0.2 --seed 42
+   spacylize split --input examples/ner/output/train.spacy --train examples/ner/output/train_split.spacy --dev examples/ner/output/dev_split.spacy --dev-size 0.2 --seed 42
 
 6. Train a SpaCy Model for Attribute Extraction
 ------------------------------------------------
 
 .. code-block:: bash
 
-   spacylize train --train-data examples/ner/train_split.spacy --base-model en_core_web_sm --output-model examples/ner/ecommerce_attribute_model --n-iter 100 --dropout 0.3
+   spacylize train --train-data examples/ner/output/train_split.spacy --base-model en_core_web_sm --output-model examples/ner/output/ecommerce_attribute_model --n-iter 100 --dropout 0.3
 
 7. Evaluate a Trained SpaCy Model
 ----------------------------------
 
 .. code-block:: bash
 
-   spacylize evaluate --model examples/ner/ecommerce_attribute_model --data examples/ner/dev_split.spacy
+   spacylize evaluate --model examples/ner/output/ecommerce_attribute_model --data examples/ner/output/dev_split.spacy
 
 API Reference
 =============

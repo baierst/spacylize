@@ -382,7 +382,7 @@
 <span class="sd">        tone: Writing style (e.g., &quot;professional&quot;, &quot;casual&quot;, &quot;technical&quot;).</span>
 <span class="sd">        length: Expected length of generated text (e.g., &quot;2-3 sentences&quot;).</span>
 <span class="sd">        language: ISO language code (e.g., &quot;en&quot;, &quot;de&quot;, &quot;es&quot;).</span>
-<span class="sd">        temperature: LLM temperature for generation (0.0-1.0).</span>
+<span class="sd">        temperature: Optional LLM temperature (0.0-1.0). Omitted if None.</span>
 <span class="sd">        constraints: Additional rules or constraints for generation.</span>
 <span class="sd">        examples: Few-shot examples to guide the LLM.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -393,7 +393,7 @@
     <span class="n">tone</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;professional&quot;</span>
     <span class="n">length</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;1-2 paragraphs&quot;</span>
     <span class="n">language</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;en&quot;</span>
-    <span class="n">temperature</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+    <span class="n">temperature</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
     <span class="n">constraints</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">examples</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">NERExample</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
 
@@ -454,7 +454,7 @@
 <span class="sd">        tone: Writing style (e.g., &quot;professional&quot;, &quot;casual&quot;, &quot;marketing&quot;).</span>
 <span class="sd">        length: Expected length of generated text (e.g., &quot;2-3 sentences&quot;).</span>
 <span class="sd">        language: ISO language code (e.g., &quot;en&quot;, &quot;de&quot;, &quot;es&quot;).</span>
-<span class="sd">        temperature: LLM temperature for generation (0.0-1.0).</span>
+<span class="sd">        temperature: Optional LLM temperature (0.0-1.0). Omitted if None.</span>
 <span class="sd">        constraints: Additional rules or constraints for generation.</span>
 <span class="sd">        examples: Few-shot examples to guide the LLM.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -465,7 +465,7 @@
     <span class="n">tone</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;professional&quot;</span>
     <span class="n">length</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;2-3 sentences&quot;</span>
     <span class="n">language</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;en&quot;</span>
-    <span class="n">temperature</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+    <span class="n">temperature</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
     <span class="n">constraints</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">examples</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">TextCatExample</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
 
