@@ -7,6 +7,7 @@ Spacylize is a tool that distills the capabilities of large language models into
 
 * Python 3.10+
 * `uv <https://docs.astral.sh/uv/>`_
+* `Ollama <https://ollama.com>`_ for the default local model
 
 **Installation:**
 
@@ -15,6 +16,14 @@ Spacylize is a tool that distills the capabilities of large language models into
    uv sync
 
 Run the CLI with ``uv run spacylize --help``.
+
+**Local model (Ollama):** the examples use ``gemma4`` via Ollama by default. Install Ollama, then pull the model:
+
+.. code-block:: bash
+
+   ollama pull gemma4
+
+Spacylize talks to Ollama at ``http://localhost:11434``. To use a cloud provider instead, switch the model in ``llm.yaml``.
 
 Getting Started
 ===============

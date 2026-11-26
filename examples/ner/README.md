@@ -15,8 +15,8 @@ This example extracts the following entities:
 
 ## Prerequisites
 
-- Anthropic API key set as `ANTHROPIC_API_KEY` environment variable
-- Alternatively, configure `llm.yaml` to use Ollama or another LLM provider
+- Ollama running with `gemma4` pulled (`ollama pull gemma4`), see the main README
+- Alternatively, switch `llm.yaml` to a cloud provider (e.g. Anthropic with `ANTHROPIC_API_KEY`)
 
 ## Generate Training Data
 
