@@ -98,6 +98,7 @@
 <li class="toctree-l3"><a class="reference internal" href="validator.html#spacylize.validator.DataValidator.nlp"><code class="docutils literal notranslate"><span class="pre">DataValidator.nlp</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="validator.html#spacylize.validator.DataValidator.json_path"><code class="docutils literal notranslate"><span class="pre">DataValidator.json_path</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="validator.html#spacylize.validator.DataValidator.png_path"><code class="docutils literal notranslate"><span class="pre">DataValidator.png_path</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="validator.html#spacylize.validator.DataValidator.html_path"><code class="docutils literal notranslate"><span class="pre">DataValidator.html_path</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="validator.html#spacylize.validator.DataValidator.__init__"><code class="docutils literal notranslate"><span class="pre">DataValidator.__init__()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="validator.html#spacylize.validator.DataValidator.run"><code class="docutils literal notranslate"><span class="pre">DataValidator.run()</span></code></a></li>
 </ul>
@@ -192,6 +193,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#id14"><code class="docutils literal notranslate"><span class="pre">NERStructuredConfig.constraints</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id15"><code class="docutils literal notranslate"><span class="pre">NERStructuredConfig.examples</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#spacylize.prompt_config.NERStructuredConfig.validate_entities"><code class="docutils literal notranslate"><span class="pre">NERStructuredConfig.validate_entities()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#spacylize.prompt_config.NERStructuredConfig.labels"><code class="docutils literal notranslate"><span class="pre">NERStructuredConfig.labels</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#spacylize.prompt_config.NERStructuredConfig.model_config"><code class="docutils literal notranslate"><span class="pre">NERStructuredConfig.model_config</span></code></a></li>
 </ul>
 </li>
@@ -231,10 +233,12 @@
 <li class="toctree-l3"><a class="reference internal" href="#id27"><code class="docutils literal notranslate"><span class="pre">TextCatStructuredConfig.constraints</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id28"><code class="docutils literal notranslate"><span class="pre">TextCatStructuredConfig.examples</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#spacylize.prompt_config.TextCatStructuredConfig.validate_categories"><code class="docutils literal notranslate"><span class="pre">TextCatStructuredConfig.validate_categories()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#spacylize.prompt_config.TextCatStructuredConfig.labels"><code class="docutils literal notranslate"><span class="pre">TextCatStructuredConfig.labels</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#spacylize.prompt_config.TextCatStructuredConfig.model_config"><code class="docutils literal notranslate"><span class="pre">TextCatStructuredConfig.model_config</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#spacylize.prompt_config.load_prompt_config"><code class="docutils literal notranslate"><span class="pre">load_prompt_config()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#spacylize.prompt_config.load_structured_config"><code class="docutils literal notranslate"><span class="pre">load_structured_config()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="splitter.html">Dataset Splitting</a><ul>
@@ -653,6 +657,12 @@ and user messages for LLM interactions.</p>
 <dd><p>Ensure at least one entity is specified.</p>
 </dd></dl>
 
+<dl class="py property">
+<dt class="sig sig-object py" id="spacylize.prompt_config.NERStructuredConfig.labels">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">labels</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#spacylize.prompt_config.NERStructuredConfig.labels" title="Link to this definition"></a></dt>
+<dd><p>Configured entity labels.</p>
+</dd></dl>
+
 <dl class="py attribute">
 <dt class="sig sig-object py" id="spacylize.prompt_config.NERStructuredConfig.model_config">
 <span class="sig-name descname"><span class="pre">model_config</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></span><a class="headerlink" href="#spacylize.prompt_config.NERStructuredConfig.model_config" title="Link to this definition"></a></dt>
@@ -938,6 +948,12 @@ and user messages for LLM interactions.</p>
 <dd><p>Ensure at least two categories are specified.</p>
 </dd></dl>
 
+<dl class="py property">
+<dt class="sig sig-object py" id="spacylize.prompt_config.TextCatStructuredConfig.labels">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">labels</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#spacylize.prompt_config.TextCatStructuredConfig.labels" title="Link to this definition"></a></dt>
+<dd><p>Configured category names.</p>
+</dd></dl>
+
 <dl class="py attribute">
 <dt class="sig sig-object py" id="spacylize.prompt_config.TextCatStructuredConfig.model_config">
 <span class="sig-name descname"><span class="pre">model_config</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></span><a class="headerlink" href="#spacylize.prompt_config.TextCatStructuredConfig.model_config" title="Link to this definition"></a></dt>
@@ -969,6 +985,28 @@ templates handle the prompt engineering.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="#spacylize.prompt_config.PromptConfig" title="spacylize.prompt_config.PromptConfig"><em>PromptConfig</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="spacylize.prompt_config.load_structured_config">
+<span class="sig-prename descclassname"><span class="pre">spacylize.prompt_config.</span></span><span class="sig-name descname"><span class="pre">load_structured_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spacylize/prompt_config.html#load_structured_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spacylize.prompt_config.load_structured_config" title="Link to this definition"></a></dt>
+<dd><p>Load and validate a structured prompt configuration from YAML.</p>
+<p>Unlike load_prompt_config, this does not render the prompts, so it can be
+used to read the task and labels, e.g. for validating a dataset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>Path</em>) – Path to the structured config YAML file.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>NERStructuredConfig or TextCatStructuredConfig.</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>RuntimeError</strong> – If the configuration is invalid or missing required fields.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#spacylize.prompt_config.NERStructuredConfig" title="spacylize.prompt_config.NERStructuredConfig"><em>NERStructuredConfig</em></a> | <a class="reference internal" href="#spacylize.prompt_config.TextCatStructuredConfig" title="spacylize.prompt_config.TextCatStructuredConfig"><em>TextCatStructuredConfig</em></a></p>
 </dd>
 </dl>
 </dd></dl>

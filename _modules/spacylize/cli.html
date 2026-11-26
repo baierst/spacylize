@@ -95,6 +95,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../api/validator.html#spacylize.validator.DataValidator.nlp"><code class="docutils literal notranslate"><span class="pre">DataValidator.nlp</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/validator.html#spacylize.validator.DataValidator.json_path"><code class="docutils literal notranslate"><span class="pre">DataValidator.json_path</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/validator.html#spacylize.validator.DataValidator.png_path"><code class="docutils literal notranslate"><span class="pre">DataValidator.png_path</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/validator.html#spacylize.validator.DataValidator.html_path"><code class="docutils literal notranslate"><span class="pre">DataValidator.html_path</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/validator.html#spacylize.validator.DataValidator.__init__"><code class="docutils literal notranslate"><span class="pre">DataValidator.__init__()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/validator.html#spacylize.validator.DataValidator.run"><code class="docutils literal notranslate"><span class="pre">DataValidator.run()</span></code></a></li>
 </ul>
@@ -189,6 +190,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../api/prompt_config.html#id14"><code class="docutils literal notranslate"><span class="pre">NERStructuredConfig.constraints</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/prompt_config.html#id15"><code class="docutils literal notranslate"><span class="pre">NERStructuredConfig.examples</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/prompt_config.html#spacylize.prompt_config.NERStructuredConfig.validate_entities"><code class="docutils literal notranslate"><span class="pre">NERStructuredConfig.validate_entities()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/prompt_config.html#spacylize.prompt_config.NERStructuredConfig.labels"><code class="docutils literal notranslate"><span class="pre">NERStructuredConfig.labels</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/prompt_config.html#spacylize.prompt_config.NERStructuredConfig.model_config"><code class="docutils literal notranslate"><span class="pre">NERStructuredConfig.model_config</span></code></a></li>
 </ul>
 </li>
@@ -228,10 +230,12 @@
 <li class="toctree-l3"><a class="reference internal" href="../../api/prompt_config.html#id27"><code class="docutils literal notranslate"><span class="pre">TextCatStructuredConfig.constraints</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/prompt_config.html#id28"><code class="docutils literal notranslate"><span class="pre">TextCatStructuredConfig.examples</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/prompt_config.html#spacylize.prompt_config.TextCatStructuredConfig.validate_categories"><code class="docutils literal notranslate"><span class="pre">TextCatStructuredConfig.validate_categories()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/prompt_config.html#spacylize.prompt_config.TextCatStructuredConfig.labels"><code class="docutils literal notranslate"><span class="pre">TextCatStructuredConfig.labels</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/prompt_config.html#spacylize.prompt_config.TextCatStructuredConfig.model_config"><code class="docutils literal notranslate"><span class="pre">TextCatStructuredConfig.model_config</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/prompt_config.html#spacylize.prompt_config.load_prompt_config"><code class="docutils literal notranslate"><span class="pre">load_prompt_config()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/prompt_config.html#spacylize.prompt_config.load_structured_config"><code class="docutils literal notranslate"><span class="pre">load_structured_config()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/splitter.html">Dataset Splitting</a><ul>
@@ -305,6 +309,7 @@
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">typer</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">webbrowser</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">spacylize.evaluator</span><span class="w"> </span><span class="kn">import</span> <span class="n">ModelEvaluator</span>
@@ -466,6 +471,21 @@
         <span class="s2">&quot;-t&quot;</span><span class="p">,</span>
         <span class="n">help</span><span class="o">=</span><span class="s2">&quot;The SpaCy task type (ner or textcat). Auto-detects if not specified.&quot;</span><span class="p">,</span>
     <span class="p">),</span>
+    <span class="n">open_dashboard</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Option</span><span class="p">(</span>
+        <span class="kc">False</span><span class="p">,</span>
+        <span class="s2">&quot;--open&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Open the HTML dashboard in the browser.&quot;</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="n">prompt_config_path</span><span class="p">:</span> <span class="n">Path</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Option</span><span class="p">(</span>
+        <span class="kc">None</span><span class="p">,</span>
+        <span class="s2">&quot;--prompt-config&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;--prompt-config-path&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Prompt configuration YAML used to create the dataset. If given, the &quot;</span>
+        <span class="s2">&quot;dataset labels are checked against the configured labels.&quot;</span><span class="p">,</span>
+        <span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">file_okay</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">dir_okay</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">),</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    CLI entry point for validating a SpaCy dataset.</span>
@@ -475,8 +495,11 @@
             <span class="n">dataset_path</span><span class="o">=</span><span class="n">dataset</span><span class="p">,</span>
             <span class="n">output_folder</span><span class="o">=</span><span class="n">output_folder</span><span class="p">,</span>
             <span class="n">task</span><span class="o">=</span><span class="n">task</span><span class="p">,</span>
+            <span class="n">prompt_config_path</span><span class="o">=</span><span class="n">prompt_config_path</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="n">validator</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">open_dashboard</span><span class="p">:</span>
+            <span class="n">webbrowser</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">validator</span><span class="o">.</span><span class="n">html_path</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">as_uri</span><span class="p">())</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[Error] </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">raise</span> <span class="n">typer</span><span class="o">.</span><span class="n">Exit</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span></div>

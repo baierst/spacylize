@@ -95,6 +95,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../api/validator.html#spacylize.validator.DataValidator.nlp"><code class="docutils literal notranslate"><span class="pre">DataValidator.nlp</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/validator.html#spacylize.validator.DataValidator.json_path"><code class="docutils literal notranslate"><span class="pre">DataValidator.json_path</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/validator.html#spacylize.validator.DataValidator.png_path"><code class="docutils literal notranslate"><span class="pre">DataValidator.png_path</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/validator.html#spacylize.validator.DataValidator.html_path"><code class="docutils literal notranslate"><span class="pre">DataValidator.html_path</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/validator.html#spacylize.validator.DataValidator.__init__"><code class="docutils literal notranslate"><span class="pre">DataValidator.__init__()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/validator.html#spacylize.validator.DataValidator.run"><code class="docutils literal notranslate"><span class="pre">DataValidator.run()</span></code></a></li>
 </ul>
@@ -189,6 +190,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../api/prompt_config.html#id14"><code class="docutils literal notranslate"><span class="pre">NERStructuredConfig.constraints</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/prompt_config.html#id15"><code class="docutils literal notranslate"><span class="pre">NERStructuredConfig.examples</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/prompt_config.html#spacylize.prompt_config.NERStructuredConfig.validate_entities"><code class="docutils literal notranslate"><span class="pre">NERStructuredConfig.validate_entities()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/prompt_config.html#spacylize.prompt_config.NERStructuredConfig.labels"><code class="docutils literal notranslate"><span class="pre">NERStructuredConfig.labels</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/prompt_config.html#spacylize.prompt_config.NERStructuredConfig.model_config"><code class="docutils literal notranslate"><span class="pre">NERStructuredConfig.model_config</span></code></a></li>
 </ul>
 </li>
@@ -228,10 +230,12 @@
 <li class="toctree-l3"><a class="reference internal" href="../../api/prompt_config.html#id27"><code class="docutils literal notranslate"><span class="pre">TextCatStructuredConfig.constraints</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/prompt_config.html#id28"><code class="docutils literal notranslate"><span class="pre">TextCatStructuredConfig.examples</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/prompt_config.html#spacylize.prompt_config.TextCatStructuredConfig.validate_categories"><code class="docutils literal notranslate"><span class="pre">TextCatStructuredConfig.validate_categories()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/prompt_config.html#spacylize.prompt_config.TextCatStructuredConfig.labels"><code class="docutils literal notranslate"><span class="pre">TextCatStructuredConfig.labels</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/prompt_config.html#spacylize.prompt_config.TextCatStructuredConfig.model_config"><code class="docutils literal notranslate"><span class="pre">TextCatStructuredConfig.model_config</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/prompt_config.html#spacylize.prompt_config.load_prompt_config"><code class="docutils literal notranslate"><span class="pre">load_prompt_config()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/prompt_config.html#spacylize.prompt_config.load_structured_config"><code class="docutils literal notranslate"><span class="pre">load_structured_config()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/splitter.html">Dataset Splitting</a><ul>
@@ -406,7 +410,12 @@
         <span class="k">if</span> <span class="ow">not</span> <span class="n">v</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;At least one entity required&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">v</span></div>
-</div>
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">labels</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Configured entity labels.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">entities</span></div>
 
 
 
@@ -478,7 +487,12 @@
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;At least two categories required&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">v</span></div>
-</div>
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">labels</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Configured category names.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">category</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">category</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">categories</span><span class="p">]</span></div>
 
 
 
@@ -534,44 +548,63 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">loguru</span><span class="w"> </span><span class="kn">import</span> <span class="n">logger</span>
 
+    <span class="n">structured_config</span> <span class="o">=</span> <span class="n">load_structured_config</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+    <span class="n">prompt_config</span> <span class="o">=</span> <span class="n">_render_structured_config</span><span class="p">(</span><span class="n">structured_config</span><span class="p">)</span>
+
+    <span class="c1"># Write rendered prompts to output folder for user verification</span>
+    <span class="k">if</span> <span class="n">output_folder</span><span class="p">:</span>
+        <span class="n">output_folder</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">output_folder</span><span class="p">)</span>
+        <span class="n">output_folder</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="n">system_file</span> <span class="o">=</span> <span class="n">output_folder</span> <span class="o">/</span> <span class="s2">&quot;system_prompt.txt&quot;</span>
+        <span class="n">user_file</span> <span class="o">=</span> <span class="n">output_folder</span> <span class="o">/</span> <span class="s2">&quot;user_prompt.txt&quot;</span>
+
+        <span class="n">system_file</span><span class="o">.</span><span class="n">write_text</span><span class="p">(</span><span class="n">prompt_config</span><span class="o">.</span><span class="n">system</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+        <span class="n">user_file</span><span class="o">.</span><span class="n">write_text</span><span class="p">(</span><span class="n">prompt_config</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Rendered prompts saved to </span><span class="si">{</span><span class="n">output_folder</span><span class="si">}</span><span class="s2">/&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">prompt_config</span></div>
+
+
+
+<div class="viewcode-block" id="load_structured_config">
+<a class="viewcode-back" href="../../api/prompt_config.html#spacylize.prompt_config.load_structured_config">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">load_structured_config</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">StructuredConfig</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Load and validate a structured prompt configuration from YAML.</span>
+
+<span class="sd">    Unlike load_prompt_config, this does not render the prompts, so it can be</span>
+<span class="sd">    used to read the task and labels, e.g. for validating a dataset.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        path: Path to the structured config YAML file.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        NERStructuredConfig or TextCatStructuredConfig.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        RuntimeError: If the configuration is invalid or missing required fields.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
         <span class="n">raw</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
 
     <span class="n">expanded</span> <span class="o">=</span> <span class="n">expand_env_vars</span><span class="p">(</span><span class="n">raw</span><span class="p">)</span>
 
+    <span class="n">task</span> <span class="o">=</span> <span class="n">expanded</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;task&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">task</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+            <span class="s2">&quot;Missing &#39;task&#39; field in config. Must be &#39;ner&#39; or &#39;textcat&#39;.&quot;</span>
+        <span class="p">)</span>
+
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">task</span> <span class="o">=</span> <span class="n">expanded</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;task&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">task</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
-                <span class="s2">&quot;Missing &#39;task&#39; field in config. Must be &#39;ner&#39; or &#39;textcat&#39;.&quot;</span>
-            <span class="p">)</span>
-
         <span class="k">if</span> <span class="n">task</span> <span class="o">==</span> <span class="s2">&quot;ner&quot;</span><span class="p">:</span>
-            <span class="n">structured_config</span> <span class="o">=</span> <span class="n">NERStructuredConfig</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span><span class="n">expanded</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="n">task</span> <span class="o">==</span> <span class="s2">&quot;textcat&quot;</span><span class="p">:</span>
-            <span class="n">structured_config</span> <span class="o">=</span> <span class="n">TextCatStructuredConfig</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span><span class="n">expanded</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unsupported task: </span><span class="si">{</span><span class="n">task</span><span class="si">}</span><span class="s2">. Must be &#39;ner&#39; or &#39;textcat&#39;.&quot;</span><span class="p">)</span>
-
-        <span class="n">prompt_config</span> <span class="o">=</span> <span class="n">_render_structured_config</span><span class="p">(</span><span class="n">structured_config</span><span class="p">)</span>
-
-        <span class="c1"># Write rendered prompts to output folder for user verification</span>
-        <span class="k">if</span> <span class="n">output_folder</span><span class="p">:</span>
-            <span class="n">output_folder</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">output_folder</span><span class="p">)</span>
-            <span class="n">output_folder</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
-            <span class="n">system_file</span> <span class="o">=</span> <span class="n">output_folder</span> <span class="o">/</span> <span class="s2">&quot;system_prompt.txt&quot;</span>
-            <span class="n">user_file</span> <span class="o">=</span> <span class="n">output_folder</span> <span class="o">/</span> <span class="s2">&quot;user_prompt.txt&quot;</span>
-
-            <span class="n">system_file</span><span class="o">.</span><span class="n">write_text</span><span class="p">(</span><span class="n">prompt_config</span><span class="o">.</span><span class="n">system</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
-            <span class="n">user_file</span><span class="o">.</span><span class="n">write_text</span><span class="p">(</span><span class="n">prompt_config</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
-
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Rendered prompts saved to </span><span class="si">{</span><span class="n">output_folder</span><span class="si">}</span><span class="s2">/&quot;</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="n">prompt_config</span>
-
+            <span class="k">return</span> <span class="n">NERStructuredConfig</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span><span class="n">expanded</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">task</span> <span class="o">==</span> <span class="s2">&quot;textcat&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">TextCatStructuredConfig</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span><span class="n">expanded</span><span class="p">)</span>
     <span class="k">except</span> <span class="n">ValidationError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid structured config:</span><span class="se">\n</span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid structured config:</span><span class="se">\n</span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
+
+    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unsupported task: </span><span class="si">{</span><span class="n">task</span><span class="si">}</span><span class="s2">. Must be &#39;ner&#39; or &#39;textcat&#39;.&quot;</span><span class="p">)</span></div>
 
 </pre></div>
 

@@ -95,6 +95,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../api/validator.html#spacylize.validator.DataValidator.nlp"><code class="docutils literal notranslate"><span class="pre">DataValidator.nlp</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/validator.html#spacylize.validator.DataValidator.json_path"><code class="docutils literal notranslate"><span class="pre">DataValidator.json_path</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/validator.html#spacylize.validator.DataValidator.png_path"><code class="docutils literal notranslate"><span class="pre">DataValidator.png_path</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/validator.html#spacylize.validator.DataValidator.html_path"><code class="docutils literal notranslate"><span class="pre">DataValidator.html_path</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/validator.html#spacylize.validator.DataValidator.__init__"><code class="docutils literal notranslate"><span class="pre">DataValidator.__init__()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/validator.html#spacylize.validator.DataValidator.run"><code class="docutils literal notranslate"><span class="pre">DataValidator.run()</span></code></a></li>
 </ul>
@@ -189,6 +190,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../api/prompt_config.html#id14"><code class="docutils literal notranslate"><span class="pre">NERStructuredConfig.constraints</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/prompt_config.html#id15"><code class="docutils literal notranslate"><span class="pre">NERStructuredConfig.examples</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/prompt_config.html#spacylize.prompt_config.NERStructuredConfig.validate_entities"><code class="docutils literal notranslate"><span class="pre">NERStructuredConfig.validate_entities()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/prompt_config.html#spacylize.prompt_config.NERStructuredConfig.labels"><code class="docutils literal notranslate"><span class="pre">NERStructuredConfig.labels</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/prompt_config.html#spacylize.prompt_config.NERStructuredConfig.model_config"><code class="docutils literal notranslate"><span class="pre">NERStructuredConfig.model_config</span></code></a></li>
 </ul>
 </li>
@@ -228,10 +230,12 @@
 <li class="toctree-l3"><a class="reference internal" href="../../api/prompt_config.html#id27"><code class="docutils literal notranslate"><span class="pre">TextCatStructuredConfig.constraints</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/prompt_config.html#id28"><code class="docutils literal notranslate"><span class="pre">TextCatStructuredConfig.examples</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/prompt_config.html#spacylize.prompt_config.TextCatStructuredConfig.validate_categories"><code class="docutils literal notranslate"><span class="pre">TextCatStructuredConfig.validate_categories()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/prompt_config.html#spacylize.prompt_config.TextCatStructuredConfig.labels"><code class="docutils literal notranslate"><span class="pre">TextCatStructuredConfig.labels</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/prompt_config.html#spacylize.prompt_config.TextCatStructuredConfig.model_config"><code class="docutils literal notranslate"><span class="pre">TextCatStructuredConfig.model_config</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/prompt_config.html#spacylize.prompt_config.load_prompt_config"><code class="docutils literal notranslate"><span class="pre">load_prompt_config()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/prompt_config.html#spacylize.prompt_config.load_structured_config"><code class="docutils literal notranslate"><span class="pre">load_structured_config()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/splitter.html">Dataset Splitting</a><ul>
@@ -311,6 +315,10 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">spacy.tokens</span><span class="w"> </span><span class="kn">import</span> <span class="n">DocBin</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 
+<span class="kn">from</span><span class="w"> </span><span class="nn">spacylize</span><span class="w"> </span><span class="kn">import</span> <span class="n">analysis</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">spacylize.dashboard</span><span class="w"> </span><span class="kn">import</span> <span class="n">write_dashboard</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">spacylize.prompt_config</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_structured_config</span>
+
 
 <div class="viewcode-block" id="DataValidator">
 <a class="viewcode-back" href="../../api/validator.html#spacylize.validator.DataValidator">[docs]</a>
@@ -328,17 +336,26 @@
 <span class="sd">        nlp: Blank SpaCy language model for processing.</span>
 <span class="sd">        json_path: Path where JSON report will be saved.</span>
 <span class="sd">        png_path: Path where visualization plots will be saved.</span>
+<span class="sd">        html_path: Path where the HTML dashboard will be saved.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="DataValidator.__init__">
 <a class="viewcode-back" href="../../api/validator.html#spacylize.validator.DataValidator.__init__">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataset_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">output_folder</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">task</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">dataset_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">output_folder</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">task</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">prompt_config_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the DataValidator.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            dataset_path: Path to the SpaCy dataset file (.spacy) to validate.</span>
 <span class="sd">            output_folder: Directory where validation reports will be saved.</span>
 <span class="sd">            task: Optional task type (&#39;ner&#39; or &#39;textcat&#39;). Auto-detects if not specified.</span>
+<span class="sd">            prompt_config_path: Optional prompt config. If given, the dataset labels</span>
+<span class="sd">                are checked against the configured labels.</span>
 
 <span class="sd">        Raises:</span>
 <span class="sd">            ValueError: If the task is invalid or cannot be detected.</span>
@@ -346,6 +363,12 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">dataset_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">dataset_path</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">output_folder</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">output_folder</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">nlp</span> <span class="o">=</span> <span class="n">spacy</span><span class="o">.</span><span class="n">blank</span><span class="p">(</span><span class="s2">&quot;en&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">labels</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">prompt_config_path</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">config</span> <span class="o">=</span> <span class="n">load_structured_config</span><span class="p">(</span><span class="n">prompt_config_path</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">labels</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">labels</span>
+            <span class="n">task</span> <span class="o">=</span> <span class="n">task</span> <span class="ow">or</span> <span class="n">config</span><span class="o">.</span><span class="n">task</span>
 
         <span class="c1"># Auto-detect task if not specified</span>
         <span class="k">if</span> <span class="n">task</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -363,7 +386,8 @@
 
         <span class="n">dataset_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataset_path</span><span class="o">.</span><span class="n">stem</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">json_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_folder</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">dataset_name</span><span class="si">}</span><span class="s2">_report.json&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">png_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_folder</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">dataset_name</span><span class="si">}</span><span class="s2">_report.png&quot;</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">png_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_folder</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">dataset_name</span><span class="si">}</span><span class="s2">_report.png&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">html_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_folder</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">dataset_name</span><span class="si">}</span><span class="s2">_report.html&quot;</span></div>
 
 
 <div class="viewcode-block" id="DataValidator.run">
@@ -436,7 +460,15 @@
             <span class="p">},</span>
         <span class="p">}</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_write_json</span><span class="p">(</span><span class="n">report</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_write_reports</span><span class="p">(</span>
+            <span class="n">docs</span><span class="p">,</span>
+            <span class="n">report</span><span class="p">,</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;Tokens per Document&quot;</span><span class="p">:</span> <span class="n">doc_lengths</span><span class="p">,</span>
+                <span class="s2">&quot;Entities per Document&quot;</span><span class="p">:</span> <span class="n">ents_per_doc</span><span class="p">,</span>
+                <span class="s2">&quot;Entity Label Distribution&quot;</span><span class="p">:</span> <span class="n">entity_label_counts</span><span class="p">,</span>
+            <span class="p">},</span>
+        <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_write_plots</span><span class="p">(</span>
             <span class="n">doc_lengths</span><span class="p">,</span>
             <span class="n">ents_per_doc</span><span class="p">,</span>
@@ -476,7 +508,11 @@
             <span class="p">},</span>
         <span class="p">}</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_write_json</span><span class="p">(</span><span class="n">report</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_write_reports</span><span class="p">(</span>
+            <span class="n">docs</span><span class="p">,</span>
+            <span class="n">report</span><span class="p">,</span>
+            <span class="p">{</span><span class="s2">&quot;Tokens per Document&quot;</span><span class="p">:</span> <span class="n">doc_lengths</span><span class="p">,</span> <span class="s2">&quot;Label Distribution&quot;</span><span class="p">:</span> <span class="n">label_counts</span><span class="p">},</span>
+        <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_write_textcat_plots</span><span class="p">(</span><span class="n">doc_lengths</span><span class="p">,</span> <span class="n">label_counts</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_load_docs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -535,6 +571,31 @@
             <span class="s2">&quot;max&quot;</span><span class="p">:</span> <span class="nb">max</span><span class="p">(</span><span class="n">values</span><span class="p">),</span>
             <span class="s2">&quot;mean&quot;</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">statistics</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">values</span><span class="p">),</span> <span class="mi">2</span><span class="p">),</span>
         <span class="p">}</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_write_reports</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">docs</span><span class="p">,</span> <span class="n">report</span><span class="p">,</span> <span class="n">distributions</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add quality checks to the report, then write the JSON report and the dashboard.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            docs: List of SpaCy Doc objects.</span>
+<span class="sd">            report: Dictionary containing validation statistics.</span>
+<span class="sd">            distributions: Charts for the dashboard, as title -&gt; list (histogram)</span>
+<span class="sd">                or dict (bar chart).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">texts</span> <span class="o">=</span> <span class="p">[</span><span class="n">doc</span><span class="o">.</span><span class="n">text</span> <span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">docs</span><span class="p">]</span>
+        <span class="n">vectors</span> <span class="o">=</span> <span class="n">analysis</span><span class="o">.</span><span class="n">embed</span><span class="p">(</span><span class="n">texts</span><span class="p">)</span>
+        <span class="n">report</span><span class="p">[</span><span class="s2">&quot;quality&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;duplicates&quot;</span><span class="p">:</span> <span class="n">analysis</span><span class="o">.</span><span class="n">find_duplicates</span><span class="p">(</span><span class="n">texts</span><span class="p">,</span> <span class="n">vectors</span><span class="p">),</span>
+            <span class="s2">&quot;diversity&quot;</span><span class="p">:</span> <span class="n">analysis</span><span class="o">.</span><span class="n">diversity</span><span class="p">(</span><span class="n">docs</span><span class="p">),</span>
+            <span class="s2">&quot;labels&quot;</span><span class="p">:</span> <span class="n">analysis</span><span class="o">.</span><span class="n">label_quality</span><span class="p">(</span><span class="n">docs</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">task</span><span class="p">),</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">labels</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">report</span><span class="p">[</span><span class="s2">&quot;quality&quot;</span><span class="p">][</span><span class="s2">&quot;label_check&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">analysis</span><span class="o">.</span><span class="n">check_labels</span><span class="p">(</span>
+                <span class="n">docs</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">task</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">labels</span>
+            <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_write_json</span><span class="p">(</span><span class="n">report</span><span class="p">)</span>
+        <span class="n">coords</span> <span class="o">=</span> <span class="n">analysis</span><span class="o">.</span><span class="n">project_2d</span><span class="p">(</span><span class="n">vectors</span><span class="p">)</span>
+        <span class="n">write_dashboard</span><span class="p">(</span><span class="n">report</span><span class="p">,</span> <span class="n">distributions</span><span class="p">,</span> <span class="n">texts</span><span class="p">,</span> <span class="n">coords</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">html_path</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_write_json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">report</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Write the validation report to a JSON file.</span>

@@ -98,6 +98,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#spacylize.validator.DataValidator.nlp"><code class="docutils literal notranslate"><span class="pre">DataValidator.nlp</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#spacylize.validator.DataValidator.json_path"><code class="docutils literal notranslate"><span class="pre">DataValidator.json_path</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#spacylize.validator.DataValidator.png_path"><code class="docutils literal notranslate"><span class="pre">DataValidator.png_path</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#spacylize.validator.DataValidator.html_path"><code class="docutils literal notranslate"><span class="pre">DataValidator.html_path</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#spacylize.validator.DataValidator.__init__"><code class="docutils literal notranslate"><span class="pre">DataValidator.__init__()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#spacylize.validator.DataValidator.run"><code class="docutils literal notranslate"><span class="pre">DataValidator.run()</span></code></a></li>
 </ul>
@@ -192,6 +193,7 @@
 <li class="toctree-l3"><a class="reference internal" href="prompt_config.html#id14"><code class="docutils literal notranslate"><span class="pre">NERStructuredConfig.constraints</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="prompt_config.html#id15"><code class="docutils literal notranslate"><span class="pre">NERStructuredConfig.examples</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="prompt_config.html#spacylize.prompt_config.NERStructuredConfig.validate_entities"><code class="docutils literal notranslate"><span class="pre">NERStructuredConfig.validate_entities()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="prompt_config.html#spacylize.prompt_config.NERStructuredConfig.labels"><code class="docutils literal notranslate"><span class="pre">NERStructuredConfig.labels</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="prompt_config.html#spacylize.prompt_config.NERStructuredConfig.model_config"><code class="docutils literal notranslate"><span class="pre">NERStructuredConfig.model_config</span></code></a></li>
 </ul>
 </li>
@@ -231,10 +233,12 @@
 <li class="toctree-l3"><a class="reference internal" href="prompt_config.html#id27"><code class="docutils literal notranslate"><span class="pre">TextCatStructuredConfig.constraints</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="prompt_config.html#id28"><code class="docutils literal notranslate"><span class="pre">TextCatStructuredConfig.examples</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="prompt_config.html#spacylize.prompt_config.TextCatStructuredConfig.validate_categories"><code class="docutils literal notranslate"><span class="pre">TextCatStructuredConfig.validate_categories()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="prompt_config.html#spacylize.prompt_config.TextCatStructuredConfig.labels"><code class="docutils literal notranslate"><span class="pre">TextCatStructuredConfig.labels</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="prompt_config.html#spacylize.prompt_config.TextCatStructuredConfig.model_config"><code class="docutils literal notranslate"><span class="pre">TextCatStructuredConfig.model_config</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="prompt_config.html#spacylize.prompt_config.load_prompt_config"><code class="docutils literal notranslate"><span class="pre">load_prompt_config()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="prompt_config.html#spacylize.prompt_config.load_structured_config"><code class="docutils literal notranslate"><span class="pre">load_structured_config()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="splitter.html">Dataset Splitting</a><ul>
@@ -307,7 +311,7 @@ datasets, generate quality reports with statistics, and create visualizations
 of dataset characteristics.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="spacylize.validator.DataValidator">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">spacylize.validator.</span></span><span class="sig-name descname"><span class="pre">DataValidator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spacylize/validator.html#DataValidator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spacylize.validator.DataValidator" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">spacylize.validator.</span></span><span class="sig-name descname"><span class="pre">DataValidator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prompt_config_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spacylize/validator.html#DataValidator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spacylize.validator.DataValidator" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Validator for SpaCy datasets that generates quality reports and visualizations.</p>
 <p>Analyzes datasets to compute statistics about document lengths, entity/category
@@ -319,6 +323,7 @@ tasks. Outputs both JSON reports and visualization plots.</p>
 <li><p><strong>dataset_path</strong> (<em>str</em>)</p></li>
 <li><p><strong>output_folder</strong> (<em>str</em>)</p></li>
 <li><p><strong>task</strong> (<em>str</em>)</p></li>
+<li><p><strong>prompt_config_path</strong> (<em>str</em>)</p></li>
 </ul>
 </dd>
 </dl>
@@ -358,9 +363,15 @@ tasks. Outputs both JSON reports and visualization plots.</p>
 <dd><p>Path where visualization plots will be saved.</p>
 </dd></dl>
 
+<dl class="py attribute">
+<dt class="sig sig-object py" id="spacylize.validator.DataValidator.html_path">
+<span class="sig-name descname"><span class="pre">html_path</span></span><a class="headerlink" href="#spacylize.validator.DataValidator.html_path" title="Link to this definition"></a></dt>
+<dd><p>Path where the HTML dashboard will be saved.</p>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="spacylize.validator.DataValidator.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spacylize/validator.html#DataValidator.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spacylize.validator.DataValidator.__init__" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prompt_config_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spacylize/validator.html#DataValidator.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spacylize.validator.DataValidator.__init__" title="Link to this definition"></a></dt>
 <dd><p>Initialize the DataValidator.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -368,6 +379,8 @@ tasks. Outputs both JSON reports and visualization plots.</p>
 <li><p><strong>dataset_path</strong> (<em>str</em>) – Path to the SpaCy dataset file (.spacy) to validate.</p></li>
 <li><p><strong>output_folder</strong> (<em>str</em>) – Directory where validation reports will be saved.</p></li>
 <li><p><strong>task</strong> (<em>str</em>) – Optional task type (‘ner’ or ‘textcat’). Auto-detects if not specified.</p></li>
+<li><p><strong>prompt_config_path</strong> (<em>str</em>) – Optional prompt config. If given, the dataset labels
+are checked against the configured labels.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
