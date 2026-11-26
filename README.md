@@ -162,8 +162,6 @@ The dashboard is a single self-contained file that works offline. It shows:
 - quality checks: exact and near duplicates, diversity (distinct-1/2, most repeated openings, top terms)
   and label quality (unique values per label, texts with several labels, documents without a category)
 
-Use `--format static` for JSON and PNG only, or `--format html` for JSON and the dashboard only.
-
 Pass the prompt config used to create the dataset to check its labels against the configured ones:
 
 ```bash

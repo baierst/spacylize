@@ -160,13 +160,6 @@ def validate_dataset(
         "-t",
         help="The SpaCy task type (ner or textcat). Auto-detects if not specified.",
     ),
-    output_format: str = typer.Option(
-        "all",
-        "--format",
-        "-f",
-        help="Report format: all (PNG and HTML dashboard), static (PNG) or html. "
-        "The JSON report is always written.",
-    ),
     open_dashboard: bool = typer.Option(
         False,
         "--open",
@@ -191,11 +184,10 @@ def validate_dataset(
             dataset_path=dataset,
             output_folder=output_folder,
             task=task,
-            output_format=output_format,
             prompt_config_path=prompt_config_path,
         )
         validator.run()
-        if open_dashboard and output_format != "static":
+        if open_dashboard:
             webbrowser.open(validator.html_path.resolve().as_uri())
     except Exception as e:
         typer.echo(f"[Error] {e}")

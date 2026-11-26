@@ -39,7 +39,6 @@ class DataValidator:
         dataset_path: str,
         output_folder: str,
         task: str = None,
-        output_format: str = "all",
         prompt_config_path: str = None,
     ):
         """Initialize the DataValidator.
@@ -48,17 +47,12 @@ class DataValidator:
             dataset_path: Path to the SpaCy dataset file (.spacy) to validate.
             output_folder: Directory where validation reports will be saved.
             task: Optional task type ('ner' or 'textcat'). Auto-detects if not specified.
-            output_format: 'all' (PNG and HTML), 'static' (PNG) or 'html'.
-                The JSON report is always written.
             prompt_config_path: Optional prompt config. If given, the dataset labels
                 are checked against the configured labels.
 
         Raises:
-            ValueError: If the task or format is invalid or the task cannot be detected.
+            ValueError: If the task is invalid or cannot be detected.
         """
-        if output_format not in ["all", "static", "html"]:
-            raise ValueError(f"Unsupported format: {output_format}")
-        self.output_format = output_format
         self.dataset_path = Path(dataset_path)
         self.output_folder = Path(output_folder)
         self.nlp = spacy.blank("en")
@@ -289,9 +283,8 @@ class DataValidator:
             )
 
         self._write_json(report)
-        if self.output_format != "static":
-            coords = analysis.project_2d(vectors)
-            write_dashboard(report, distributions, texts, coords, self.html_path)
+        coords = analysis.project_2d(vectors)
+        write_dashboard(report, distributions, texts, coords, self.html_path)
 
     def _write_json(self, report):
         """Write the validation report to a JSON file.
@@ -318,9 +311,6 @@ class DataValidator:
             entity_label_counts: Dictionary mapping entity labels to counts.
             entity_lengths: List of entity lengths in tokens.
         """
-        if self.output_format == "html":
-            return
-
         self.output_folder.mkdir(parents=True, exist_ok=True)
 
         fig, axes = plt.subplots(2, 2, figsize=(14, 10))
@@ -370,9 +360,6 @@ class DataValidator:
             doc_lengths: List of document lengths in tokens.
             label_counts: Dictionary mapping category labels to counts.
         """
-        if self.output_format == "html":
-            return
-
         self.output_folder.mkdir(parents=True, exist_ok=True)
 
         fig, axes = plt.subplots(1, 2, figsize=(12, 5))

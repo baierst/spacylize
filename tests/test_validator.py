@@ -97,25 +97,6 @@ def test_validator_writes_dashboard_and_quality(tmp_path: Path):
     assert {"duplicates", "diversity", "labels"} <= report["quality"].keys()
 
 
-def test_validator_static_format_skips_dashboard(tmp_path: Path):
-    dataset_path = create_dummy_docbin(tmp_path)
-    output_folder = tmp_path / "reports"
-
-    DataValidator(
-        dataset_path=dataset_path, output_folder=output_folder, output_format="static"
-    ).run()
-
-    assert (output_folder / "dummy_report.png").exists()
-    assert not (output_folder / "dummy_report.html").exists()
-
-
-def test_validator_rejects_unknown_format(tmp_path: Path):
-    dataset_path = create_dummy_docbin(tmp_path)
-
-    with pytest.raises(ValueError, match="Unsupported format"):
-        DataValidator(dataset_path, tmp_path, output_format="pdf")
-
-
 def test_validator_textcat_dashboard_escapes_html(tmp_path: Path):
     texts = [f"Product description number {i}." for i in range(10)]
     texts.append("<script>alert('x')</script> injected text")
