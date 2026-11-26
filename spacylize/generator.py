@@ -14,7 +14,7 @@ import typer
 from loguru import logger
 from spacy.tokens import DocBin
 
-from spacylize.llm import LLMClient
+from spacylize.llm import LLMClient, topic_score
 from spacylize.llm_config import load_llm_config
 from spacylize.prompt_config import load_prompt_config
 
@@ -214,6 +214,7 @@ class DataGenerator:
         n_samples,
         output_path,
         task,
+        topic_check=False,
     ):
         """Initialize the DataGenerator.
 
@@ -223,6 +224,7 @@ class DataGenerator:
             n_samples: Number of training samples to generate.
             output_path: Path where the generated .spacy file will be saved.
             task: The SpaCy task type (e.g., 'ner', 'textcat').
+            topic_check: Score each sample against the configured domain.
         """
         llm_config = load_llm_config(llm_config_path)
 
@@ -246,18 +248,19 @@ class DataGenerator:
         self.n_samples = n_samples
         self.output_path = output_path
         self.task = task
+        self.topic_check = topic_check
 
     def run(self):
         """Run the data generation process.
 
         Generates n_samples of annotated text using the configured LLM,
         parses the annotations using task-specific parsers, and saves
-        the results to a SpaCy binary file. A failed LLM call skips the
-        sample; after 3 failures in a row the run stops. The samples
-        generated so far are always saved, also on errors or Ctrl+C.
+        the results to a SpaCy binary file. Failed samples are skipped (the run
+        stops after 3 failures in a row), and the samples so far are always saved.
+        With topic_check, each sample then gets a topic score in doc.user_data.
         """
         nlp = spacy.blank("en")
-        doc_bin = DocBin(store_user_data=True)
+        docs = []
 
         # Get task-specific parser and builder
         parser_cls, builder_cls = TaskHandler.get_handler(self.task)
@@ -284,8 +287,17 @@ class DataGenerator:
                     parsed_data = parser_cls.parse(result)
 
                     # Build document using task-specific builder
-                    doc = builder_cls.build(nlp, parsed_data)
+                    docs.append(builder_cls.build(nlp, parsed_data))
 
-                    doc_bin.add(doc)
+            if not self.topic_check:
+                return
+            with typer.progressbar(docs, label="Checking topic") as bar:
+                for doc in bar:
+                    try:
+                        score = topic_score(doc.text, self.prompt_config.domain)
+                    except Exception as e:
+                        logger.warning(f"Skipping topic check: {e}")
+                        break
+                    doc.user_data["topic_score"] = round(score, 3)
         finally:
-            doc_bin.to_disk(self.output_path)
+            DocBin(docs=docs, store_user_data=True).to_disk(self.output_path)

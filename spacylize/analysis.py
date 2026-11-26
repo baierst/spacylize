@@ -1,7 +1,7 @@
 """Dataset analysis helpers used by the validator.
 
 Provides document embeddings, a 2D projection for the embedding map, duplicate
-detection, diversity metrics and label quality checks.
+detection, diversity metrics, label quality checks and a topic check.
 """
 
 from collections import Counter, defaultdict
@@ -180,4 +180,33 @@ def check_labels(docs, task, labels):
         "counts": {label: counts[label] for label in labels},
         "missing": [label for label in labels if counts[label] == 0],
         "unknown": sorted(set(counts) - set(labels)),
+    }
+
+
+def find_off_topic(docs):
+    """Documents with a topic score below 0.5, as stored by generate.
+
+    Args:
+        docs: List of spaCy Doc objects.
+
+    Returns:
+        dict: 'checked' as the number of scored documents and 'off_topic' as
+        the documents below 0.5 (index, score, text), lowest score first.
+        None if no document has a topic score.
+    """
+    scored = [
+        (i, doc.user_data["topic_score"], doc.text)
+        for i, doc in enumerate(docs)
+        if "topic_score" in doc.user_data
+    ]
+    if not scored:
+        return None
+    off_topic = [
+        {"index": i, "score": score, "text": text}
+        for i, score, text in scored
+        if score < 0.5
+    ]
+    return {
+        "checked": len(scored),
+        "off_topic": sorted(off_topic, key=lambda o: o["score"]),
     }

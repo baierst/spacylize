@@ -23,7 +23,7 @@ pipeline is trained on it.
 - 📋 Sample diversity: vary the prompt for each sample
 - ✅ Validation report (JSON and PNG): document length and label distribution
 - ✅ Interactive validation dashboard: embedding map, outliers, duplicates, diversity and label quality
-- 📋 Topic check against the configured domain
+- ✅ Topic check against the configured domain (local `nimble` decision model)
 - ✅ Browse generated samples (`visualize`)
 
 ## Phase 2 — Training, Evaluation & Iteration

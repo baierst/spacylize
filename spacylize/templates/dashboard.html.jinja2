@@ -36,6 +36,20 @@
 
 <h2>Quality</h2>
 <div class="grid">
+  {% if quality.topic_check %}
+  <div class="card">
+    <h3>Topic check</h3>
+    <p>{{ quality.topic_check.off_topic | length }} of {{ quality.topic_check.checked }} checked documents do not fit the configured domain.</p>
+    {% if quality.topic_check.off_topic %}
+    <table>
+      <tr><th>Score</th><th>Text</th></tr>
+      {% for o in quality.topic_check.off_topic %}
+      <tr><td>{{ o.score }}</td><td>{{ o.text }}</td></tr>
+      {% endfor %}
+    </table>
+    {% endif %}
+  </div>
+  {% endif %}
   {% if quality.label_check %}
   <div class="card">
     <h3>Configured labels</h3>

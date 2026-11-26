@@ -281,6 +281,9 @@ class DataValidator:
             report["quality"]["label_check"] = analysis.check_labels(
                 docs, self.task, self.labels
             )
+        topic_check = analysis.find_off_topic(docs)
+        if topic_check is not None:
+            report["quality"]["topic_check"] = topic_check
 
         self._write_json(report)
         coords = analysis.project_2d(vectors)

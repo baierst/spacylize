@@ -7,7 +7,6 @@ Spacylize is a tool that distills the capabilities of large language models into
 
 * Python 3.10+
 * `uv <https://docs.astral.sh/uv/>`_
-* `Ollama <https://ollama.com>`_ for the default local model
 
 **Installation:**
 

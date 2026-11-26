@@ -160,3 +160,35 @@ def test_run_skips_failed_samples_and_saves_on_abort(
 
     docs = list(DocBin().from_disk(output_path).get_docs(spacy.blank("en").vocab))
     assert [doc.text for doc in docs] == ["Hello John.", "Hi Anna."]
+
+
+@patch(
+    "spacylize.generator.topic_score",
+    MagicMock(side_effect=[0.9, ConnectionError("nimble not available")]),
+)
+@patch("spacylize.generator.load_llm_config")
+@patch("spacylize.generator.load_prompt_config")
+@patch("spacylize.generator.LLMClient")
+def test_run_scores_topic_and_skips_when_unavailable(
+    mock_llm_client_cls, mock_load_prompt_config, mock_load_llm_config, tmp_path
+):
+    mock_llm_client = MagicMock()
+    mock_llm_client.generate.side_effect = [
+        "Hello [John](PERSON).",
+        "Hi [Anna](PERSON).",
+    ]
+    mock_llm_client_cls.return_value = mock_llm_client
+    output_path = tmp_path / "docs.spacy"
+
+    DataGenerator(
+        llm_config_path=Path("llm.yaml"),
+        prompt_config_path=Path("prompt.yaml"),
+        n_samples=2,
+        output_path=output_path,
+        task="ner",
+        topic_check=True,
+    ).run()
+
+    # The first sample is scored, then the topic check is skipped
+    docs = list(DocBin().from_disk(output_path).get_docs(spacy.blank("en").vocab))
+    assert [doc.user_data.get("topic_score") for doc in docs] == [0.9, None]

@@ -6,7 +6,7 @@ providers (OpenAI, Anthropic, Ollama, etc.) via the LiteLLM library.
 
 from typing import Optional
 import dotenv
-from litellm import completion
+from litellm import completion, systemone
 
 dotenv.load_dotenv()
 
@@ -90,3 +90,27 @@ class LLMClient:
         response = completion(**completion_kwargs)
 
         return response["choices"][0]["message"]["content"]
+
+
+def topic_score(text, domain, model="ollama/nimble", api_base="http://localhost:11434"):
+    """Probability (0-1) that a text fits the domain, from a local decision model.
+
+    Args:
+        text: The generated text.
+        domain: The domain from the prompt config.
+        model: Decision model (LiteLLM name), pulled with ``ollama pull nimble``.
+        api_base: Ollama server URL.
+
+    Returns:
+        float: The probability that the text is an example of the domain.
+    """
+    question = {
+        "on_topic": {
+            "type": "noul",
+            "instructions": f"Is this text an example of: {domain}?",
+        }
+    }
+    response = systemone(
+        model=model, state={"text": text}, questions=question, api_base=api_base
+    )
+    return response.answers["on_topic"].noul

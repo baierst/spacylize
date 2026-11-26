@@ -36,11 +36,13 @@ class PromptConfig(BaseModel):
         system: System prompt message for setting LLM behavior.
         user: User prompt message for the main task instruction.
         temperature: Optional LLM sampling temperature for generation.
+        domain: The domain of the generated texts, used for the topic check.
     """
 
     system: PromptMessage
     user: PromptMessage
     temperature: Optional[float] = None
+    domain: Optional[str] = None
 
     model_config = {"extra": "forbid"}
 
@@ -191,6 +193,7 @@ def _render_structured_config(config: StructuredConfig) -> PromptConfig:
         system=PromptMessage(role="system", content=system_content),
         user=PromptMessage(role="user", content=user_content),
         temperature=config.temperature,
+        domain=config.domain,
     )
 
 

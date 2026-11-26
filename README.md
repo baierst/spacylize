@@ -6,7 +6,6 @@ Spacylize is a tool that distills the capabilities of large language models into
 **Prerequisites:**
 * Python 3.10+
 * [uv](https://docs.astral.sh/uv/)
-* [Ollama](https://ollama.com) for the default local model
 
 **Installation:**
 ```bash
@@ -186,6 +185,10 @@ spacylize validate --dataset examples/ner/output/train.spacy --output-folder exa
 
 The report then lists configured labels that are never used and labels in the data that are not
 configured. The task is taken from the config, so `--task` is not needed.
+
+With `--topic-check`, `generate` also gives each sample a topic score from a local decision model
+(`ollama pull nimble`): how well it fits the configured `domain`. `validate` then lists the off-topic
+documents. The check is skipped with a warning if Ollama or the model is not available.
 
 ### 5. Split Dataset into Train/Test Sets
 
