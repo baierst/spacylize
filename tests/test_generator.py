@@ -231,3 +231,29 @@ def test_run_drops_unconfigured_labels(
 
     doc = next(DocBin().from_disk(output_path).get_docs(spacy.blank("en").vocab))
     assert [(e.text, e.label_) for e in doc.ents] == [("John", "PERSON")]
+
+
+@patch("spacylize.generator.load_llm_config")
+@patch("spacylize.generator.load_prompt_config")
+@patch("spacylize.generator.LLMClient")
+def test_run_appends_to_existing_file(
+    mock_llm_client_cls, mock_load_prompt_config, mock_load_llm_config, tmp_path
+):
+    nlp = spacy.blank("en")
+    output_path = tmp_path / "docs.spacy"
+    DocBin(docs=[nlp.make_doc("Old sample.")]).to_disk(output_path)
+    mock_llm_client = MagicMock()
+    mock_llm_client.generate.return_value = "Hello [John](PERSON)."
+    mock_llm_client_cls.return_value = mock_llm_client
+
+    DataGenerator(
+        llm_config_path=Path("llm.yaml"),
+        prompt_config_path=Path("prompt.yaml"),
+        n_samples=1,
+        output_path=output_path,
+        task="ner",
+        append=True,
+    ).run()
+
+    docs = list(DocBin().from_disk(output_path).get_docs(nlp.vocab))
+    assert [doc.text for doc in docs] == ["Old sample.", "Hello John."]

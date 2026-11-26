@@ -26,19 +26,6 @@ spacylize generate \
   --task textcat
 ```
 
-## Visualize Sample Data
-
-View generated samples in your browser:
-
-```bash
-spacylize visualize \
-  --input-path examples/textcat/output/train.spacy \
-  --n-samples 10 \
-  --port 5002
-```
-
-Then open http://localhost:5002 in your browser.
-
 ## Validate the Generated Data
 
 Check the quality and distribution of the generated dataset:

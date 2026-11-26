@@ -25,8 +25,8 @@ pipeline is trained on it.
 - ✅ Validation report (JSON and PNG): document length and label distribution
 - ✅ Interactive validation dashboard: embedding map, outliers, duplicates, diversity and label quality
 - ✅ Topic check against the configured domain (local `nimble` decision model)
-- ✅ Browse generated samples (`visualize`)
-- 📋 Dataset cleaning: remove samples based on validator findings (duplicates, outliers, off-topic, etc.)
+- ✅ Browse generated samples (in the validation report)
+- ✅ Dataset cleaning: remove samples based on validator findings (duplicates, off-topic, etc.)
 
 ## Phase 2 — Training, Evaluation & Iteration
 

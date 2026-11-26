@@ -47,37 +47,39 @@ See example: ``examples/ner/input/prompt.yaml``
 
 .. code-block:: bash
 
-   spacylize generate --llm-config-path examples/ner/input/llm.yaml --prompt-config-path examples/ner/input/prompt.yaml --n-samples 2000 --output-path examples/ner/output/train.spacy --task ner
+   spacylize generate \
+     --llm-config-path examples/ner/input/llm.yaml \
+     --prompt-config-path examples/ner/input/prompt.yaml \
+     --n-samples 2000 \
+     --output-path examples/ner/output/train.spacy \
+     --task ner \
+     --topic-check   # optional: score each sample against the domain (needs `ollama pull nimble`)
 
-3. Visualize Generated Data
-----------------------------
+If the output file exists, ``generate`` asks before overwriting it. To add more samples to an existing
+dataset instead, add ``--append``.
 
-.. code-block:: bash
-
-   spacylize visualize --input-path examples/ner/output/train.spacy --n-samples 5 --port 5002
-
-4. Validate Data
+3. Validate Data
 -----------------
 
 .. code-block:: bash
 
    spacylize validate --dataset examples/ner/output/train.spacy --output-folder examples/ner/output
 
-5. Split Dataset into Train/Test Sets
+4. Split Dataset into Train/Test Sets
 --------------------------------------
 
 .. code-block:: bash
 
    spacylize split --input examples/ner/output/train.spacy --train examples/ner/output/train_split.spacy --dev examples/ner/output/dev_split.spacy --dev-size 0.2 --seed 42
 
-6. Train a SpaCy Model for Attribute Extraction
+5. Train a SpaCy Model for Attribute Extraction
 ------------------------------------------------
 
 .. code-block:: bash
 
    spacylize train --train-data examples/ner/output/train_split.spacy --base-model en_core_web_sm --output-model examples/ner/output/ecommerce_attribute_model --n-iter 100 --dropout 0.3
 
-7. Evaluate a Trained SpaCy Model
+6. Evaluate a Trained SpaCy Model
 ----------------------------------
 
 .. code-block:: bash
@@ -94,7 +96,6 @@ API Reference
    api/cli
    api/generator
    api/validator
-   api/visualizer
    api/llm
    api/llm_config
    api/prompt_config
