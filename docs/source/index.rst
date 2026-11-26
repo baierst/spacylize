@@ -17,13 +17,21 @@ Spacylize is a tool that distills the capabilities of large language models into
 
 Run the CLI with ``uv run spacylize --help``.
 
-**Local model (Ollama):** the examples use ``gemma4`` via Ollama by default. Install Ollama, then pull the model:
+**Local model (Ollama):** the examples use ``gemma4`` via Ollama by default.
 
-.. code-block:: bash
+1. Install `Ollama <https://ollama.com>`_ and start it (open the app, or run ``ollama serve``).
+2. Pull the model: ``ollama pull gemma4``
 
-   ollama pull gemma4
+The example ``llm.yaml`` points spacylize to it:
 
-Spacylize talks to Ollama at ``http://localhost:11434``. To use a cloud provider instead, switch the model in ``llm.yaml``.
+.. code-block:: yaml
+
+   model: ollama_chat/gemma4         # any Ollama model: ollama_chat/<name>
+   api_base: http://localhost:11434
+   think: false                      # gemma4 thinks by default; off is much faster
+
+To use a cloud provider instead, switch to one of the commented-out models in ``llm.yaml`` and set its API key
+(e.g. ``ANTHROPIC_API_KEY``) in your environment or a ``.env`` file.
 
 Getting Started
 ===============

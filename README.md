@@ -16,11 +16,19 @@ uv sync
 Run the CLI with `uv run spacylize --help`. For development, install the dev tools with `uv sync --group dev`
 and run the checks with `uv run black --check .` and `uv run pytest`.
 
-**Local model (Ollama):** the examples use `gemma4` via Ollama by default. Install Ollama, then pull the model:
-```bash
-ollama pull gemma4
+**Local model (Ollama):** the examples use `gemma4` via Ollama by default.
+
+1. Install [Ollama](https://ollama.com) and start it (open the app, or run `ollama serve`).
+2. Pull the model: `ollama pull gemma4`
+
+The example `llm.yaml` points spacylize to it:
+```yaml
+model: ollama_chat/gemma4         # any Ollama model: ollama_chat/<name>
+api_base: http://localhost:11434
+think: false                      # gemma4 thinks by default; off is much faster
 ```
-Spacylize talks to Ollama at `http://localhost:11434`. To use a cloud provider instead, switch the model in `llm.yaml`.
+To use a cloud provider instead, switch to one of the commented-out models in `llm.yaml` and set its API key
+(e.g. `ANTHROPIC_API_KEY`) in your environment or a `.env` file.
 
 # Configuration Guide
 
