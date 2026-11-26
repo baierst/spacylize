@@ -8,6 +8,22 @@ from spacy.tokens import DocBin
 from spacylize.generator import DataGenerator
 
 
+@pytest.fixture(autouse=True)
+def mock_prompt_rendering():
+    """Render a fixed prompt instead of reading a prompt config file."""
+    prompt = MagicMock()
+    prompt.user.content = "user prompt"
+    prompt.system.content = "system prompt"
+    with (
+        patch(
+            "spacylize.generator.load_structured_config",
+            return_value=MagicMock(labels=["PERSON"]),
+        ),
+        patch("spacylize.generator.render_prompt", return_value=prompt),
+    ):
+        yield
+
+
 def test_parse_annotated_text_single_entity():
     from spacylize.generator import NERParser
 
@@ -192,3 +208,26 @@ def test_run_scores_topic_and_skips_when_unavailable(
     # The first sample is scored, then the topic check is skipped
     docs = list(DocBin().from_disk(output_path).get_docs(spacy.blank("en").vocab))
     assert [doc.user_data.get("topic_score") for doc in docs] == [0.9, None]
+
+
+@patch("spacylize.generator.load_llm_config")
+@patch("spacylize.generator.load_prompt_config")
+@patch("spacylize.generator.LLMClient")
+def test_run_drops_unconfigured_labels(
+    mock_llm_client_cls, mock_load_prompt_config, mock_load_llm_config, tmp_path
+):
+    mock_llm_client = MagicMock()
+    mock_llm_client.generate.return_value = "[John](PERSON) uses [iOS](OS)."
+    mock_llm_client_cls.return_value = mock_llm_client
+    output_path = tmp_path / "docs.spacy"
+
+    DataGenerator(
+        llm_config_path=Path("llm.yaml"),
+        prompt_config_path=Path("prompt.yaml"),
+        n_samples=1,
+        output_path=output_path,
+        task="ner",
+    ).run()
+
+    doc = next(DocBin().from_disk(output_path).get_docs(spacy.blank("en").vocab))
+    assert [(e.text, e.label_) for e in doc.ents] == [("John", "PERSON")]

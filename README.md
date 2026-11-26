@@ -71,10 +71,12 @@ examples:
 - `task`: Must be `"ner"`
 - `entities`: List of entity labels (at least 1 required)
 - `domain`: Description of the text domain/topic
+- `tone`: Writing style
+- `length`: Expected text length
 
 **Optional fields:**
-- `tone`: Writing style (default: "professional")
-- `length`: Expected text length (default: "1-2 paragraphs")
+- `min_entities`: Minimum number of entity labels per sample (default: 1). Each sample asks for a random
+  subset of at least this many labels, so the texts vary.
 - `language`: ISO language code (default: "en")
 - `temperature`: Generation randomness 0.0-1.0 (default: provider default; not supported by current Claude models)
 - `constraints`: List of additional rules
@@ -115,16 +117,26 @@ examples:
 
 **Required fields:**
 - `task`: Must be `"textcat"`
-- `categories`: List of category definitions with `name` and `description` (at least 2 required)
+- `categories`: List of category definitions with `name` and `description` (at least 2 required).
+  Samples rotate through the categories, so the dataset is balanced.
 - `domain`: Description of the text domain/topic
+- `tone`: Writing style
+- `length`: Expected text length
 
 **Optional fields:**
-- `tone`: Writing style (default: "professional")
-- `length`: Expected text length (default: "2-3 sentences")
 - `language`: ISO language code (default: "en")
 - `temperature`: Generation randomness 0.0-1.0 (default: provider default; not supported by current Claude models)
 - `constraints`: List of additional rules
 - `examples`: List of few-shot examples with `text` and `category`
+
+**Sample diversity:** the prompt is rendered for every sample. `domain`, `tone` and `length` can also be
+lists; each sample then uses one value at random:
+
+```yaml
+domain:
+  - "smartphone product descriptions"
+  - "laptop product descriptions"
+```
 
 ## Verifying Generated Prompts
 
@@ -137,7 +149,8 @@ output_folder/
 └── user_prompt.txt          # Rendered user prompt (for verification)
 ```
 
-You can review `system_prompt.txt` and `user_prompt.txt` to see exactly what prompts were sent to the LLM. This helps with:
+You can review `system_prompt.txt` and `user_prompt.txt` to see the prompts sent to the LLM. As the prompt
+varies per sample, they show one example. This helps with:
 - **Debugging**: Understanding why the LLM generated certain outputs
 - **Prompt tuning**: Adjusting your structured config to improve results
 - **Transparency**: Knowing exactly what instructions the LLM received

@@ -12,8 +12,14 @@ entities:
 
 # Generation parameters
 domain: "tech product descriptions"
-tone: "professional marketing copy"
-length: "1-2 short paragraphs"
+# tone and length: one value per sample, picked at random, for more diverse data
+tone:
+  - "professional marketing copy"
+  - "concise and factual"
+  - "enthusiastic retail copy"
+length:
+  - "2-3 sentences"
+  - "1-2 short paragraphs"
 language: "en"
 
 # Quality controls

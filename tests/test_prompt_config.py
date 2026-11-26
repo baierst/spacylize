@@ -1,11 +1,13 @@
 """Tests for structured prompt configuration loading and validation."""
 
+import random
 import pytest
 import tempfile
 from pathlib import Path
 
 from spacylize.prompt_config import (
     load_prompt_config,
+    render_prompt,
     NERStructuredConfig,
     TextCatStructuredConfig,
     NERExample,
@@ -106,8 +108,8 @@ examples:
     assert prompt_config.system.role == "system"
     assert prompt_config.user.role == "user"
     assert "Named Entity Recognition" in prompt_config.system.content
-    assert "PERSON" in prompt_config.user.content
-    assert "ORG" in prompt_config.user.content
+    # Each prompt asks for a random subset of the entities
+    assert "PERSON" in prompt_config.user.content or "ORG" in prompt_config.user.content
     assert prompt_config.temperature == 0.7
 
 
@@ -212,3 +214,40 @@ task: ner
 
     with pytest.raises(RuntimeError, match="Invalid structured config"):
         load_prompt_config(config_file)
+
+
+def test_render_prompt_varies_entities_and_lists():
+    labels = ["PRODUCT", "BRAND", "COLOR", "SIZE"]
+    config = NERStructuredConfig(
+        entities=labels,
+        min_entities=2,
+        domain=["laptops", "phones"],
+        tone="casual",
+        length="1 sentence",
+    )
+    rng = random.Random(0)
+
+    for _ in range(20):
+        prompt = render_prompt(config, rng)
+        used = [label for label in labels if f"- {label}" in prompt.user.content]
+        assert 2 <= len(used) <= 4
+        assert "laptops" in prompt.user.content or "phones" in prompt.user.content
+        assert prompt.domain == "laptops or phones"
+
+
+def test_render_prompt_rotates_textcat_categories():
+    config = TextCatStructuredConfig(
+        categories=[
+            TextCatCategory(name="Electronics", description="tech"),
+            TextCatCategory(name="Clothing", description="apparel"),
+        ],
+        domain="products",
+        tone="casual",
+        length="1 sentence",
+    )
+
+    users = [render_prompt(config, index=i).user.content for i in range(3)]
+
+    assert "this category: Electronics" in users[0]
+    assert "this category: Clothing" in users[1]
+    assert "this category: Electronics" in users[2]

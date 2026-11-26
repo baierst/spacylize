@@ -6,7 +6,8 @@ Length: {{ length }}
 Language: {{ language }}
 {% endif %}
 
-You must include ALL of the following entities, annotated using the format [TEXT](LABEL):
+Annotate exactly these entities using the format [TEXT](LABEL). Write all other details as plain
+text without annotation, and never use any other label:
 
 {% for entity in entities %}
 - {{ entity }}
