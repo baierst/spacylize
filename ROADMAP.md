@@ -26,7 +26,7 @@ pipeline is trained on it.
 - ✅ Interactive validation dashboard: embedding map, outliers, duplicates, diversity and label quality
 - ✅ Topic check against the configured domain (local `nimble` decision model)
 - ✅ Browse generated samples (`visualize`)
-- 📋 Dataset cleaning: remove or flag samples based on validator findings (duplicates, outliers, off-topic and low-quality labels)
+- 📋 Dataset cleaning: remove samples based on validator findings (duplicates, outliers, off-topic, etc.)
 
 ## Phase 2 — Training, Evaluation & Iteration
 
