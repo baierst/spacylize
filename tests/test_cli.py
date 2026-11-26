@@ -118,6 +118,8 @@ def test_validate_command(tmp_path):
             dataset_path=dataset_file,
             output_folder=output_folder,
             task=None,
+            output_format="all",
+            prompt_config_path=None,
         )
         instance.run.assert_called_once()
 

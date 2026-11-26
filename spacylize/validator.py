@@ -12,6 +12,10 @@ import spacy
 from spacy.tokens import DocBin
 import matplotlib.pyplot as plt
 
+from spacylize import analysis
+from spacylize.dashboard import write_dashboard
+from spacylize.prompt_config import load_structured_config
+
 
 class DataValidator:
     """Validator for SpaCy datasets that generates quality reports and visualizations.
@@ -27,22 +31,43 @@ class DataValidator:
         nlp: Blank SpaCy language model for processing.
         json_path: Path where JSON report will be saved.
         png_path: Path where visualization plots will be saved.
+        html_path: Path where the HTML dashboard will be saved.
     """
 
-    def __init__(self, dataset_path: str, output_folder: str, task: str = None):
+    def __init__(
+        self,
+        dataset_path: str,
+        output_folder: str,
+        task: str = None,
+        output_format: str = "all",
+        prompt_config_path: str = None,
+    ):
         """Initialize the DataValidator.
 
         Args:
             dataset_path: Path to the SpaCy dataset file (.spacy) to validate.
             output_folder: Directory where validation reports will be saved.
             task: Optional task type ('ner' or 'textcat'). Auto-detects if not specified.
+            output_format: 'all' (PNG and HTML), 'static' (PNG) or 'html'.
+                The JSON report is always written.
+            prompt_config_path: Optional prompt config. If given, the dataset labels
+                are checked against the configured labels.
 
         Raises:
-            ValueError: If the task is invalid or cannot be detected.
+            ValueError: If the task or format is invalid or the task cannot be detected.
         """
+        if output_format not in ["all", "static", "html"]:
+            raise ValueError(f"Unsupported format: {output_format}")
+        self.output_format = output_format
         self.dataset_path = Path(dataset_path)
         self.output_folder = Path(output_folder)
         self.nlp = spacy.blank("en")
+
+        self.labels = None
+        if prompt_config_path is not None:
+            config = load_structured_config(prompt_config_path)
+            self.labels = config.labels
+            task = task or config.task
 
         # Auto-detect task if not specified
         if task is None:
@@ -61,6 +86,7 @@ class DataValidator:
         dataset_name = self.dataset_path.stem
         self.json_path = self.output_folder / f"{dataset_name}_report.json"
         self.png_path = self.output_folder / f"{dataset_name}_report.png"
+        self.html_path = self.output_folder / f"{dataset_name}_report.html"
 
     def run(self):
         """Run the validation process and generate reports.
@@ -129,7 +155,15 @@ class DataValidator:
             },
         }
 
-        self._write_json(report)
+        self._write_reports(
+            docs,
+            report,
+            {
+                "Tokens per Document": doc_lengths,
+                "Entities per Document": ents_per_doc,
+                "Entity Label Distribution": entity_label_counts,
+            },
+        )
         self._write_plots(
             doc_lengths,
             ents_per_doc,
@@ -169,7 +203,11 @@ class DataValidator:
             },
         }
 
-        self._write_json(report)
+        self._write_reports(
+            docs,
+            report,
+            {"Tokens per Document": doc_lengths, "Label Distribution": label_counts},
+        )
         self._write_textcat_plots(doc_lengths, label_counts)
 
     def _load_docs(self):
@@ -229,6 +267,32 @@ class DataValidator:
             "mean": round(statistics.mean(values), 2),
         }
 
+    def _write_reports(self, docs, report, distributions):
+        """Add quality checks to the report, then write the JSON report and the dashboard.
+
+        Args:
+            docs: List of SpaCy Doc objects.
+            report: Dictionary containing validation statistics.
+            distributions: Charts for the dashboard, as title -> list (histogram)
+                or dict (bar chart).
+        """
+        texts = [doc.text for doc in docs]
+        vectors = analysis.embed(texts)
+        report["quality"] = {
+            "duplicates": analysis.find_duplicates(texts, vectors),
+            "diversity": analysis.diversity(docs),
+            "labels": analysis.label_quality(docs, self.task),
+        }
+        if self.labels is not None:
+            report["quality"]["label_check"] = analysis.check_labels(
+                docs, self.task, self.labels
+            )
+
+        self._write_json(report)
+        if self.output_format != "static":
+            coords = analysis.project_2d(vectors)
+            write_dashboard(report, distributions, texts, coords, self.html_path)
+
     def _write_json(self, report):
         """Write the validation report to a JSON file.
 
@@ -254,6 +318,9 @@ class DataValidator:
             entity_label_counts: Dictionary mapping entity labels to counts.
             entity_lengths: List of entity lengths in tokens.
         """
+        if self.output_format == "html":
+            return
+
         self.output_folder.mkdir(parents=True, exist_ok=True)
 
         fig, axes = plt.subplots(2, 2, figsize=(14, 10))
@@ -303,6 +370,9 @@ class DataValidator:
             doc_lengths: List of document lengths in tokens.
             label_counts: Dictionary mapping category labels to counts.
         """
+        if self.output_format == "html":
+            return
+
         self.output_folder.mkdir(parents=True, exist_ok=True)
 
         fig, axes = plt.subplots(1, 2, figsize=(12, 5))

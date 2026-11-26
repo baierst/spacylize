@@ -70,3 +70,61 @@ def test_validator_handles_empty_dataset(tmp_path: Path):
     # Empty dataset should raise ValueError since task cannot be auto-detected
     with pytest.raises(ValueError, match="Dataset is empty, cannot detect task type"):
         validator = DataValidator(dataset_path=empty_file, output_folder=output_folder)
+
+
+def create_textcat_docbin(tmp_path: Path, texts):
+    """Create a .spacy dataset with one positive category per document."""
+    nlp = spacy.blank("en")
+    doc_bin = DocBin()
+    for i, text in enumerate(texts):
+        doc = nlp.make_doc(text)
+        doc.cats = {"A": float(i % 2 == 0), "B": float(i % 2 == 1)}
+        doc_bin.add(doc)
+
+    file_path = tmp_path / "textcat.spacy"
+    doc_bin.to_disk(file_path)
+    return file_path
+
+
+def test_validator_writes_dashboard_and_quality(tmp_path: Path):
+    dataset_path = create_dummy_docbin(tmp_path, n_docs=12)
+    output_folder = tmp_path / "reports"
+
+    DataValidator(dataset_path=dataset_path, output_folder=output_folder).run()
+
+    assert (output_folder / "dummy_report.html").exists()
+    report = json.loads((output_folder / "dummy_report.json").read_text())
+    assert {"duplicates", "diversity", "labels"} <= report["quality"].keys()
+
+
+def test_validator_static_format_skips_dashboard(tmp_path: Path):
+    dataset_path = create_dummy_docbin(tmp_path)
+    output_folder = tmp_path / "reports"
+
+    DataValidator(
+        dataset_path=dataset_path, output_folder=output_folder, output_format="static"
+    ).run()
+
+    assert (output_folder / "dummy_report.png").exists()
+    assert not (output_folder / "dummy_report.html").exists()
+
+
+def test_validator_rejects_unknown_format(tmp_path: Path):
+    dataset_path = create_dummy_docbin(tmp_path)
+
+    with pytest.raises(ValueError, match="Unsupported format"):
+        DataValidator(dataset_path, tmp_path, output_format="pdf")
+
+
+def test_validator_textcat_dashboard_escapes_html(tmp_path: Path):
+    texts = [f"Product description number {i}." for i in range(10)]
+    texts.append("<script>alert('x')</script> injected text")
+    dataset_path = create_textcat_docbin(tmp_path, texts)
+    output_folder = tmp_path / "reports"
+
+    DataValidator(dataset_path=dataset_path, output_folder=output_folder).run()
+
+    html = (output_folder / "textcat_report.html").read_text()
+    assert "<script>alert" not in html
+    report = json.loads((output_folder / "textcat_report.json").read_text())
+    assert report["quality"]["labels"] == {"no_category": 0, "multiple_categories": 0}

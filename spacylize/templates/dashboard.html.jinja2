@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Validation Report</title>
+<script>{{ plotlyjs | safe }}</script>
+<style>
+  body { font-family: system-ui, sans-serif; margin: 0 auto; padding: 24px; max-width: 1200px; color: #222; background: #fafafa; }
+  h2 { margin-top: 32px; border-bottom: 1px solid #ddd; padding-bottom: 4px; }
+  .muted { color: #777; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 12px; }
+  .card { background: #fff; border: 1px solid #ddd; border-radius: 6px; padding: 8px; overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; font-size: 14px; }
+  th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid #eee; vertical-align: top; }
+  th { background: #f3f3f3; }
+</style>
+</head>
+<body>
+{% set dataset = report.dataset %}
+{% set quality = report.quality %}
+<h1>Validation Report</h1>
+<p class="muted">
+  {{ dataset.path }} · {{ dataset.num_documents }} documents · {{ dataset.num_tokens }} tokens
+  {% if dataset.num_entities is defined %} · {{ dataset.num_entities }} entities{% endif %}
+</p>
+
+<h2>Distributions</h2>
+<div class="grid">
+  {% for chart in charts %}<div class="card">{{ chart | safe }}</div>{% endfor %}
+</div>
+
+<h2>Embedding Map</h2>
+<p class="muted">Documents with similar wording are close together. Hover over a point to see its text.</p>
+<div class="card">{{ embedding | safe }}</div>
+
+<h2>Quality</h2>
+<div class="grid">
+  {% if quality.label_check %}
+  <div class="card">
+    <h3>Configured labels</h3>
+    <table>
+      <tr><th>Label</th><th>Used</th></tr>
+      {% for label, count in quality.label_check.counts.items() %}
+      <tr><td>{{ label }}</td><td>{{ count or "missing" }}</td></tr>
+      {% endfor %}
+    </table>
+    <h3>Labels not in the config</h3>
+    <p>{{ quality.label_check.unknown | join(", ") or "None" }}</p>
+  </div>
+  {% endif %}
+  <div class="card">
+    <h3>Diversity</h3>
+    <table>
+      <tr><td>Distinct-1 (unique words)</td><td>{{ quality.diversity.distinct_1 }}</td></tr>
+      <tr><td>Distinct-2 (unique word pairs)</td><td>{{ quality.diversity.distinct_2 }}</td></tr>
+      <tr><td>Exact duplicate groups</td><td>{{ quality.duplicates.exact | length }}</td></tr>
+      <tr><td>Near-duplicate pairs</td><td>{{ quality.duplicates.near | length }}</td></tr>
+    </table>
+    <h3>Top terms</h3>
+    <p>{% for term, count in quality.diversity.top_terms %}{{ term }} ({{ count }}){% if not loop.last %}, {% endif %}{% endfor %}</p>
+  </div>
+  <div class="card">
+    <h3>Most repeated openings</h3>
+    <table>
+      <tr><th>Opening</th><th>Documents</th></tr>
+      {% for opening, count in quality.diversity.top_openings %}
+      <tr><td>{{ opening }} …</td><td>{{ count }}</td></tr>
+      {% endfor %}
+    </table>
+  </div>
+  <div class="card">
+    <h3>Label quality</h3>
+    {% if quality.labels.by_label is defined %}
+    <table>
+      <tr><th>Label</th><th>Total</th><th>Unique values</th><th>Top values</th></tr>
+      {% for label, stats in quality.labels.by_label.items() %}
+      <tr>
+        <td>{{ label }}</td><td>{{ stats.total }}</td><td>{{ stats.unique }}</td>
+        <td>{% for value, count in stats.top_values %}{{ value }} ({{ count }}){% if not loop.last %}, {% endif %}{% endfor %}</td>
+      </tr>
+      {% endfor %}
+    </table>
+    <h3>Texts with several labels</h3>
+    {% if quality.labels.conflicts %}
+    <table>
+      {% for conflict in quality.labels.conflicts %}
+      <tr><td>{{ conflict.text }}</td><td>{{ conflict.labels | join(", ") }}</td></tr>
+      {% endfor %}
+    </table>
+    {% else %}<p class="muted">None</p>{% endif %}
+    {% else %}
+    <table>
+      <tr><td>Documents without a category</td><td>{{ quality.labels.no_category }}</td></tr>
+      <tr><td>Documents with several categories</td><td>{{ quality.labels.multiple_categories }}</td></tr>
+    </table>
+    {% endif %}
+  </div>
+</div>
+</body>
+</html>

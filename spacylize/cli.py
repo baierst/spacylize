@@ -6,6 +6,7 @@ using LLM-powered data generation.
 """
 
 import typer
+import webbrowser
 from pathlib import Path
 
 from spacylize.evaluator import ModelEvaluator
@@ -159,6 +160,28 @@ def validate_dataset(
         "-t",
         help="The SpaCy task type (ner or textcat). Auto-detects if not specified.",
     ),
+    output_format: str = typer.Option(
+        "all",
+        "--format",
+        "-f",
+        help="Report format: all (PNG and HTML dashboard), static (PNG) or html. "
+        "The JSON report is always written.",
+    ),
+    open_dashboard: bool = typer.Option(
+        False,
+        "--open",
+        help="Open the HTML dashboard in the browser.",
+    ),
+    prompt_config_path: Path = typer.Option(
+        None,
+        "--prompt-config",
+        "--prompt-config-path",
+        help="Prompt configuration YAML used to create the dataset. If given, the "
+        "dataset labels are checked against the configured labels.",
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+    ),
 ):
     """
     CLI entry point for validating a SpaCy dataset.
@@ -168,8 +191,12 @@ def validate_dataset(
             dataset_path=dataset,
             output_folder=output_folder,
             task=task,
+            output_format=output_format,
+            prompt_config_path=prompt_config_path,
         )
         validator.run()
+        if open_dashboard and output_format != "static":
+            webbrowser.open(validator.html_path.resolve().as_uri())
     except Exception as e:
         typer.echo(f"[Error] {e}")
         raise typer.Exit(code=1)

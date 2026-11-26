@@ -22,7 +22,7 @@ pipeline is trained on it.
 - ✅ Training data generation for NER and text classification
 - 📋 Sample diversity: vary the prompt for each sample
 - ✅ Validation report (JSON and PNG): document length and label distribution
-- 📋 Interactive validation dashboard: embedding map, outliers, duplicates, diversity and label quality
+- ✅ Interactive validation dashboard: embedding map, outliers, duplicates, diversity and label quality
 - 📋 Topic check against the configured domain
 - ✅ Browse generated samples (`visualize`)
 
