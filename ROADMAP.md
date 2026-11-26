@@ -9,6 +9,7 @@ pipeline is trained on it.
 - **Local first** – local models (e.g. Ollama) are a first-class citizen, API-based providers are supported too.
 - **Small footprint** – reuse what spaCy already provides wherever possible.
 - **Simple CLI** – every step of the workflow is a single `spacylize` command.
+- **Python API** – every CLI step is also available as a public function, so the full workflow can be scripted with spacylize as a library.
 
 **Legend:** ✅ done · 🚧 in progress / partial · 📋 planned
 
@@ -20,11 +21,12 @@ pipeline is trained on it.
 - ✅ Local models (Ollama) as the default: `gemma4` with thinking off, tested end to end and documented
 - ✅ Structured prompt templates; rendered prompts saved for review
 - ✅ Training data generation for NER and text classification
-- 📋 Sample diversity: vary the prompt for each sample
+- ✅ Sample diversity: vary the prompt for each sample
 - ✅ Validation report (JSON and PNG): document length and label distribution
 - ✅ Interactive validation dashboard: embedding map, outliers, duplicates, diversity and label quality
 - ✅ Topic check against the configured domain (local `nimble` decision model)
 - ✅ Browse generated samples (`visualize`)
+- 📋 Dataset cleaning: remove samples based on validator findings (duplicates, outliers, off-topic, etc.)
 
 ## Phase 2 — Training, Evaluation & Iteration
 
