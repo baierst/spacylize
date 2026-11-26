@@ -12,7 +12,8 @@ entities:
 
 # Generation parameters
 domain: "tech product descriptions"
-tone:  # one per sample, for more diverse data
+# tone and length: one value per sample, picked at random, for more diverse data
+tone:
   - "professional marketing copy"
   - "concise and factual"
   - "enthusiastic retail copy"

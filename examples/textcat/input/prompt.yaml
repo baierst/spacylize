@@ -11,7 +11,8 @@ categories:
 
 # Generation parameters
 domain: "e-commerce product descriptions"
-tone:  # one per sample, for more diverse data
+# tone and length: one value per sample, picked at random, for more diverse data
+tone:
   - "marketing copy"
   - "friendly and casual"
   - "concise and factual"
