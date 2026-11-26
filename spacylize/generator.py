@@ -10,6 +10,8 @@ from abc import ABC, abstractmethod
 from pathlib import Path
 
 import spacy
+import typer
+from loguru import logger
 from spacy.tokens import DocBin
 
 from spacylize.llm import LLMClient
@@ -250,7 +252,9 @@ class DataGenerator:
 
         Generates n_samples of annotated text using the configured LLM,
         parses the annotations using task-specific parsers, and saves
-        the results to a SpaCy binary file.
+        the results to a SpaCy binary file. A failed LLM call skips the
+        sample; after 3 failures in a row the run stops. The samples
+        generated so far are always saved, also on errors or Ctrl+C.
         """
         nlp = spacy.blank("en")
         doc_bin = DocBin(store_user_data=True)
@@ -258,19 +262,30 @@ class DataGenerator:
         # Get task-specific parser and builder
         parser_cls, builder_cls = TaskHandler.get_handler(self.task)
 
-        for _ in range(self.n_samples):
-            result = self.llm_client.generate(
-                self.prompt_config.user.content,
-                self.prompt_config.system.content,
-                temperature=self.prompt_config.temperature,
-            )
+        failures = 0
+        try:
+            with typer.progressbar(range(self.n_samples), label="Generating") as bar:
+                for i in bar:
+                    try:
+                        result = self.llm_client.generate(
+                            self.prompt_config.user.content,
+                            self.prompt_config.system.content,
+                            temperature=self.prompt_config.temperature,
+                        )
+                    except Exception as e:
+                        failures += 1
+                        if failures == 3:
+                            raise
+                        logger.warning(f"Skipping sample {i + 1}: {e}")
+                        continue
+                    failures = 0
 
-            # Parse using task-specific parser
-            parsed_data = parser_cls.parse(result)
+                    # Parse using task-specific parser
+                    parsed_data = parser_cls.parse(result)
 
-            # Build document using task-specific builder
-            doc = builder_cls.build(nlp, parsed_data)
+                    # Build document using task-specific builder
+                    doc = builder_cls.build(nlp, parsed_data)
 
-            doc_bin.add(doc)
-
-        doc_bin.to_disk(self.output_path)
+                    doc_bin.add(doc)
+        finally:
+            doc_bin.to_disk(self.output_path)

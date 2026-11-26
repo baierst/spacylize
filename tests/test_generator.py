@@ -126,3 +126,37 @@ def test_data_generator_saves_rendered_prompts(
     # Check that output_folder was passed as keyword argument
     assert "output_folder" in call_args.kwargs
     assert call_args.kwargs["output_folder"] == tmp_path
+
+
+@patch("spacylize.generator.load_llm_config")
+@patch("spacylize.generator.load_prompt_config")
+@patch("spacylize.generator.LLMClient")
+def test_run_skips_failed_samples_and_saves_on_abort(
+    mock_llm_client_cls, mock_load_prompt_config, mock_load_llm_config, tmp_path
+):
+    mock_llm_client = MagicMock()
+    mock_llm_client.generate.side_effect = [
+        "Hello [John](PERSON).",
+        RuntimeError("connection refused"),
+        "Hi [Anna](PERSON).",
+        RuntimeError("connection refused"),
+        RuntimeError("connection refused"),
+        RuntimeError("connection refused"),
+    ]
+    mock_llm_client_cls.return_value = mock_llm_client
+    output_path = tmp_path / "docs.spacy"
+
+    generator = DataGenerator(
+        llm_config_path=Path("llm.yaml"),
+        prompt_config_path=Path("prompt.yaml"),
+        n_samples=10,
+        output_path=output_path,
+        task="ner",
+    )
+
+    # One failure is skipped, three in a row abort the run
+    with pytest.raises(RuntimeError):
+        generator.run()
+
+    docs = list(DocBin().from_disk(output_path).get_docs(spacy.blank("en").vocab))
+    assert [doc.text for doc in docs] == ["Hello John.", "Hi Anna."]
