@@ -11,8 +11,14 @@ categories:
 
 # Generation parameters
 domain: "e-commerce product descriptions"
-tone: "marketing copy"
-length: "2-3 sentences"
+tone:  # one per sample, for more diverse data
+  - "marketing copy"
+  - "friendly and casual"
+  - "concise and factual"
+length:
+  - "1 sentence"
+  - "2-3 sentences"
+  - "a short paragraph"
 language: "en"
 
 # Quality controls

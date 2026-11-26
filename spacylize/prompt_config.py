@@ -4,8 +4,9 @@ This module provides functionality to load and validate prompt configurations
 from YAML files for LLM data generation tasks.
 """
 
+import random
 from pathlib import Path
-from typing import Literal, Optional, List
+from typing import Literal, Optional, List, Union
 import yaml
 from pydantic import BaseModel, ValidationError, Field, field_validator
 
@@ -70,9 +71,12 @@ class NERStructuredConfig(BaseModel):
     Attributes:
         task: Task type identifier (must be "ner").
         entities: List of entity labels to include in generated text.
+        min_entities: Minimum number of entity labels per sample. Each sample
+            asks for a random subset of at least this many labels.
         domain: Description of the domain/topic for generated text.
         tone: Writing style (e.g., "professional", "casual", "technical").
         length: Expected length of generated text (e.g., "2-3 sentences").
+        domain, tone and length can also be lists; one value is picked per sample.
         language: ISO language code (e.g., "en", "de", "es").
         temperature: Optional LLM temperature (0.0-1.0). Omitted if None.
         constraints: Additional rules or constraints for generation.
@@ -81,9 +85,10 @@ class NERStructuredConfig(BaseModel):
 
     task: Literal["ner"] = "ner"
     entities: List[str] = Field(..., min_length=1)
-    domain: str
-    tone: Optional[str] = "professional"
-    length: Optional[str] = "1-2 paragraphs"
+    min_entities: int = Field(1, ge=1)
+    domain: Union[str, List[str]]
+    tone: Union[str, List[str]]
+    length: Union[str, List[str]]
     language: Optional[str] = "en"
     temperature: Optional[float] = Field(None, ge=0.0, le=1.0)
     constraints: Optional[List[str]] = []
@@ -138,6 +143,7 @@ class TextCatStructuredConfig(BaseModel):
         domain: Description of the domain/topic for generated text.
         tone: Writing style (e.g., "professional", "casual", "marketing").
         length: Expected length of generated text (e.g., "2-3 sentences").
+        domain, tone and length can also be lists; one value is picked per sample.
         language: ISO language code (e.g., "en", "de", "es").
         temperature: Optional LLM temperature (0.0-1.0). Omitted if None.
         constraints: Additional rules or constraints for generation.
@@ -146,9 +152,9 @@ class TextCatStructuredConfig(BaseModel):
 
     task: Literal["textcat"] = "textcat"
     categories: List[TextCatCategory] = Field(..., min_length=2)
-    domain: str
-    tone: Optional[str] = "professional"
-    length: Optional[str] = "2-3 sentences"
+    domain: Union[str, List[str]]
+    tone: Union[str, List[str]]
+    length: Union[str, List[str]]
     language: Optional[str] = "en"
     temperature: Optional[float] = Field(None, ge=0.0, le=1.0)
     constraints: Optional[List[str]] = []
@@ -171,11 +177,17 @@ class TextCatStructuredConfig(BaseModel):
 StructuredConfig = NERStructuredConfig | TextCatStructuredConfig
 
 
-def _render_structured_config(config: StructuredConfig) -> PromptConfig:
-    """Render structured config to PromptConfig using templates.
+def render_prompt(config: StructuredConfig, rng=None, index=0) -> PromptConfig:
+    """Render the prompts for one sample, varied per sample.
+
+    Picks one value for list-valued domain, tone and length. For NER, asks for a
+    random subset of at least min_entities labels. For textcat, picks the
+    category by index, so samples rotate through the categories.
 
     Args:
         config: Structured configuration (NER or TextCat).
+        rng: Random number generator (random.Random). A new one if None.
+        index: Index of the sample, used to rotate the textcat categories.
 
     Returns:
         PromptConfig with rendered system and user prompts.
@@ -185,15 +197,27 @@ def _render_structured_config(config: StructuredConfig) -> PromptConfig:
     """
     from spacylize.templates import TemplateRegistry
 
-    template_cls = TemplateRegistry.get_template(config.task)
-    config_dict = config.model_dump()
-    system_content, user_content = template_cls.render(config_dict)
+    rng = rng or random.Random()
+    values = config.model_dump()
+    for key in ("domain", "tone", "length"):
+        if isinstance(values[key], list):
+            values[key] = rng.choice(values[key])
+    if config.task == "ner":
+        n = len(config.entities)
+        k = rng.randint(min(config.min_entities, n), n)
+        values["entities"] = rng.sample(config.entities, k)
+    else:
+        values["target_category"] = values["categories"][index % len(config.categories)]
 
+    template_cls = TemplateRegistry.get_template(config.task)
+    system_content, user_content = template_cls.render(values)
+
+    domain = config.domain  # all values, for the topic check
     return PromptConfig(
         system=PromptMessage(role="system", content=system_content),
         user=PromptMessage(role="user", content=user_content),
         temperature=config.temperature,
-        domain=config.domain,
+        domain=" or ".join(domain) if isinstance(domain, list) else domain,
     )
 
 
@@ -220,7 +244,7 @@ def load_prompt_config(
     from loguru import logger
 
     structured_config = load_structured_config(path)
-    prompt_config = _render_structured_config(structured_config)
+    prompt_config = render_prompt(structured_config)
 
     # Write rendered prompts to output folder for user verification
     if output_folder:

@@ -5,6 +5,7 @@ SpaCy NER and text classification tasks using Large Language Models.
 The generated data is parsed and stored in SpaCy's binary format.
 """
 
+import random
 import re
 from abc import ABC, abstractmethod
 from pathlib import Path
@@ -16,7 +17,11 @@ from spacy.tokens import DocBin
 
 from spacylize.llm import LLMClient, topic_score
 from spacylize.llm_config import load_llm_config
-from spacylize.prompt_config import load_prompt_config
+from spacylize.prompt_config import (
+    load_prompt_config,
+    load_structured_config,
+    render_prompt,
+)
 
 
 class TaskParser(ABC):
@@ -244,6 +249,7 @@ class DataGenerator:
 
         self.llm_client = llm_client
         self.prompt_config = prompt_config
+        self.config = load_structured_config(prompt_config_path)
 
         self.n_samples = n_samples
         self.output_path = output_path
@@ -265,14 +271,17 @@ class DataGenerator:
         # Get task-specific parser and builder
         parser_cls, builder_cls = TaskHandler.get_handler(self.task)
 
+        rng = random.Random()
         failures = 0
         try:
             with typer.progressbar(range(self.n_samples), label="Generating") as bar:
                 for i in bar:
+                    # A new prompt per sample for more diverse data
+                    prompt = render_prompt(self.config, rng, i)
                     try:
                         result = self.llm_client.generate(
-                            self.prompt_config.user.content,
-                            self.prompt_config.system.content,
+                            prompt.user.content,
+                            prompt.system.content,
                             temperature=self.prompt_config.temperature,
                         )
                     except Exception as e:
@@ -287,7 +296,10 @@ class DataGenerator:
                     parsed_data = parser_cls.parse(result)
 
                     # Build document using task-specific builder
-                    docs.append(builder_cls.build(nlp, parsed_data))
+                    doc = builder_cls.build(nlp, parsed_data)
+                    # Drop entities with labels that are not configured
+                    doc.ents = [e for e in doc.ents if e.label_ in self.config.labels]
+                    docs.append(doc)
 
             if not self.topic_check:
                 return

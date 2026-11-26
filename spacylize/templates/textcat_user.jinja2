@@ -9,6 +9,9 @@ Classify it into exactly ONE category:
 {% for category in categories %}
 - {{ category.name }}: {{ category.description }}
 {% endfor %}
+{% if target_category %}
+Write the sample for this category: {{ target_category.name }}
+{% endif %}
 
 {% if examples %}
 Examples:
