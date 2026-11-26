@@ -95,6 +95,11 @@ class NERStructuredConfig(BaseModel):
             raise ValueError("At least one entity required")
         return v
 
+    @property
+    def labels(self) -> List[str]:
+        """Configured entity labels."""
+        return self.entities
+
 
 class TextCatCategory(BaseModel):
     """Category definition for text classification.
@@ -155,6 +160,11 @@ class TextCatStructuredConfig(BaseModel):
             raise ValueError("At least two categories required")
         return v
 
+    @property
+    def labels(self) -> List[str]:
+        """Configured category names."""
+        return [category.name for category in self.categories]
+
 
 StructuredConfig = NERStructuredConfig | TextCatStructuredConfig
 
@@ -206,41 +216,57 @@ def load_prompt_config(
     """
     from loguru import logger
 
+    structured_config = load_structured_config(path)
+    prompt_config = _render_structured_config(structured_config)
+
+    # Write rendered prompts to output folder for user verification
+    if output_folder:
+        output_folder = Path(output_folder)
+        output_folder.mkdir(parents=True, exist_ok=True)
+
+        system_file = output_folder / "system_prompt.txt"
+        user_file = output_folder / "user_prompt.txt"
+
+        system_file.write_text(prompt_config.system.content)
+        user_file.write_text(prompt_config.user.content)
+
+        logger.info(f"Rendered prompts saved to {output_folder}/")
+
+    return prompt_config
+
+
+def load_structured_config(path: Path) -> StructuredConfig:
+    """Load and validate a structured prompt configuration from YAML.
+
+    Unlike load_prompt_config, this does not render the prompts, so it can be
+    used to read the task and labels, e.g. for validating a dataset.
+
+    Args:
+        path: Path to the structured config YAML file.
+
+    Returns:
+        NERStructuredConfig or TextCatStructuredConfig.
+
+    Raises:
+        RuntimeError: If the configuration is invalid or missing required fields.
+    """
     with open(path, "r") as f:
         raw = yaml.safe_load(f)
 
     expanded = expand_env_vars(raw)
 
+    task = expanded.get("task")
+    if not task:
+        raise RuntimeError(
+            "Missing 'task' field in config. Must be 'ner' or 'textcat'."
+        )
+
     try:
-        task = expanded.get("task")
-        if not task:
-            raise RuntimeError(
-                "Missing 'task' field in config. Must be 'ner' or 'textcat'."
-            )
-
         if task == "ner":
-            structured_config = NERStructuredConfig.model_validate(expanded)
-        elif task == "textcat":
-            structured_config = TextCatStructuredConfig.model_validate(expanded)
-        else:
-            raise RuntimeError(f"Unsupported task: {task}. Must be 'ner' or 'textcat'.")
-
-        prompt_config = _render_structured_config(structured_config)
-
-        # Write rendered prompts to output folder for user verification
-        if output_folder:
-            output_folder = Path(output_folder)
-            output_folder.mkdir(parents=True, exist_ok=True)
-
-            system_file = output_folder / "system_prompt.txt"
-            user_file = output_folder / "user_prompt.txt"
-
-            system_file.write_text(prompt_config.system.content)
-            user_file.write_text(prompt_config.user.content)
-
-            logger.info(f"Rendered prompts saved to {output_folder}/")
-
-        return prompt_config
-
+            return NERStructuredConfig.model_validate(expanded)
+        if task == "textcat":
+            return TextCatStructuredConfig.model_validate(expanded)
     except ValidationError as e:
         raise RuntimeError(f"Invalid structured config:\n{e}") from e
+
+    raise RuntimeError(f"Unsupported task: {task}. Must be 'ner' or 'textcat'.")

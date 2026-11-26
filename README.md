@@ -151,8 +151,26 @@ spacylize visualize --input-path examples/ner/output/train.spacy --n-samples 5 -
 ### 4. Validate Data:
 
 ```bash
-spacylize validate --dataset examples/ner/output/train.spacy --output-folder examples/ner/output
+spacylize validate --dataset examples/ner/output/train.spacy --output-folder examples/ner/output --open
 ```
+
+This writes `train_report.json`, `train_report.png` and an interactive dashboard, `train_report.html`.
+The dashboard is a single self-contained file that works offline. It shows:
+
+- the length and label distributions
+- an embedding map: similar documents are close together, and hovering shows the text
+- quality checks: exact and near duplicates, diversity (distinct-1/2, most repeated openings, top terms)
+  and label quality (unique values per label, texts with several labels, documents without a category)
+
+Pass the prompt config used to create the dataset to check its labels against the configured ones:
+
+```bash
+spacylize validate --dataset examples/ner/output/train.spacy --output-folder examples/ner/output \
+  --prompt-config examples/ner/input/prompt.yaml
+```
+
+The report then lists configured labels that are never used and labels in the data that are not
+configured. The task is taken from the config, so `--task` is not needed.
 
 ### 5. Split Dataset into Train/Test Sets
 
