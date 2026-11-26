@@ -24,12 +24,15 @@ class LLMConfig(BaseModel):
         api_key: Optional API key for authentication.
         api_base: Optional custom API base URL.
         max_tokens: Maximum number of tokens to generate.
+        think: Optional switch for the model's thinking mode (e.g. false for
+            Ollama models that think by default). Omitted if None.
     """
 
     model: str
     api_key: Optional[str] = Field(default=None)
     api_base: Optional[str] = None
     max_tokens: int = 1024
+    think: Optional[bool] = None
 
     model_config = {"extra": "forbid"}
 

@@ -229,6 +229,7 @@ class DataGenerator:
             api_key=llm_config.api_key,
             api_base=llm_config.api_base,
             max_tokens=llm_config.max_tokens,
+            think=llm_config.think,
         )
 
         # Pass output folder to save rendered prompts for user verification

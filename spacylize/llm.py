@@ -21,6 +21,7 @@ class LLMClient:
         api_key: API key for authentication.
         api_base: Optional custom API base URL for local or custom deployments.
         max_tokens: Maximum number of tokens to generate.
+        think: Optional switch for the model's thinking mode.
     """
 
     def __init__(
@@ -29,6 +30,7 @@ class LLMClient:
         api_key: Optional[str] = None,
         api_base: Optional[str] = None,
         max_tokens: int = 1024,
+        think: Optional[bool] = None,
     ):
         """Initialize the LLM client.
 
@@ -37,11 +39,14 @@ class LLMClient:
             api_key: API key for the LLM provider. Defaults to None.
             api_base: Custom API base URL for local or custom deployments.
             max_tokens: Maximum number of tokens to generate. Defaults to 1024.
+            think: Turn the model's thinking mode on or off (e.g. False for
+                Ollama models that think by default). Uses the model default if None.
         """
         self.model = model
         self.api_key = api_key
         self.api_base = api_base
         self.max_tokens = max_tokens
+        self.think = think
 
     def generate(
         self,
@@ -78,6 +83,9 @@ class LLMClient:
 
         if temperature is not None:
             completion_kwargs["temperature"] = temperature
+
+        if self.think is not None:
+            completion_kwargs["think"] = self.think
 
         response = completion(**completion_kwargs)
 
