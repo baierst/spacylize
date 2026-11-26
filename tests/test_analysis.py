@@ -72,3 +72,17 @@ def test_project_2d_handles_small_and_larger_datasets():
         texts = [f"document number {i} about topic {i % 3}" for i in range(n)]
         coords = analysis.project_2d(analysis.embed(texts))
         assert coords.shape == (n, 2)
+
+
+def test_find_off_topic_reads_scores_from_generate():
+    docs = [nlp("A new laptop."), nlp("Bake the bread."), nlp("No score.")]
+    docs[0].user_data["topic_score"] = 0.99
+    docs[1].user_data["topic_score"] = 0.01
+
+    result = analysis.find_off_topic(docs)
+
+    assert result == {
+        "checked": 2,
+        "off_topic": [{"index": 1, "score": 0.01, "text": "Bake the bread."}],
+    }
+    assert analysis.find_off_topic([nlp("No score.")]) is None

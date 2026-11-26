@@ -15,6 +15,20 @@ uv sync
 Run the CLI with `uv run spacylize --help`. For development, install the dev tools with `uv sync --group dev`
 and run the checks with `uv run black --check .` and `uv run pytest`.
 
+**Local model (Ollama):** the examples use `gemma4` via Ollama by default.
+
+1. Install [Ollama](https://ollama.com) and start it (open the app, or run `ollama serve`).
+2. Pull the model: `ollama pull gemma4`
+
+The example `llm.yaml` points spacylize to it:
+```yaml
+model: ollama_chat/gemma4         # any Ollama model: ollama_chat/<name>
+api_base: http://localhost:11434
+think: false                      # gemma4 thinks by default; off is much faster
+```
+To use a cloud provider instead, switch to one of the commented-out models in `llm.yaml` and set its API key
+(e.g. `ANTHROPIC_API_KEY`) in your environment or a `.env` file.
+
 # Configuration Guide
 
 Spacylize uses **structured configuration** to make prompt creation quick and easy. Instead of writing complex prompts manually, you specify high-level parameters (entities, domain, tone, etc.) and Jinja2 templates automatically generate optimized prompts.
@@ -171,6 +185,10 @@ spacylize validate --dataset examples/ner/output/train.spacy --output-folder exa
 
 The report then lists configured labels that are never used and labels in the data that are not
 configured. The task is taken from the config, so `--task` is not needed.
+
+With `--topic-check`, `generate` also gives each sample a topic score from a local decision model
+(`ollama pull nimble`): how well it fits the configured `domain`. `validate` then lists the off-topic
+documents. The check is skipped with a warning if Ollama or the model is not available.
 
 ### 5. Split Dataset into Train/Test Sets
 

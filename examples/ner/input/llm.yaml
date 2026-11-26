@@ -1,16 +1,14 @@
-# Cloud providers (comment out when using local):
-#model: gpt-4o-mini
-#api_key: ${OPENAI_API_KEY}
-#api_base: null
+# Local Ollama model (default, see README for setup):
+model: ollama_chat/gemma4
+api_base: http://localhost:11434
+max_tokens: 1024
+think: false
+
+# Cloud providers (alternative):
+#model: anthropic/claude-haiku-5-5
+#api_key: ${ANTHROPIC_API_KEY}
 #max_tokens: 1024
 
-model: anthropic/claude-haiku-5-5
-api_key: ${ANTHROPIC_API_KEY}
-api_base: null
-max_tokens: 1024
-
-# Local Ollama model:
-#model: ollama/qwen3:8b
-#api_key: null
-#api_base: http://localhost:11434
+#model: gpt-6-luna
+#api_key: ${OPENAI_API_KEY}
 #max_tokens: 1024

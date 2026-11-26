@@ -12,7 +12,7 @@ keywords = ["spacy", "llm", "nlp", "data generation", "training", "distillation"
 
 dependencies = [
     "jinja2>=3.1.0",
-    "litellm>=1.80.10",
+    "litellm>=1.111.0",
     "loguru>=0.7.3",
     "matplotlib>=3.9.4",
     "plotly>=7.1.0",

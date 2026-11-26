@@ -17,13 +17,13 @@ pipeline is trained on it.
 ## Phase 1 — Data Creation & Validation
 
 - ✅ LLM client for API-based providers (OpenAI, Anthropic, …) with YAML config
-- 🚧 Local models (Ollama) as the default: test the setup end to end and document it
+- ✅ Local models (Ollama) as the default: `gemma4` with thinking off, tested end to end and documented
 - ✅ Structured prompt templates; rendered prompts saved for review
 - ✅ Training data generation for NER and text classification
 - 📋 Sample diversity: vary the prompt for each sample
 - ✅ Validation report (JSON and PNG): document length and label distribution
 - ✅ Interactive validation dashboard: embedding map, outliers, duplicates, diversity and label quality
-- 📋 Topic check against the configured domain
+- ✅ Topic check against the configured domain (local `nimble` decision model)
 - ✅ Browse generated samples (`visualize`)
 
 ## Phase 2 — Training, Evaluation & Iteration

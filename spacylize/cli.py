@@ -56,6 +56,12 @@ def generate_data(
         "--task",
         help="The SpaCy task (e.g., ner, textcat).",
     ),
+    topic_check: bool = typer.Option(
+        False,
+        "--topic-check",
+        help="Score each sample against the configured domain with a local "
+        "decision model (ollama pull nimble).",
+    ),
 ):
     """
     Generates training data using an LLM based on a prompt configuration.
@@ -74,6 +80,7 @@ def generate_data(
             n_samples=n_samples,
             output_path=output_path,
             task=task,
+            topic_check=topic_check,
         )
         generator.run()
     except Exception as e:
