@@ -16,8 +16,8 @@ Requires Python 3.10+ and `uv <https://docs.astral.sh/uv/>`_.
    spacylize --help
 
 The examples use the local model ``gemma4`` via `Ollama <https://ollama.com>`_: start Ollama (the app, or
-``ollama serve``) and run ``ollama pull gemma4``. To use a cloud model instead, switch to one of the
-commented-out models in ``llm.yaml`` and set its API key (e.g. ``ANTHROPIC_API_KEY``) in your environment or
+``ollama serve``) and run ``ollama pull gemma4``. To use a cloud model instead, comment out the Ollama
+block in ``llm.yaml``, uncomment a cloud model and set its API key (e.g. ``ANTHROPIC_API_KEY``) in your environment or
 a ``.env`` file.
 
 .. code-block:: yaml
@@ -27,6 +27,8 @@ a ``.env`` file.
    api_base: http://localhost:11434
    max_tokens: 1024           # optional, default: 1024
    think: false               # optional; false makes gemma4 much faster
+
+For development: ``uv sync --group dev``, then ``uv run black --check .`` and ``uv run pytest``.
 
 Prompt configuration
 --------------------
@@ -126,10 +128,11 @@ The numbers refer to the validated dataset, so run ``validate`` again before sel
      --model examples/ner/output/model \
      --data examples/ner/output/dev_split.spacy
 
-Optional: split ``--train`` (default ``train.spacy``), ``--dev`` (default ``dev.spacy``), ``--dev-size``
-(default 0.2), ``--seed`` (default 42); train ``--base-model`` (default ``en_core_web_sm``),
-``--output-model`` (default ``models/trained_model``), ``--n-iter`` (default 100), ``--dropout`` (default
-0.3).
+More examples
+-------------
+
+- `NER: product attributes from e-commerce descriptions <https://github.com/baierst/spacylize/tree/main/examples/ner>`_
+- `Text classification: product categories <https://github.com/baierst/spacylize/tree/main/examples/textcat>`_
 
 API Reference
 =============
@@ -141,6 +144,8 @@ API Reference
    api/cli
    api/generator
    api/validator
+   api/analysis
+   api/dashboard
    api/llm
    api/llm_config
    api/prompt_config

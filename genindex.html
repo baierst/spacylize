@@ -5,14 +5,14 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Index &mdash; Spacylize 0.1.0 documentation</title>
+  <title>Index &mdash; Spacylize 0.0.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=01f34227"></script>
+      <script src="_static/documentation_options.js?v=d45e8c67"></script>
       <script src="_static/doctools.js?v=fd6eb6e6"></script>
       <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/js/theme.js"></script>
@@ -101,6 +101,19 @@
 <li class="toctree-l3"><a class="reference internal" href="api/validator.html#spacylize.validator.DataValidator.run"><code class="docutils literal notranslate"><span class="pre">DataValidator.run()</span></code></a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api/analysis.html">Validation Checks</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/analysis.html#spacylize.analysis.diversity"><code class="docutils literal notranslate"><span class="pre">diversity()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/analysis.html#spacylize.analysis.label_quality"><code class="docutils literal notranslate"><span class="pre">label_quality()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/analysis.html#spacylize.analysis.check_labels"><code class="docutils literal notranslate"><span class="pre">check_labels()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/analysis.html#spacylize.analysis.off_topic_ids"><code class="docutils literal notranslate"><span class="pre">off_topic_ids()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/analysis.html#spacylize.analysis.duplicate_ids"><code class="docutils literal notranslate"><span class="pre">duplicate_ids()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/analysis.html#spacylize.analysis.find_issues"><code class="docutils literal notranslate"><span class="pre">find_issues()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api/dashboard.html">Validation Report</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/dashboard.html#spacylize.dashboard.write_dashboard"><code class="docutils literal notranslate"><span class="pre">write_dashboard()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="api/llm.html">LLM Client</a><ul>
@@ -307,6 +320,7 @@
  | <a href="#C"><strong>C</strong></a>
  | <a href="#D"><strong>D</strong></a>
  | <a href="#E"><strong>E</strong></a>
+ | <a href="#F"><strong>F</strong></a>
  | <a href="#G"><strong>G</strong></a>
  | <a href="#H"><strong>H</strong></a>
  | <a href="#I"><strong>I</strong></a>
@@ -321,6 +335,7 @@
  | <a href="#T"><strong>T</strong></a>
  | <a href="#U"><strong>U</strong></a>
  | <a href="#V"><strong>V</strong></a>
+ | <a href="#W"><strong>W</strong></a>
  
 </div>
 <h2 id="_">_</h2>
@@ -386,6 +401,8 @@
 </li>
       <li><a href="api/prompt_config.html#id21">category (spacylize.prompt_config.TextCatExample attribute)</a>, <a href="api/prompt_config.html#spacylize.prompt_config.TextCatExample.category">[1]</a>
 </li>
+      <li><a href="api/analysis.html#spacylize.analysis.check_labels">check_labels() (in module spacylize.analysis)</a>
+</li>
       <li><a href="api/cli.html#spacylize.cli.clean">clean() (in module spacylize.cli)</a>
 </li>
   </ul></td>
@@ -418,9 +435,11 @@
 </li>
       <li><a href="api/splitter.html#spacylize.splitter.DataSplitter.dev_file">dev_file (spacylize.splitter.DataSplitter attribute)</a>
 </li>
+      <li><a href="api/splitter.html#spacylize.splitter.DataSplitter.dev_size">dev_size (spacylize.splitter.DataSplitter attribute)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/splitter.html#spacylize.splitter.DataSplitter.dev_size">dev_size (spacylize.splitter.DataSplitter attribute)</a>
+      <li><a href="api/analysis.html#spacylize.analysis.diversity">diversity() (in module spacylize.analysis)</a>
 </li>
       <li><a href="api/generator.html#spacylize.generator.DocumentBuilder">DocumentBuilder (class in spacylize.generator)</a>
 </li>
@@ -433,6 +452,8 @@
 </li>
       </ul></li>
       <li><a href="api/trainer.html#spacylize.trainer.ModelTrainer.dropout">dropout (spacylize.trainer.ModelTrainer attribute)</a>
+</li>
+      <li><a href="api/analysis.html#spacylize.analysis.duplicate_ids">duplicate_ids() (in module spacylize.analysis)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -457,6 +478,14 @@
       <li><a href="api/llm_config.html#spacylize.llm_config.expand_env_vars">expand_env_vars() (in module spacylize.llm_config)</a>
 </li>
       <li><a href="api/prompt_config.html#id7">explanation (spacylize.prompt_config.NERExample attribute)</a>, <a href="api/prompt_config.html#spacylize.prompt_config.NERExample.explanation">[1]</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="F">F</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/analysis.html#spacylize.analysis.find_issues">find_issues() (in module spacylize.analysis)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -502,6 +531,8 @@
 <h2 id="L">L</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/analysis.html#spacylize.analysis.label_quality">label_quality() (in module spacylize.analysis)</a>
+</li>
       <li><a href="api/prompt_config.html#spacylize.prompt_config.NERStructuredConfig.labels">labels (spacylize.prompt_config.NERStructuredConfig property)</a>
 
       <ul>
@@ -570,10 +601,10 @@
         <li><a href="api/prompt_config.html#spacylize.prompt_config.TextCatStructuredConfig.model_config">(spacylize.prompt_config.TextCatStructuredConfig attribute)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/evaluator.html#spacylize.evaluator.ModelEvaluator.model_path">model_path (spacylize.evaluator.ModelEvaluator attribute)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/evaluator.html#spacylize.evaluator.ModelEvaluator">ModelEvaluator (class in spacylize.evaluator)</a>
 </li>
       <li><a href="api/trainer.html#spacylize.trainer.ModelTrainer">ModelTrainer (class in spacylize.trainer)</a>
@@ -582,7 +613,11 @@
     module
 
       <ul>
+        <li><a href="api/analysis.html#module-spacylize.analysis">spacylize.analysis</a>
+</li>
         <li><a href="api/cli.html#module-spacylize.cli">spacylize.cli</a>
+</li>
+        <li><a href="api/dashboard.html#module-spacylize.dashboard">spacylize.dashboard</a>
 </li>
         <li><a href="api/evaluator.html#module-spacylize.evaluator">spacylize.evaluator</a>
 </li>
@@ -629,10 +664,12 @@
 <h2 id="O">O</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/validator.html#spacylize.validator.DataValidator.output_folder">output_folder (spacylize.validator.DataValidator attribute)</a>
+      <li><a href="api/analysis.html#spacylize.analysis.off_topic_ids">off_topic_ids() (in module spacylize.analysis)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/validator.html#spacylize.validator.DataValidator.output_folder">output_folder (spacylize.validator.DataValidator attribute)</a>
+</li>
       <li><a href="api/trainer.html#spacylize.trainer.ModelTrainer.output_model">output_model (spacylize.trainer.ModelTrainer attribute)</a>
 </li>
   </ul></td>
@@ -688,10 +725,24 @@
       <li><a href="api/splitter.html#spacylize.splitter.DataSplitter.seed">seed (spacylize.splitter.DataSplitter attribute)</a>
 </li>
       <li>
+    spacylize.analysis
+
+      <ul>
+        <li><a href="api/analysis.html#module-spacylize.analysis">module</a>
+</li>
+      </ul></li>
+      <li>
     spacylize.cli
 
       <ul>
         <li><a href="api/cli.html#module-spacylize.cli">module</a>
+</li>
+      </ul></li>
+      <li>
+    spacylize.dashboard
+
+      <ul>
+        <li><a href="api/dashboard.html#module-spacylize.dashboard">module</a>
 </li>
       </ul></li>
       <li>
@@ -715,6 +766,8 @@
         <li><a href="api/llm.html#module-spacylize.llm">module</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     spacylize.llm_config
 
@@ -722,8 +775,6 @@
         <li><a href="api/llm_config.html#module-spacylize.llm_config">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     spacylize.prompt_config
 
@@ -843,6 +894,14 @@
       <li><a href="api/cli.html#spacylize.cli.validate_dataset">validate_dataset() (in module spacylize.cli)</a>
 </li>
       <li><a href="api/prompt_config.html#spacylize.prompt_config.NERStructuredConfig.validate_entities">validate_entities() (spacylize.prompt_config.NERStructuredConfig class method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="W">W</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/dashboard.html#spacylize.dashboard.write_dashboard">write_dashboard() (in module spacylize.dashboard)</a>
 </li>
   </ul></td>
 </tr></table>
