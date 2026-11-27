@@ -1,4 +1,10 @@
 # Spacylize
+
+[![CI](https://github.com/baierst/spacylize/actions/workflows/ci.yaml/badge.svg)](https://github.com/baierst/spacylize/actions/workflows/ci.yaml)
+[![Docs](https://github.com/baierst/spacylize/actions/workflows/docs.yaml/badge.svg)](https://baierst.github.io/spacylize)
+![Python](https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12-blue)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
+
 **Documentation:** https://baierst.github.io/spacylize
 
 Spacylize distills large language models into compact spaCy models: an LLM generates annotated training
@@ -15,8 +21,8 @@ spacylize --help
 ```
 
 The examples use the local model `gemma4` via [Ollama](https://ollama.com): start Ollama (the app, or
-`ollama serve`) and run `ollama pull gemma4`. To use a cloud model instead, switch to one of the
-commented-out models in `llm.yaml` and set its API key (e.g. `ANTHROPIC_API_KEY`) in your environment or
+`ollama serve`) and run `ollama pull gemma4`. To use a cloud model instead, comment out the Ollama
+block in `llm.yaml`, uncomment a cloud model and set its API key (e.g. `ANTHROPIC_API_KEY`) in your environment or
 a `.env` file.
 
 ```yaml
@@ -125,6 +131,7 @@ spacylize evaluate \
   --data examples/ner/output/dev_split.spacy
 ```
 
-Optional: split `--train` (default `train.spacy`), `--dev` (default `dev.spacy`), `--dev-size` (default
-0.2), `--seed` (default 42); train `--base-model` (default `en_core_web_sm`), `--output-model` (default
-`models/trained_model`), `--n-iter` (default 100), `--dropout` (default 0.3).
+## More examples
+
+- [NER: product attributes from e-commerce descriptions](examples/ner/README.md)
+- [Text classification: product categories](examples/textcat/README.md)

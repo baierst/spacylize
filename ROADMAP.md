@@ -23,7 +23,7 @@ pipeline is trained on it.
 - ✅ Training data generation for NER and text classification
 - ✅ Sample diversity: vary the prompt for each sample
 - ✅ Validation report (JSON and PNG): document length and label distribution
-- ✅ Interactive validation dashboard: embedding map, outliers, duplicates, diversity and label quality
+- ✅ Interactive validation report: issue overview, entity values, filterable list of all documents
 - ✅ Topic check against the configured domain (local `nimble` decision model)
 - ✅ Browse generated samples (in the validation report)
 - ✅ Dataset cleaning: remove samples based on validator findings (duplicates, off-topic, etc.)

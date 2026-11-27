@@ -1,7 +1,7 @@
 [project]
 name = "spacylize"
 version = "0.0.1"
-description = "A SpaCy add-on for LLM-powered data generation and training."
+description = "Distills large language models into compact spaCy models via generated, validated training data."
 authors = [
     { name = "Stephan Baier" }
 ]
@@ -35,7 +35,7 @@ spacylize = ["templates/*.jinja2"]
 
 [tool.black]
 line-length = 88
-target-version = ["py311"]
+target-version = ["py310"]
 
 [dependency-groups]
 dev = [

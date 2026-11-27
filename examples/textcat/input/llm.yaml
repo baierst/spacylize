@@ -1,14 +1,17 @@
+# Use one block: comment out the active one and uncomment another.
+
 # Local Ollama model (default, see README for setup):
 model: ollama_chat/gemma4
 api_base: http://localhost:11434
 max_tokens: 1024
 think: false
 
-# Cloud providers (alternative):
+# Anthropic:
 #model: anthropic/claude-haiku-5-5
 #api_key: ${ANTHROPIC_API_KEY}
 #max_tokens: 1024
 
+# OpenAI:
 #model: gpt-6-luna
 #api_key: ${OPENAI_API_KEY}
 #max_tokens: 1024
