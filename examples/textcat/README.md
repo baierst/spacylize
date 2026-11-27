@@ -13,34 +13,37 @@ This example demonstrates how to use spacylize to generate training data for cla
 - Ollama running with `gemma4` pulled (`ollama pull gemma4`), see the main README
 - Alternatively, switch `llm.yaml` to a cloud provider (e.g. Anthropic with `ANTHROPIC_API_KEY`)
 
-## Generate Training Data
+## Generate, validate and clean
 
-Generate 300 product descriptions with category labels:
+See the [main README](../../README.md#usage) for all options and their defaults.
 
 ```bash
 spacylize generate \
   --llm-config-path examples/textcat/input/llm.yaml \
   --prompt-config-path examples/textcat/input/prompt.yaml \
-  --n-samples 300 \
+  --task textcat \
+  --n-samples 100 \
   --output-path examples/textcat/output/train.spacy \
-  --task textcat
+  --topic-check \
+  --append
 ```
-
-## Validate the Generated Data
-
-Check the quality and distribution of the generated dataset:
 
 ```bash
 spacylize validate \
   --dataset examples/textcat/output/train.spacy \
-  --output-folder examples/textcat/output
+  --output-folder examples/textcat/output \
+  --prompt-config examples/textcat/input/prompt.yaml \
+  --open
 ```
 
-This will generate:
-- `train_report.json` - Statistics about documents, tokens, and category distribution
-- `train_report.png` - Visualizations showing:
-  - Tokens per document
-  - Label distribution (category balance)
+The HTML report (`examples/textcat/output/train_report.html`) shows the issues found and all documents. Select the
+ones to remove and copy the `spacylize clean` command at the bottom of the report, e.g.:
+
+```bash
+spacylize clean \
+  --dataset examples/textcat/output/train.spacy \
+  --remove 3,7,12
+```
 
 ## Expected Output Format
 
