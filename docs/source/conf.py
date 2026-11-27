@@ -7,7 +7,7 @@ sys.path.insert(0, os.path.abspath("../../"))
 project = "Spacylize"
 copyright = "2025, Stephan Baier"
 author = "Stephan Baier"
-release = "0.1.0"
+release = "0.0.1"
 
 # Sphinx extensions
 extensions = [

@@ -4,14 +4,15 @@ This example demonstrates how to use spacylize to generate training data for cla
 
 ## Categories
 
-- **Electronics**: Tech devices, computers, phones, gadgets, smart devices
-- **Clothing**: Apparel, shoes, fashion items, accessories
+- **Electronics**: Tech devices, computers, phones, gadgets
+- **Clothing**: Apparel, shoes, fashion, accessories
 - **Home_Goods**: Furniture, kitchenware, decor, household items
 
 ## Prerequisites
 
 - Ollama running with `gemma4` pulled (`ollama pull gemma4`), see the main README
-- Alternatively, switch `llm.yaml` to a cloud provider (e.g. Anthropic with `ANTHROPIC_API_KEY`)
+- For `--topic-check`: `ollama pull nimble`
+- Alternatively, switch `llm.yaml` to a cloud model (e.g. Anthropic with `ANTHROPIC_API_KEY`)
 
 ## Generate, validate and clean
 

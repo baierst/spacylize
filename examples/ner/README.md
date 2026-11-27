@@ -16,7 +16,8 @@ This example extracts the following entities:
 ## Prerequisites
 
 - Ollama running with `gemma4` pulled (`ollama pull gemma4`), see the main README
-- Alternatively, switch `llm.yaml` to a cloud provider (e.g. Anthropic with `ANTHROPIC_API_KEY`)
+- For `--topic-check`: `ollama pull nimble`
+- Alternatively, switch `llm.yaml` to a cloud model (e.g. Anthropic with `ANTHROPIC_API_KEY`)
 
 ## Generate, validate and clean
 
@@ -52,13 +53,11 @@ spacylize clean \
 
 ## Expected Output Format
 
-Each generated sample follows this inline annotation format:
+Each sample asks for a random subset of the entity types and uses this inline annotation format:
 
 ```
-The new [iPhone 15 Pro](MODEL) by [Apple](BRAND) is a premium [Smartphone](PRODUCT_TYPE)
-featuring a stunning [6.7 inch](SIZE) display. Available in [Deep Purple](COLOR), this
-device comes with [512GB](STORAGE_CAPACITY) of storage and is crafted from
-[Titanium](MATERIAL) for exceptional durability.
+The new [iPhone 15 Pro](MODEL) by [Apple](BRAND) features a stunning [6.7 inch](SIZE) display
+and comes in [Deep Purple](COLOR).
 ```
 
 The parser extracts entities and their positions to create SpaCy training data with character-level span annotations.
