@@ -18,84 +18,36 @@ This example extracts the following entities:
 - Ollama running with `gemma4` pulled (`ollama pull gemma4`), see the main README
 - Alternatively, switch `llm.yaml` to a cloud provider (e.g. Anthropic with `ANTHROPIC_API_KEY`)
 
-## Generate Training Data
+## Generate, validate and clean
 
-Generate 2000 annotated product descriptions:
+See the [main README](../../README.md#usage) for all options and their defaults.
 
 ```bash
 spacylize generate \
   --llm-config-path examples/ner/input/llm.yaml \
   --prompt-config-path examples/ner/input/prompt.yaml \
-  --n-samples 2000 \
+  --task ner \
+  --n-samples 100 \
   --output-path examples/ner/output/train.spacy \
-  --task ner
+  --topic-check \
+  --append
 ```
-
-## Visualize Sample Data
-
-View annotated samples with entity highlighting in your browser:
-
-```bash
-spacylize visualize \
-  --input-path examples/ner/output/train.spacy \
-  --n-samples 10 \
-  --port 5002
-```
-
-Then open http://localhost:5002 in your browser.
-
-## Validate the Generated Data
-
-Check the quality and distribution of entities:
 
 ```bash
 spacylize validate \
   --dataset examples/ner/output/train.spacy \
-  --output-folder examples/ner/output
+  --output-folder examples/ner/output \
+  --prompt-config examples/ner/input/prompt.yaml \
+  --open
 ```
 
-This will generate:
-- `train_report.json` - Statistics about documents, tokens, and entity distributions
-- `train_report.png` - Visualizations showing:
-  - Tokens per document
-  - Entities per document
-  - Entity label distribution
-  - Entity length distribution
-
-## Split Dataset
-
-Split the data into training and development sets:
+The HTML report (`examples/ner/output/train_report.html`) shows the issues found and all documents. Select the
+ones to remove and copy the `spacylize clean` command at the bottom of the report, e.g.:
 
 ```bash
-spacylize split \
-  --input examples/ner/output/train.spacy \
-  --train examples/ner/output/train_split.spacy \
-  --dev examples/ner/output/dev_split.spacy \
-  --dev-size 0.2 \
-  --seed 42
-```
-
-## Train a SpaCy Model
-
-Train a custom SpaCy NER model:
-
-```bash
-spacylize train \
-  --train-data examples/ner/output/train_split.spacy \
-  --base-model en_core_web_sm \
-  --output-model examples/ner/output/product_ner_model \
-  --n-iter 100 \
-  --dropout 0.3
-```
-
-## Evaluate the Model
-
-Evaluate the trained model on the development set:
-
-```bash
-spacylize evaluate \
-  --model examples/ner/output/product_ner_model \
-  --data examples/ner/output/dev_split.spacy
+spacylize clean \
+  --dataset examples/ner/output/train.spacy \
+  --remove 3,7,12
 ```
 
 ## Expected Output Format

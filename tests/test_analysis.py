@@ -5,19 +5,16 @@ from spacylize import analysis
 nlp = spacy.blank("en")
 
 
-def test_find_duplicates_exact_and_near():
+def test_duplicate_ids_ignores_case_punctuation_and_spacing():
     texts = [
-        "The red wireless headphones offer great sound and long battery life.",
-        "the red  wireless headphones offer great sound and long battery life.",
-        "The red wireless headphones offer great sound and a long battery life.",
-        "A wooden dining table with four matching chairs.",
+        "The red headphones offer great sound.",
+        "the red  headphones offer great sound",
+        "The red headphones offer a great sound.",
+        "The red headphones offer great sound.",
     ]
-    X = analysis.embed(texts)
 
-    duplicates = analysis.find_duplicates(texts, X)
-
-    assert duplicates["exact"] == [[0, 1]]
-    assert {(a, b) for a, b, _ in duplicates["near"]} == {(0, 2), (1, 2)}
+    # The first text is kept; a different wording is not a duplicate
+    assert analysis.duplicate_ids(texts) == {1, 3}
 
 
 def test_diversity_distinct_n():
@@ -67,22 +64,33 @@ def test_check_labels():
     }
 
 
-def test_project_2d_handles_small_and_larger_datasets():
-    for n in (2, 5, 30):
-        texts = [f"document number {i} about topic {i % 3}" for i in range(n)]
-        coords = analysis.project_2d(analysis.embed(texts))
-        assert coords.shape == (n, 2)
-
-
-def test_find_off_topic_reads_scores_from_generate():
+def test_off_topic_ids_reads_scores_from_generate():
     docs = [nlp("A new laptop."), nlp("Bake the bread."), nlp("No score.")]
     docs[0].user_data["topic_score"] = 0.99
     docs[1].user_data["topic_score"] = 0.01
 
-    result = analysis.find_off_topic(docs)
+    assert analysis.off_topic_ids(docs) == {1}
 
-    assert result == {
-        "checked": 2,
-        "off_topic": [{"index": 1, "score": 0.01, "text": "Bake the bread."}],
+
+def test_find_issues_runs_each_check():
+    docs = [
+        nlp("Apple makes phones"),
+        nlp("Apple makes phones"),  # duplicate
+        nlp("Apple is red"),  # label conflict with "Apple"
+        nlp("Bake the bread"),  # off-topic
+        nlp("A [laptop] here"),  # leftover markup
+    ]
+    docs[0].ents = [docs[0].char_span(0, 5, label="BRAND")]
+    docs[1].ents = [docs[1].char_span(0, 5, label="BRAND")]
+    docs[2].ents = [docs[2].char_span(0, 5, label="COLOR")]
+    docs[3].user_data["topic_score"] = 0.01
+
+    issues = analysis.find_issues(docs, "ner", labels=["BRAND"])
+
+    assert issues == {
+        0: ["label conflict"],
+        1: ["duplicate", "label conflict"],
+        2: ["label conflict", "unknown label"],
+        3: ["off-topic"],
+        4: ["leftover markup"],
     }
-    assert analysis.find_off_topic([nlp("No score.")]) is None

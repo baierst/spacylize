@@ -1,7 +1,7 @@
 """Command-line interface for Spacylize.
 
 This module provides the main CLI application for Spacylize, enabling users
-to generate, validate, visualize, split, train, and evaluate SpaCy NER datasets
+to generate, validate, clean, split, train, and evaluate SpaCy NER datasets
 using LLM-powered data generation.
 """
 
@@ -13,8 +13,7 @@ from spacylize.evaluator import ModelEvaluator
 from spacylize.generator import DataGenerator
 from spacylize.splitter import DataSplitter
 from spacylize.trainer import ModelTrainer
-from spacylize.validator import DataValidator
-from spacylize.visualizer import DataVisualizer
+from spacylize.validator import DataValidator, clean_dataset
 
 app = typer.Typer(
     name="spacylize",
@@ -62,6 +61,11 @@ def generate_data(
         help="Score each sample against the configured domain with a local "
         "decision model (ollama pull nimble).",
     ),
+    append: bool = typer.Option(
+        False,
+        "--append",
+        help="Add the samples to an existing output file instead of overwriting it.",
+    ),
 ):
     """
     Generates training data using an LLM based on a prompt configuration.
@@ -73,6 +77,8 @@ def generate_data(
     typer.echo(f"  Output path: {output_path}")
     typer.echo(f"  Task: {task}")
 
+    if output_path.exists() and not append:
+        typer.confirm(f"Are you sure you want to overwrite {output_path}?", abort=True)
     try:
         generator = DataGenerator(
             llm_config_path=llm_config_path,
@@ -81,59 +87,9 @@ def generate_data(
             output_path=output_path,
             task=task,
             topic_check=topic_check,
+            append=append,
         )
         generator.run()
-    except Exception as e:
-        typer.echo(f"[Error] {e}")
-        raise typer.Exit(code=1)
-
-
-@app.command(
-    name="visualize",
-    help="Visualize generated data using SpaCy's displacy.",
-)
-def visualize_data(
-    input_path: Path = typer.Option(
-        ...,
-        "--input-path",
-        "-i",
-        help="Path to the SpaCy data file (.spacy).",
-    ),
-    task: str = typer.Option(
-        None,
-        "--task",
-        help="The SpaCy task (e.g., ner, textcat). Auto-detects if not specified.",
-    ),
-    n_samples: int = typer.Option(
-        5,
-        "--n-samples",
-        "-n",
-        help="Number of samples to visualize.",
-    ),
-    port: int = typer.Option(
-        5002,
-        "--port",
-        "-p",
-        help="Port to serve the visualization.",
-    ),
-):
-    """
-    Visualizes generated data using SpaCy's displacy.
-    """
-    typer.echo("Visualizing generated data...")
-    typer.echo(f"  Input path: {input_path}")
-    typer.echo(f"  Task: {task}")
-    typer.echo(f"  Number of samples: {n_samples}")
-    typer.echo(f"  Port: {port}")
-
-    try:
-        visualizer = DataVisualizer(
-            input_path=input_path,
-            task=task,
-            n_samples=n_samples,
-            port=port,
-        )
-        visualizer.run()
     except Exception as e:
         typer.echo(f"[Error] {e}")
         raise typer.Exit(code=1)
@@ -196,6 +152,47 @@ def validate_dataset(
         validator.run()
         if open_dashboard:
             webbrowser.open(validator.html_path.resolve().as_uri())
+    except Exception as e:
+        typer.echo(f"[Error] {e}")
+        raise typer.Exit(code=1)
+
+
+@app.command(
+    name="clean",
+    help="Remove the documents selected in the validation report.",
+)
+def clean(
+    dataset: Path = typer.Option(
+        ...,
+        "--dataset",
+        "-d",
+        help="Path to the SpaCy dataset (.spacy).",
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+    ),
+    remove: str = typer.Option(
+        ...,
+        "--remove",
+        "-r",
+        help="Comma-separated document numbers to remove, e.g. 3,7,12 (as in the report).",
+    ),
+    output: Path = typer.Option(
+        None,
+        "--output",
+        "-o",
+        help="Where to write the cleaned dataset. Overwrites the dataset if not given.",
+    ),
+):
+    """
+    CLI entry point for cleaning a SpaCy dataset.
+    """
+    if output is None:
+        typer.confirm(f"Are you sure you want to overwrite {dataset}?", abort=True)
+    try:
+        ids = {int(i) for i in remove.split(",") if i.strip()}
+        removed, total = clean_dataset(dataset, ids, output)
+        typer.echo(f"Removed {removed} of {total} documents.")
     except Exception as e:
         typer.echo(f"[Error] {e}")
         raise typer.Exit(code=1)

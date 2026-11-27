@@ -1,12 +1,12 @@
 """Interactive HTML dashboard for dataset validation reports.
 
-Renders the validation report into a single self-contained HTML file with
-Plotly charts and an embedding map. The file works offline, as plotly.js is
-embedded.
+Renders the validation report into a single self-contained HTML file: charts and
+a filterable list of all documents, where documents can be selected for removal
+with `spacylize clean`. The file works offline, as plotly.js is embedded.
 """
 
 import html
-import textwrap
+from collections import Counter
 from pathlib import Path
 
 import plotly.graph_objects as go
@@ -16,14 +16,13 @@ from plotly.offline import get_plotlyjs
 TEMPLATE_DIR = Path(__file__).parent / "templates"
 
 
-def write_dashboard(report, distributions, texts, coords, path):
+def write_dashboard(report, distributions, docs, path):
     """Write the validation dashboard as a self-contained HTML file.
 
     Args:
-        report: Validation report dictionary, including 'quality'.
+        report: Validation report dictionary, including 'issues'.
         distributions: Dict of title -> list (histogram) or dict (bar chart).
-        texts: Document texts, shown when hovering over the embedding map.
-        coords: 2D coordinates of the documents, shape (n_docs, 2).
+        docs: List of spaCy Doc objects, shown in the document list.
         path: Output path of the HTML file.
     """
     charts = []
@@ -31,24 +30,24 @@ def write_dashboard(report, distributions, texts, coords, path):
         if isinstance(values, dict):
             fig = go.Figure(go.Bar(x=list(values.keys()), y=list(values.values())))
         else:
-            fig = go.Figure(go.Histogram(x=values))
+            fig = go.Figure(go.Histogram(x=values, nbinsx=20))
         charts.append(_to_html(fig, title))
 
-    embedding = go.Figure(
-        go.Scattergl(
-            x=coords[:, 0],
-            y=coords[:, 1],
-            mode="markers",
-            hovertext=[_hover_text(text) for text in texts],
-            hoverinfo="text",
-        )
-    )
-
+    issues = report["issues"]
+    # Entity texts with several labels -> their labels, shown in red
+    conflicts = {
+        c["text"]: c["labels"] for c in report["quality"]["labels"].get("conflicts", [])
+    }
     env = Environment(loader=FileSystemLoader(TEMPLATE_DIR), autoescape=True)
     page = env.get_template("dashboard.html.jinja2").render(
         report=report,
+        name=Path(report["dataset"]["path"]).name,
         charts=charts,
-        embedding=_to_html(embedding, "Embedding Map", height=520),
+        counts=Counter(issue for names in issues.values() for issue in names),
+        rows=[
+            (i, issues.get(i, []), _render(doc, conflicts))
+            for i, doc in enumerate(docs)
+        ],
         plotlyjs=get_plotlyjs(),
     )
 
@@ -57,19 +56,40 @@ def write_dashboard(report, distributions, texts, coords, path):
     path.write_text(page, encoding="utf8")
 
 
-def _to_html(fig, title, height=320):
+def _render(doc, conflicts):
+    """Document text as HTML, with categories and highlighted entities.
+
+    Entities whose text has several labels in the dataset are shown in red.
+    """
+    parts = [
+        f"<b>{html.escape(c)}</b> " for c, score in doc.cats.items() if score > 0.5
+    ]
+    last = 0
+    for ent in doc.ents:
+        parts.append(html.escape(doc.text[last : ent.start_char]))
+        labels = conflicts.get(ent.text.lower())
+        title = html.escape(f"Labels: {', '.join(labels)}") if labels else ""
+        attrs = f' class="conflict" title="{title}"' if labels else ""
+        parts.append(
+            f"<mark{attrs}>{html.escape(ent.text)} <small>{html.escape(ent.label_)}</small></mark>"
+        )
+        last = ent.end_char
+    parts.append(html.escape(doc.text[last:]))
+    return "".join(parts)
+
+
+def _to_html(fig, title, height=300):
     """Render a Plotly figure as an HTML snippet (without plotly.js)."""
     fig.update_layout(
         title=title,
         height=height,
+        bargap=0.15,
         margin=dict(l=40, r=20, t=50, b=40),
         template="plotly_white",
     )
-    return fig.to_html(full_html=False, include_plotlyjs=False)
-
-
-def _hover_text(text, max_chars=300, width=80):
-    """Escape, truncate and wrap a document text for a hover label."""
-    if len(text) > max_chars:
-        text = text[:max_chars] + "…"
-    return "<br>".join(textwrap.wrap(html.escape(text), width))
+    return fig.to_html(
+        full_html=False,
+        include_plotlyjs=False,
+        default_width="100%",
+        config={"responsive": True},
+    )

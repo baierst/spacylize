@@ -220,6 +220,7 @@ class DataGenerator:
         output_path,
         task,
         topic_check=False,
+        append=False,
     ):
         """Initialize the DataGenerator.
 
@@ -230,6 +231,7 @@ class DataGenerator:
             output_path: Path where the generated .spacy file will be saved.
             task: The SpaCy task type (e.g., 'ner', 'textcat').
             topic_check: Score each sample against the configured domain.
+            append: Add the samples to an existing output file.
         """
         llm_config = load_llm_config(llm_config_path)
 
@@ -255,6 +257,7 @@ class DataGenerator:
         self.output_path = output_path
         self.task = task
         self.topic_check = topic_check
+        self.append = append
 
     def run(self):
         """Run the data generation process.
@@ -264,9 +267,13 @@ class DataGenerator:
         the results to a SpaCy binary file. Failed samples are skipped (the run
         stops after 3 failures in a row), and the samples so far are always saved.
         With topic_check, each sample then gets a topic score in doc.user_data.
+        With append, the samples are added after the existing ones.
         """
         nlp = spacy.blank("en")
         docs = []
+        existing = []
+        if self.append and Path(self.output_path).exists():
+            existing = list(DocBin().from_disk(self.output_path).get_docs(nlp.vocab))
 
         # Get task-specific parser and builder
         parser_cls, builder_cls = TaskHandler.get_handler(self.task)
@@ -312,4 +319,4 @@ class DataGenerator:
                         break
                     doc.user_data["topic_score"] = round(score, 3)
         finally:
-            DocBin(docs=docs, store_user_data=True).to_disk(self.output_path)
+            DocBin(docs=existing + docs, store_user_data=True).to_disk(self.output_path)

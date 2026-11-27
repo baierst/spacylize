@@ -68,29 +68,6 @@ def test_generate_command_failure(tmp_path):
         assert "[Error]" in result.output
 
 
-def test_visualize_command():
-    with patch("spacylize.cli.DataVisualizer") as mock_visualizer:
-        instance = mock_visualizer.return_value
-
-        result = runner.invoke(
-            app,
-            [
-                "visualize",
-                "--input-path",
-                "data.spacy",
-                "--task",
-                "ner",
-                "--n-samples",
-                "3",
-                "--port",
-                "5005",
-            ],
-        )
-
-        assert result.exit_code == 0
-        instance.run.assert_called_once()
-
-
 def test_validate_command(tmp_path):
     # Create a dummy dataset file so Typer passes validation
     dataset_file = tmp_path / "data.spacy"
@@ -203,3 +180,45 @@ def test_evaluate_command_error_exits_cleanly():
 
         assert result.exit_code == 1
         assert "[Error] boom" in result.output
+
+
+def test_clean_command(tmp_path):
+    dataset_file = tmp_path / "data.spacy"
+    dataset_file.touch()
+
+    with patch("spacylize.cli.clean_dataset", return_value=(2, 10)) as mock_clean:
+        # Overwriting the dataset asks for confirmation; "n" aborts
+        args = ["clean", "--dataset", str(dataset_file), "--remove", "1,3"]
+        result = runner.invoke(app, args, input="n\n")
+        assert result.exit_code == 1
+        mock_clean.assert_not_called()
+
+        result = runner.invoke(app, args, input="y\n")
+
+    assert result.exit_code == 0
+    assert "Removed 2 of 10 documents" in result.stdout
+    mock_clean.assert_called_once_with(dataset_file, {1, 3}, None)
+
+
+def test_generate_asks_before_overwriting(tmp_path):
+    for name in ("prompt.yaml", "llm.yaml", "out.spacy"):
+        (tmp_path / name).write_text("x")
+    args = [
+        "generate",
+        "--llm-config-path",
+        str(tmp_path / "llm.yaml"),
+        "--prompt-config-path",
+        str(tmp_path / "prompt.yaml"),
+        "--task",
+        "ner",
+        "--output-path",
+        str(tmp_path / "out.spacy"),
+    ]
+
+    with patch("spacylize.cli.DataGenerator") as mock_generator:
+        # The output exists: "n" aborts, --append does not ask
+        assert runner.invoke(app, args, input="n\n").exit_code == 1
+        mock_generator.assert_not_called()
+
+        assert runner.invoke(app, args + ["--append"]).exit_code == 0
+        assert mock_generator.call_args.kwargs["append"] is True

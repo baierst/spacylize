@@ -17,6 +17,24 @@ from spacylize.dashboard import write_dashboard
 from spacylize.prompt_config import load_structured_config
 
 
+def clean_dataset(dataset_path, remove, output_path=None):
+    """Remove the given documents from a dataset.
+
+    Args:
+        dataset_path: Path to the SpaCy dataset file (.spacy).
+        remove: Indices of the documents to remove, as shown in the report.
+        output_path: Where to write the cleaned dataset. Overwrites the
+            dataset if None.
+
+    Returns:
+        tuple: Number of removed documents and number of documents before.
+    """
+    docs = list(DocBin().from_disk(dataset_path).get_docs(spacy.blank("en").vocab))
+    kept = [doc for i, doc in enumerate(docs) if i not in remove]
+    DocBin(docs=kept, store_user_data=True).to_disk(output_path or dataset_path)
+    return len(docs) - len(kept), len(docs)
+
+
 class DataValidator:
     """Validator for SpaCy datasets that generates quality reports and visualizations.
 
@@ -270,10 +288,7 @@ class DataValidator:
             distributions: Charts for the dashboard, as title -> list (histogram)
                 or dict (bar chart).
         """
-        texts = [doc.text for doc in docs]
-        vectors = analysis.embed(texts)
         report["quality"] = {
-            "duplicates": analysis.find_duplicates(texts, vectors),
             "diversity": analysis.diversity(docs),
             "labels": analysis.label_quality(docs, self.task),
         }
@@ -281,13 +296,10 @@ class DataValidator:
             report["quality"]["label_check"] = analysis.check_labels(
                 docs, self.task, self.labels
             )
-        topic_check = analysis.find_off_topic(docs)
-        if topic_check is not None:
-            report["quality"]["topic_check"] = topic_check
+        report["issues"] = analysis.find_issues(docs, self.task, self.labels)
 
         self._write_json(report)
-        coords = analysis.project_2d(vectors)
-        write_dashboard(report, distributions, texts, coords, self.html_path)
+        write_dashboard(report, distributions, docs, self.html_path)
 
     def _write_json(self, report):
         """Write the validation report to a JSON file.

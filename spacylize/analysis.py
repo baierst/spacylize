@@ -1,81 +1,11 @@
 """Dataset analysis helpers used by the validator.
 
-Provides document embeddings, a 2D projection for the embedding map, duplicate
-detection, diversity metrics, label quality checks and a topic check.
+Provides duplicate detection, diversity metrics, label quality checks, the topic
+check and the per-document issues shown in the report.
 """
 
+import re
 from collections import Counter, defaultdict
-
-import numpy as np
-from sklearn.decomposition import TruncatedSVD
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.manifold import TSNE
-
-
-def embed(texts):
-    """Embed texts as L2-normalised TF-IDF vectors.
-
-    Args:
-        texts: List of document texts.
-
-    Returns:
-        Sparse matrix with one row per text.
-    """
-    return TfidfVectorizer(sublinear_tf=True).fit_transform(texts)
-
-
-def project_2d(X, seed=42):
-    """Project document vectors to 2D for the embedding map.
-
-    Uses truncated SVD, followed by t-SNE for datasets with at least 10 documents.
-
-    Args:
-        X: Document vectors (one row per document).
-        seed: Random seed for reproducible layouts.
-
-    Returns:
-        numpy.ndarray: Array of shape (n_docs, 2).
-    """
-    n = X.shape[0]
-    k = min(50, n - 1, X.shape[1] - 1)
-    if k < 2:
-        return np.zeros((n, 2))
-
-    reduced = TruncatedSVD(n_components=k, random_state=seed).fit_transform(X)
-    if n < 10:
-        return reduced[:, :2]
-
-    tsne = TSNE(
-        n_components=2, perplexity=min(30, (n - 1) / 3), init="pca", random_state=seed
-    )
-    return tsne.fit_transform(reduced)
-
-
-def find_duplicates(texts, X, threshold=0.9):
-    """Find exact and near-duplicate documents.
-
-    Args:
-        texts: List of document texts.
-        X: L2-normalised document vectors.
-        threshold: Minimum cosine similarity for a near-duplicate pair.
-
-    Returns:
-        dict: 'exact' as groups of document indices, 'near' as
-        [index_a, index_b, similarity] pairs that are not exact duplicates.
-    """
-    groups = defaultdict(list)
-    for i, text in enumerate(texts):
-        groups[" ".join(text.lower().split())].append(i)
-    exact = [group for group in groups.values() if len(group) > 1]
-    exact_pairs = {(a, b) for group in exact for a in group for b in group if a < b}
-
-    sims = (X @ X.T).toarray()
-    near = [
-        [int(a), int(b), round(float(sims[a, b]), 3)]
-        for a, b in np.argwhere(np.triu(sims, k=1) >= threshold)
-        if (a, b) not in exact_pairs
-    ]
-    return {"exact": exact, "near": near}
 
 
 def diversity(docs):
@@ -85,8 +15,7 @@ def diversity(docs):
         docs: List of spaCy Doc objects.
 
     Returns:
-        dict: distinct-1/2 ratios, the most repeated 3-word openings and the
-        most frequent terms.
+        dict: distinct-1/2 ratios and the most repeated 3-word openings.
     """
     tokens = [[t.lower_ for t in doc if not (t.is_punct or t.is_space)] for doc in docs]
     unigrams = [t for toks in tokens for t in toks]
@@ -96,17 +25,10 @@ def diversity(docs):
         return round(len(set(items)) / len(items), 3) if items else 0
 
     openings = Counter(" ".join(toks[:3]) for toks in tokens if len(toks) >= 3)
-    terms = Counter(
-        t.lower_
-        for doc in docs
-        for t in doc
-        if t.is_alpha and not t.is_stop and len(t) > 2
-    )
     return {
         "distinct_1": distinct(unigrams),
         "distinct_2": distinct(bigrams),
-        "top_openings": openings.most_common(10),
-        "top_terms": terms.most_common(20),
+        "top_openings": openings.most_common(5),
     }
 
 
@@ -143,7 +65,7 @@ def label_quality(docs, task):
             label: {
                 "total": sum(counts.values()),
                 "unique": len(counts),
-                "top_values": counts.most_common(5),
+                "values": counts.most_common(),
             }
             for label, counts in sorted(values.items())
         },
@@ -183,30 +105,69 @@ def check_labels(docs, task, labels):
     }
 
 
-def find_off_topic(docs):
-    """Documents with a topic score below 0.5, as stored by generate.
+def off_topic_ids(docs):
+    """Indices of documents with a topic score below 0.5, as stored by generate.
 
     Args:
         docs: List of spaCy Doc objects.
 
     Returns:
-        dict: 'checked' as the number of scored documents and 'off_topic' as
-        the documents below 0.5 (index, score, text), lowest score first.
-        None if no document has a topic score.
+        set: Document indices. Empty if no document has a topic score.
     """
-    scored = [
-        (i, doc.user_data["topic_score"], doc.text)
-        for i, doc in enumerate(docs)
-        if "topic_score" in doc.user_data
-    ]
-    if not scored:
-        return None
-    off_topic = [
-        {"index": i, "score": score, "text": text}
-        for i, score, text in scored
-        if score < 0.5
-    ]
     return {
-        "checked": len(scored),
-        "off_topic": sorted(off_topic, key=lambda o: o["score"]),
+        i for i, doc in enumerate(docs) if doc.user_data.get("topic_score", 1) < 0.5
     }
+
+
+def duplicate_ids(texts):
+    """Indices of documents that repeat an earlier one.
+
+    Texts are compared after lower-casing and removing punctuation and extra
+    whitespace, so copies that differ only in these still count.
+
+    Args:
+        texts: List of document texts.
+
+    Returns:
+        set: All but the first document of each group of duplicates.
+    """
+    seen, ids = set(), set()
+    for i, text in enumerate(texts):
+        key = " ".join(re.sub(r"[^\w\s]", " ", text.lower()).split())
+        if key in seen:
+            ids.add(i)
+        seen.add(key)
+    return ids
+
+
+def find_issues(docs, task, labels=None):
+    """Run the validator checks on each document.
+
+    Args:
+        docs: List of spaCy Doc objects.
+        task: 'ner' or 'textcat'.
+        labels: Optional configured labels, to find unknown labels.
+
+    Returns:
+        dict: Document index -> list of issues, only for documents with issues.
+    """
+    if not docs:
+        return {}
+    issues = defaultdict(list)
+    for i in duplicate_ids([doc.text for doc in docs]):
+        issues[i].append("duplicate")
+    for i in off_topic_ids(docs):
+        issues[i].append("off-topic")
+    conflicts = {c["text"] for c in label_quality(docs, task).get("conflicts", [])}
+    for i, doc in enumerate(docs):
+        if any(e.text.lower() in conflicts for e in doc.ents):
+            issues[i].append("label conflict")
+        if labels is not None:
+            used = {e.label_ for e in doc.ents} | {
+                c for c, s in doc.cats.items() if s > 0.5
+            }
+            if used - set(labels):
+                issues[i].append("unknown label")
+        if "[" in doc.text:
+            issues[i].append("leftover markup")
+    return dict(sorted(issues.items()))
