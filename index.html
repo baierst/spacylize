@@ -45,8 +45,8 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="api/cli.html">Command Line Interface</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="api/cli.html#spacylize.cli.generate_data"><code class="docutils literal notranslate"><span class="pre">generate_data()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/cli.html#spacylize.cli.visualize_data"><code class="docutils literal notranslate"><span class="pre">visualize_data()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/cli.html#spacylize.cli.validate_dataset"><code class="docutils literal notranslate"><span class="pre">validate_dataset()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/cli.html#spacylize.cli.clean"><code class="docutils literal notranslate"><span class="pre">clean()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/cli.html#spacylize.cli.split_dataset"><code class="docutils literal notranslate"><span class="pre">split_dataset()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/cli.html#spacylize.cli.train_pipeline"><code class="docutils literal notranslate"><span class="pre">train_pipeline()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/cli.html#spacylize.cli.evaluate_model"><code class="docutils literal notranslate"><span class="pre">evaluate_model()</span></code></a></li>
@@ -90,6 +90,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="api/validator.html">Data Validation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/validator.html#spacylize.validator.clean_dataset"><code class="docutils literal notranslate"><span class="pre">clean_dataset()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/validator.html#spacylize.validator.DataValidator"><code class="docutils literal notranslate"><span class="pre">DataValidator</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="api/validator.html#spacylize.validator.DataValidator.dataset_path"><code class="docutils literal notranslate"><span class="pre">DataValidator.dataset_path</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/validator.html#spacylize.validator.DataValidator.output_folder"><code class="docutils literal notranslate"><span class="pre">DataValidator.output_folder</span></code></a></li>
@@ -100,18 +101,6 @@
 <li class="toctree-l3"><a class="reference internal" href="api/validator.html#spacylize.validator.DataValidator.html_path"><code class="docutils literal notranslate"><span class="pre">DataValidator.html_path</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/validator.html#spacylize.validator.DataValidator.__init__"><code class="docutils literal notranslate"><span class="pre">DataValidator.__init__()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/validator.html#spacylize.validator.DataValidator.run"><code class="docutils literal notranslate"><span class="pre">DataValidator.run()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="api/visualizer.html">Data Visualization</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="api/visualizer.html#spacylize.visualizer.DataVisualizer"><code class="docutils literal notranslate"><span class="pre">DataVisualizer</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="api/visualizer.html#spacylize.visualizer.DataVisualizer.input_path"><code class="docutils literal notranslate"><span class="pre">DataVisualizer.input_path</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/visualizer.html#spacylize.visualizer.DataVisualizer.task"><code class="docutils literal notranslate"><span class="pre">DataVisualizer.task</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/visualizer.html#spacylize.visualizer.DataVisualizer.n_samples"><code class="docutils literal notranslate"><span class="pre">DataVisualizer.n_samples</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/visualizer.html#spacylize.visualizer.DataVisualizer.port"><code class="docutils literal notranslate"><span class="pre">DataVisualizer.port</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/visualizer.html#spacylize.visualizer.DataVisualizer.__init__"><code class="docutils literal notranslate"><span class="pre">DataVisualizer.__init__()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/visualizer.html#spacylize.visualizer.DataVisualizer.run"><code class="docutils literal notranslate"><span class="pre">DataVisualizer.run()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -313,73 +302,114 @@
              
   <section id="spacylize-documentation">
 <h1>Spacylize Documentation<a class="headerlink" href="#spacylize-documentation" title="Link to this heading"></a></h1>
-<p>Spacylize is a tool that distills the capabilities of large language models into compact, efficient spaCy models.</p>
-<p><strong>Prerequisites:</strong></p>
-<ul class="simple">
-<li><p>Python 3.10+</p></li>
-<li><p><a class="reference external" href="https://docs.astral.sh/uv/">uv</a></p></li>
-</ul>
-<p><strong>Installation:</strong></p>
+<p>Spacylize distills large language models into compact spaCy models: an LLM generates annotated training
+data, spacylize validates and cleans it, and a small spaCy pipeline is trained on it.</p>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Link to this heading"></a></h2>
+<p>Requires Python 3.10+ and <a class="reference external" href="https://docs.astral.sh/uv/">uv</a>.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>uv<span class="w"> </span>sync
+<span class="nb">source</span><span class="w"> </span>.venv/bin/activate
+spacylize<span class="w"> </span>--help
 </pre></div>
 </div>
-<p>Run the CLI with <code class="docutils literal notranslate"><span class="pre">uv</span> <span class="pre">run</span> <span class="pre">spacylize</span> <span class="pre">--help</span></code>.</p>
-<p><strong>Local model (Ollama):</strong> the examples use <code class="docutils literal notranslate"><span class="pre">gemma4</span></code> via Ollama by default.</p>
-<ol class="arabic simple">
-<li><p>Install <a class="reference external" href="https://ollama.com">Ollama</a> and start it (open the app, or run <code class="docutils literal notranslate"><span class="pre">ollama</span> <span class="pre">serve</span></code>).</p></li>
-<li><p>Pull the model: <code class="docutils literal notranslate"><span class="pre">ollama</span> <span class="pre">pull</span> <span class="pre">gemma4</span></code></p></li>
-</ol>
-<p>The example <code class="docutils literal notranslate"><span class="pre">llm.yaml</span></code> points spacylize to it:</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">model</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ollama_chat/gemma4</span><span class="w">         </span><span class="c1"># any Ollama model: ollama_chat/&lt;name&gt;</span>
+<p>The examples use the local model <code class="docutils literal notranslate"><span class="pre">gemma4</span></code> via <a class="reference external" href="https://ollama.com">Ollama</a>: start Ollama (the app, or
+<code class="docutils literal notranslate"><span class="pre">ollama</span> <span class="pre">serve</span></code>) and run <code class="docutils literal notranslate"><span class="pre">ollama</span> <span class="pre">pull</span> <span class="pre">gemma4</span></code>. To use a cloud model instead, switch to one of the
+commented-out models in <code class="docutils literal notranslate"><span class="pre">llm.yaml</span></code> and set its API key (e.g. <code class="docutils literal notranslate"><span class="pre">ANTHROPIC_API_KEY</span></code>) in your environment or
+a <code class="docutils literal notranslate"><span class="pre">.env</span></code> file.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># llm.yaml</span>
+<span class="nt">model</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ollama_chat/gemma4</span><span class="w">  </span><span class="c1"># any Ollama model: ollama_chat/&lt;name&gt;</span>
 <span class="nt">api_base</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">http://localhost:11434</span>
-<span class="nt">think</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span><span class="w">                      </span><span class="c1"># gemma4 thinks by default; off is much faster</span>
-</pre></div>
-</div>
-<p>To use a cloud provider instead, switch to one of the commented-out models in <code class="docutils literal notranslate"><span class="pre">llm.yaml</span></code> and set its API key
-(e.g. <code class="docutils literal notranslate"><span class="pre">ANTHROPIC_API_KEY</span></code>) in your environment or a <code class="docutils literal notranslate"><span class="pre">.env</span></code> file.</p>
-</section>
-<section id="getting-started">
-<h1>Getting Started<a class="headerlink" href="#getting-started" title="Link to this heading"></a></h1>
-<p>This example demonstrates how to use spacylize to generate training data and train a SpaCy model to identify key attributes from e-commerce product descriptions.</p>
-<section id="create-a-prompt-configuration-for-e-commerce-attributes">
-<h2>1. Create a Prompt Configuration for E-commerce Attributes<a class="headerlink" href="#create-a-prompt-configuration-for-e-commerce-attributes" title="Link to this heading"></a></h2>
-<p>See example: <code class="docutils literal notranslate"><span class="pre">examples/ner/input/prompt.yaml</span></code></p>
-</section>
-<section id="generate-training-data">
-<h2>2. Generate Training Data<a class="headerlink" href="#generate-training-data" title="Link to this heading"></a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>spacylize<span class="w"> </span>generate<span class="w"> </span>--llm-config-path<span class="w"> </span>examples/ner/input/llm.yaml<span class="w"> </span>--prompt-config-path<span class="w"> </span>examples/ner/input/prompt.yaml<span class="w"> </span>--n-samples<span class="w"> </span><span class="m">2000</span><span class="w"> </span>--output-path<span class="w"> </span>examples/ner/output/train.spacy<span class="w"> </span>--task<span class="w"> </span>ner
+<span class="nt">max_tokens</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1024</span><span class="w">           </span><span class="c1"># optional, default: 1024</span>
+<span class="nt">think</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span><span class="w">               </span><span class="c1"># optional; false makes gemma4 much faster</span>
 </pre></div>
 </div>
 </section>
-<section id="visualize-generated-data">
-<h2>3. Visualize Generated Data<a class="headerlink" href="#visualize-generated-data" title="Link to this heading"></a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>spacylize<span class="w"> </span>visualize<span class="w"> </span>--input-path<span class="w"> </span>examples/ner/output/train.spacy<span class="w"> </span>--n-samples<span class="w"> </span><span class="m">5</span><span class="w"> </span>--port<span class="w"> </span><span class="m">5002</span>
+<section id="prompt-configuration">
+<h2>Prompt configuration<a class="headerlink" href="#prompt-configuration" title="Link to this heading"></a></h2>
+<p>A <code class="docutils literal notranslate"><span class="pre">prompt.yaml</span></code> describes what to generate; templates turn it into the prompts. The prompt is rendered for
+every sample, so samples vary. NER example:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">task</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ner</span>
+<span class="nt">entities</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">PRODUCT_TYPE</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">BRAND</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">MODEL</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">COLOR</span><span class="p p-Indicator">]</span>
+<span class="nt">min_entities</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span><span class="w">   </span><span class="c1"># optional, default: 1 (random subset per sample)</span>
+<span class="nt">domain</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;tech</span><span class="nv"> </span><span class="s">product</span><span class="nv"> </span><span class="s">descriptions&quot;</span>
+<span class="nt">tone</span><span class="p">:</span><span class="w">             </span><span class="c1"># text or list (one picked per sample)</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;professional</span><span class="nv"> </span><span class="s">marketing</span><span class="nv"> </span><span class="s">copy&quot;</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;concise</span><span class="nv"> </span><span class="s">and</span><span class="nv"> </span><span class="s">factual&quot;</span>
+<span class="nt">length</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2-3</span><span class="nv"> </span><span class="s">sentences&quot;</span>
+<span class="nt">language</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;en&quot;</span><span class="w">    </span><span class="c1"># optional, default: &quot;en&quot;</span>
+<span class="nt">temperature</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.7</span><span class="w">  </span><span class="c1"># optional, default: provider default</span>
+<span class="nt">constraints</span><span class="p">:</span><span class="w">      </span><span class="c1"># optional</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;Use</span><span class="nv"> </span><span class="s">realistic,</span><span class="nv"> </span><span class="s">coherent</span><span class="nv"> </span><span class="s">values&quot;</span>
+<span class="nt">examples</span><span class="p">:</span><span class="w">         </span><span class="c1"># optional, few-shot examples</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">text</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;The</span><span class="nv"> </span><span class="s">[iPhone</span><span class="nv"> </span><span class="s">15](MODEL)</span><span class="nv"> </span><span class="s">by</span><span class="nv"> </span><span class="s">[Apple](BRAND)</span><span class="nv"> </span><span class="s">in</span><span class="nv"> </span><span class="s">[Black](COLOR).&quot;</span>
 </pre></div>
 </div>
+<p>For text classification, use <code class="docutils literal notranslate"><span class="pre">task:</span> <span class="pre">textcat</span></code> and <code class="docutils literal notranslate"><span class="pre">categories</span></code> (each with <code class="docutils literal notranslate"><span class="pre">name</span></code> and <code class="docutils literal notranslate"><span class="pre">description</span></code>, at
+least 2) instead of <code class="docutils literal notranslate"><span class="pre">entities</span></code>; samples rotate through the categories, so the dataset is balanced. Full
+examples: <code class="docutils literal notranslate"><span class="pre">examples/ner/input/prompt.yaml</span></code> and <code class="docutils literal notranslate"><span class="pre">examples/textcat/input/prompt.yaml</span></code>.</p>
 </section>
-<section id="validate-data">
-<h2>4. Validate Data<a class="headerlink" href="#validate-data" title="Link to this heading"></a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>spacylize<span class="w"> </span>validate<span class="w"> </span>--dataset<span class="w"> </span>examples/ner/output/train.spacy<span class="w"> </span>--output-folder<span class="w"> </span>examples/ner/output
+<section id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Link to this heading"></a></h2>
+<p><strong>1. Generate</strong> training data. The rendered prompts of one sample are saved next to the output for review.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>spacylize<span class="w"> </span>generate<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--llm-config-path<span class="w"> </span>examples/ner/input/llm.yaml<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--prompt-config-path<span class="w"> </span>examples/ner/input/prompt.yaml<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--task<span class="w"> </span>ner<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--n-samples<span class="w"> </span><span class="m">100</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--output-path<span class="w"> </span>examples/ner/output/train.spacy<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--topic-check<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--append
 </pre></div>
 </div>
-</section>
-<section id="split-dataset-into-train-test-sets">
-<h2>5. Split Dataset into Train/Test Sets<a class="headerlink" href="#split-dataset-into-train-test-sets" title="Link to this heading"></a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>spacylize<span class="w"> </span>split<span class="w"> </span>--input<span class="w"> </span>examples/ner/output/train.spacy<span class="w"> </span>--train<span class="w"> </span>examples/ner/output/train_split.spacy<span class="w"> </span>--dev<span class="w"> </span>examples/ner/output/dev_split.spacy<span class="w"> </span>--dev-size<span class="w"> </span><span class="m">0</span>.2<span class="w"> </span>--seed<span class="w"> </span><span class="m">42</span>
+<p>Optional: <code class="docutils literal notranslate"><span class="pre">--n-samples</span></code> (default 10), <code class="docutils literal notranslate"><span class="pre">--output-path</span></code> (default <code class="docutils literal notranslate"><span class="pre">data/output.spacy</span></code>),
+<code class="docutils literal notranslate"><span class="pre">--topic-check</span></code> (scores each sample against the domain; needs <code class="docutils literal notranslate"><span class="pre">ollama</span> <span class="pre">pull</span> <span class="pre">nimble</span></code>), <code class="docutils literal notranslate"><span class="pre">--append</span></code>
+(adds to an existing file; by default it is overwritten after asking).</p>
+<p><strong>2. Validate</strong> the data. This writes a JSON report, a PNG and an HTML report: charts, entity values,
+the issues found (duplicates, off-topic texts, label conflicts, unknown labels, leftover markup) and a
+list of all documents to filter and select for removal.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>spacylize<span class="w"> </span>validate<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--dataset<span class="w"> </span>examples/ner/output/train.spacy<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--output-folder<span class="w"> </span>examples/ner/output<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--prompt-config<span class="w"> </span>examples/ner/input/prompt.yaml<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--task<span class="w"> </span>ner<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--open
 </pre></div>
 </div>
-</section>
-<section id="train-a-spacy-model-for-attribute-extraction">
-<h2>6. Train a SpaCy Model for Attribute Extraction<a class="headerlink" href="#train-a-spacy-model-for-attribute-extraction" title="Link to this heading"></a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>spacylize<span class="w"> </span>train<span class="w"> </span>--train-data<span class="w"> </span>examples/ner/output/train_split.spacy<span class="w"> </span>--base-model<span class="w"> </span>en_core_web_sm<span class="w"> </span>--output-model<span class="w"> </span>examples/ner/output/ecommerce_attribute_model<span class="w"> </span>--n-iter<span class="w"> </span><span class="m">100</span><span class="w"> </span>--dropout<span class="w"> </span><span class="m">0</span>.3
+<p>Optional: <code class="docutils literal notranslate"><span class="pre">--prompt-config</span></code> (flags labels that are not configured), <code class="docutils literal notranslate"><span class="pre">--task</span></code> (default: from the
+prompt config, or detected), <code class="docutils literal notranslate"><span class="pre">--open</span></code> (opens the report in the browser).</p>
+<p><strong>3. Clean</strong>: remove the documents selected in the report (the report shows this command).</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>spacylize<span class="w"> </span>clean<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--dataset<span class="w"> </span>examples/ner/output/train.spacy<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--remove<span class="w"> </span><span class="m">3</span>,7,12<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--output<span class="w"> </span>examples/ner/output/clean.spacy
 </pre></div>
 </div>
-</section>
-<section id="evaluate-a-trained-spacy-model">
-<h2>7. Evaluate a Trained SpaCy Model<a class="headerlink" href="#evaluate-a-trained-spacy-model" title="Link to this heading"></a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>spacylize<span class="w"> </span>evaluate<span class="w"> </span>--model<span class="w"> </span>examples/ner/output/ecommerce_attribute_model<span class="w"> </span>--data<span class="w"> </span>examples/ner/output/dev_split.spacy
+<p>Optional: <code class="docutils literal notranslate"><span class="pre">--output</span></code> (writes a new file; by default the dataset is overwritten after asking).</p>
+<p>The numbers refer to the validated dataset, so run <code class="docutils literal notranslate"><span class="pre">validate</span></code> again before selecting more.</p>
+<p><strong>4. Split, train and evaluate</strong> (planned, not implemented yet):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>spacylize<span class="w"> </span>split<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--input<span class="w"> </span>examples/ner/output/train.spacy<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--train<span class="w"> </span>examples/ner/output/train_split.spacy<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--dev<span class="w"> </span>examples/ner/output/dev_split.spacy<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--dev-size<span class="w"> </span><span class="m">0</span>.2<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--seed<span class="w"> </span><span class="m">42</span>
+
+spacylize<span class="w"> </span>train<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--train-data<span class="w"> </span>examples/ner/output/train_split.spacy<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--base-model<span class="w"> </span>en_core_web_sm<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--output-model<span class="w"> </span>examples/ner/output/model<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--n-iter<span class="w"> </span><span class="m">100</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--dropout<span class="w"> </span><span class="m">0</span>.3
+
+spacylize<span class="w"> </span>evaluate<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--model<span class="w"> </span>examples/ner/output/model<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--data<span class="w"> </span>examples/ner/output/dev_split.spacy
 </pre></div>
 </div>
+<p>Optional: split <code class="docutils literal notranslate"><span class="pre">--train</span></code> (default <code class="docutils literal notranslate"><span class="pre">train.spacy</span></code>), <code class="docutils literal notranslate"><span class="pre">--dev</span></code> (default <code class="docutils literal notranslate"><span class="pre">dev.spacy</span></code>), <code class="docutils literal notranslate"><span class="pre">--dev-size</span></code>
+(default 0.2), <code class="docutils literal notranslate"><span class="pre">--seed</span></code> (default 42); train <code class="docutils literal notranslate"><span class="pre">--base-model</span></code> (default <code class="docutils literal notranslate"><span class="pre">en_core_web_sm</span></code>),
+<code class="docutils literal notranslate"><span class="pre">--output-model</span></code> (default <code class="docutils literal notranslate"><span class="pre">models/trained_model</span></code>), <code class="docutils literal notranslate"><span class="pre">--n-iter</span></code> (default 100), <code class="docutils literal notranslate"><span class="pre">--dropout</span></code> (default
+0.3).</p>
 </section>
 </section>
 <section id="api-reference">
@@ -389,8 +419,8 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="api/cli.html">Command Line Interface</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="api/cli.html#spacylize.cli.generate_data"><code class="docutils literal notranslate"><span class="pre">generate_data()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/cli.html#spacylize.cli.visualize_data"><code class="docutils literal notranslate"><span class="pre">visualize_data()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/cli.html#spacylize.cli.validate_dataset"><code class="docutils literal notranslate"><span class="pre">validate_dataset()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/cli.html#spacylize.cli.clean"><code class="docutils literal notranslate"><span class="pre">clean()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/cli.html#spacylize.cli.split_dataset"><code class="docutils literal notranslate"><span class="pre">split_dataset()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/cli.html#spacylize.cli.train_pipeline"><code class="docutils literal notranslate"><span class="pre">train_pipeline()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/cli.html#spacylize.cli.evaluate_model"><code class="docutils literal notranslate"><span class="pre">evaluate_model()</span></code></a></li>
@@ -408,11 +438,8 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="api/validator.html">Data Validation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/validator.html#spacylize.validator.clean_dataset"><code class="docutils literal notranslate"><span class="pre">clean_dataset()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/validator.html#spacylize.validator.DataValidator"><code class="docutils literal notranslate"><span class="pre">DataValidator</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="api/visualizer.html">Data Visualization</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="api/visualizer.html#spacylize.visualizer.DataVisualizer"><code class="docutils literal notranslate"><span class="pre">DataVisualizer</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="api/llm.html">LLM Client</a><ul>
