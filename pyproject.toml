@@ -44,10 +44,6 @@ extend-exclude = ["docs/build"]
 extend-select = ["ANN"]
 ignore = ["ANN401"]  # allow typing.Any
 
-[tool.ruff.lint.flake8-bugbear]
-# typer declares CLI options as argument defaults
-extend-immutable-calls = ["typer.Option", "typer.Argument"]
-
 [tool.ruff.lint.per-file-ignores]
 "tests/*" = ["ANN"]
 "docs/*" = ["ANN"]
