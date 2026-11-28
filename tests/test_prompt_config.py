@@ -12,6 +12,7 @@ from spacylize.prompt_config import (
     TextCatExample,
     TextCatStructuredConfig,
     load_prompt_config,
+    load_structured_config,
     render_prompt,
 )
 
@@ -250,3 +251,11 @@ def test_render_prompt_rotates_textcat_categories():
     assert "this category: Electronics" in users[0]
     assert "this category: Clothing" in users[1]
     assert "this category: Electronics" in users[2]
+
+
+def test_load_structured_config_rejects_non_mapping(tmp_path):
+    path = tmp_path / "prompt.yaml"
+    path.write_text("- just\n- a list\n")
+
+    with pytest.raises(TypeError, match="expected a mapping"):
+        load_structured_config(path)

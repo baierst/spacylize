@@ -55,8 +55,8 @@ def label_quality(docs: list[Doc], task: str) -> dict:
             "multiple_categories": sum(p > 1 for p in positives),
         }
 
-    values = defaultdict(Counter)
-    labels_by_text = defaultdict(set)
+    values: defaultdict[str, Counter[str]] = defaultdict(Counter)
+    labels_by_text: defaultdict[str, set[str]] = defaultdict(set)
     for doc in docs:
         for ent in doc.ents:
             text = ent.text.lower()
@@ -94,7 +94,7 @@ def check_labels(docs: list[Doc], task: str, labels: list[str]) -> dict:
         that are not configured. A textcat label counts as used when it is a
         positive category (score > 0.5).
     """
-    counts = Counter()
+    counts: Counter[str] = Counter()
     for doc in docs:
         if task == "textcat":
             counts.update(label for label, score in doc.cats.items() if score > 0.5)

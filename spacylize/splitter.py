@@ -54,7 +54,7 @@ class DataSplitter:
         self.splits = splits
         self.output_folder = Path(output_folder)
         self.seed = seed
-        self.counts = {}
+        self.counts: dict[str, int] = {}
 
     def run(self) -> dict[str, Path]:
         """Split the dataset and write the sets.

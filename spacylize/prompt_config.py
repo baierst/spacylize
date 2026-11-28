@@ -263,7 +263,7 @@ def load_prompt_config(path: Path, output_folder: Path | None = None) -> PromptC
     return prompt_config
 
 
-def load_structured_config(path: Path) -> StructuredConfig:
+def load_structured_config(path: Path | str) -> StructuredConfig:
     """Load and validate a structured prompt configuration from YAML.
 
     Unlike load_prompt_config, this does not render the prompts, so it can be
@@ -276,12 +276,15 @@ def load_structured_config(path: Path) -> StructuredConfig:
         NERStructuredConfig or TextCatStructuredConfig.
 
     Raises:
+        TypeError: If the file does not contain a mapping of fields.
         RuntimeError: If the configuration is invalid or missing required fields.
     """
     with open(path, "r") as f:
         raw = yaml.safe_load(f)
 
     expanded = expand_env_vars(raw)
+    if not isinstance(expanded, dict):
+        raise TypeError("Invalid structured config: expected a mapping of fields.")
 
     task = expanded.get("task")
     if not task:

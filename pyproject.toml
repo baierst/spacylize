@@ -49,10 +49,21 @@ extend-select = ["ANN"]
 # CLI commands catch all errors to print them and exit with code 1
 "spacylize/cli.py" = ["BLE001"]
 
+[tool.mypy]
+python_version = "3.10"
+files = ["spacylize"]
+
+[[tool.mypy.overrides]]
+# plotly ships no type information
+module = ["plotly", "plotly.*"]
+ignore_missing_imports = true
+
 [dependency-groups]
 dev = [
+    "mypy>=2.4.1",
     "pytest>=8.4.2",
     "ruff>=0.17.6",
+    "types-pyyaml>=6.0.12.20261122",
 ]
 
 docs = [

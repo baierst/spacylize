@@ -28,7 +28,7 @@ a ``.env`` file.
    max_tokens: 1024           # optional, default: 1024
    think: false               # optional; false makes gemma4 much faster
 
-For development: ``uv sync --group dev``, then ``uv run ruff format --check .``, ``uv run ruff check .`` and ``uv run pytest``.
+For development: ``uv sync --group dev``, then ``uv run ruff format --check .``, ``uv run ruff check .``, ``uv run mypy`` and ``uv run pytest``.
 
 Prompt configuration
 --------------------

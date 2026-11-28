@@ -79,10 +79,10 @@ class DataValidator:
 
     def __init__(
         self,
-        dataset_path: str,
-        output_folder: str,
+        dataset_path: Path | str,
+        output_folder: Path | str,
         task: str | None = None,
-        prompt_config_path: str | None = None,
+        prompt_config_path: Path | str | None = None,
     ) -> None:
         """Initialize the DataValidator.
 
@@ -153,7 +153,7 @@ class DataValidator:
         doc_lengths = []
         ents_per_doc = []
         entity_lengths = []
-        entity_label_counts = {}
+        entity_label_counts: dict[str, int] = {}
 
         total_tokens = 0
         total_entities = 0
@@ -215,7 +215,7 @@ class DataValidator:
             docs: List of SpaCy Doc objects with category annotations.
         """
         doc_lengths = []
-        label_counts = {}
+        label_counts: dict[str, int] = {}
 
         for doc in docs:
             doc_lengths.append(len(doc))
@@ -381,17 +381,14 @@ class DataValidator:
         axes[1, 0].tick_params(axis="x", rotation=45)
 
         # Entity length distribution
-        if entity_lengths:
-            bins = range(1, max(entity_lengths) + 2)
-        else:
-            bins = [1]
+        bins = list(range(1, max(entity_lengths) + 2)) if entity_lengths else [1]
 
         axes[1, 1].hist(entity_lengths, bins=bins)
         axes[1, 1].set_title("Entity Length (Tokens)")
         axes[1, 1].set_xlabel("Tokens")
         axes[1, 1].set_ylabel("Entities")
 
-        plt.tight_layout(rect=[0, 0, 1, 0.95])
+        plt.tight_layout(rect=(0, 0, 1, 0.95))
         plt.savefig(self.png_path)
         plt.close(fig)
 

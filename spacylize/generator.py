@@ -310,10 +310,14 @@ class DataGenerator:
 
             if not self.topic_check:
                 return
+            domain = self.prompt_config.domain
+            if not domain:
+                logger.warning("Skipping topic check: no domain configured.")
+                return
             with typer.progressbar(docs, label="Checking topic") as bar:
                 for doc in bar:
                     try:
-                        score = topic_score(doc.text, self.prompt_config.domain)
+                        score = topic_score(doc.text, domain)
                     # Any failure of the local model (not installed, not running, ...)
                     # skips the topic check instead of losing the generated samples.
                     except Exception as e:  # noqa: BLE001

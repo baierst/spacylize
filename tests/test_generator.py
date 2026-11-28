@@ -257,3 +257,33 @@ def test_run_appends_to_existing_file(
 
     docs = list(DocBin().from_disk(output_path).get_docs(nlp.vocab))
     assert [doc.text for doc in docs] == ["Old sample.", "Hello John."]
+
+
+@patch("spacylize.generator.topic_score")
+@patch("spacylize.generator.load_llm_config")
+@patch("spacylize.generator.load_prompt_config")
+@patch("spacylize.generator.LLMClient")
+def test_run_skips_topic_check_without_domain(
+    mock_llm_client_cls,
+    mock_load_prompt_config,
+    mock_load_llm_config,
+    mock_topic_score,
+    tmp_path,
+):
+    mock_llm_client_cls.return_value.generate.return_value = "Hello [John](PERSON)."
+    mock_load_prompt_config.return_value.domain = None
+    output_path = tmp_path / "docs.spacy"
+
+    DataGenerator(
+        llm_config_path=Path("llm.yaml"),
+        prompt_config_path=Path("prompt.yaml"),
+        n_samples=1,
+        output_path=output_path,
+        task="ner",
+        topic_check=True,
+    ).run()
+
+    # The samples are kept, without a topic score
+    mock_topic_score.assert_not_called()
+    docs = list(DocBin().from_disk(output_path).get_docs(spacy.blank("en").vocab))
+    assert [doc.user_data.get("topic_score") for doc in docs] == [None]
