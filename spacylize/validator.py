@@ -7,6 +7,7 @@ of dataset characteristics.
 
 import json
 import statistics
+from dataclasses import dataclass, field
 from pathlib import Path
 import spacy
 from spacy.tokens import DocBin
@@ -17,22 +18,38 @@ from spacylize.dashboard import write_dashboard
 from spacylize.prompt_config import load_structured_config
 
 
-def clean_dataset(dataset_path, remove, output_path=None):
+@dataclass
+class DataCleaner:
     """Remove the given documents from a dataset.
 
-    Args:
+    Attributes:
         dataset_path: Path to the SpaCy dataset file (.spacy).
         remove: Indices of the documents to remove, as shown in the report.
         output_path: Where to write the cleaned dataset. Overwrites the
             dataset if None.
-
-    Returns:
-        tuple: Number of removed documents and number of documents before.
+        removed: Number of removed documents, filled by :meth:`run`.
+        total: Number of documents before cleaning, filled by :meth:`run`.
     """
-    docs = list(DocBin().from_disk(dataset_path).get_docs(spacy.blank("en").vocab))
-    kept = [doc for i, doc in enumerate(docs) if i not in remove]
-    DocBin(docs=kept, store_user_data=True).to_disk(output_path or dataset_path)
-    return len(docs) - len(kept), len(docs)
+
+    dataset_path: Path
+    remove: set[int]
+    output_path: Path | None = None
+    removed: int = field(default=0, init=False)
+    total: int = field(default=0, init=False)
+
+    def run(self):
+        """Write the cleaned dataset.
+
+        Returns:
+            Path: Path of the cleaned dataset.
+        """
+        vocab = spacy.blank("en").vocab
+        docs = list(DocBin().from_disk(self.dataset_path).get_docs(vocab))
+        kept = [doc for i, doc in enumerate(docs) if i not in self.remove]
+        output_path = Path(self.output_path or self.dataset_path)
+        DocBin(docs=kept, store_user_data=True).to_disk(output_path)
+        self.removed, self.total = len(docs) - len(kept), len(docs)
+        return output_path
 
 
 class DataValidator:

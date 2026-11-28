@@ -4,7 +4,7 @@ import pytest
 import spacy
 from spacy.tokens import DocBin
 
-from spacylize.splitter import split_dataset
+from spacylize.splitter import DataSplitter
 
 
 def create_docbin(tmp_path: Path, n_docs=10):
@@ -25,38 +25,38 @@ def test_three_way_split(tmp_path: Path):
     dataset = create_docbin(tmp_path)
     out = tmp_path / "splits"
 
-    counts = split_dataset(dataset, {"train": 0.8, "dev": 0.1, "test": 0.1}, out)
+    splitter = DataSplitter(dataset, {"train": 0.8, "dev": 0.1, "test": 0.1}, out)
+    paths = splitter.run()
 
-    assert counts == {"train": 8, "dev": 1, "test": 1}
-    texts = [t for name in counts for t in read_texts(out / f"{name}.spacy")]
+    assert paths == {name: out / f"{name}.spacy" for name in ("train", "dev", "test")}
+    assert splitter.counts == {"train": 8, "dev": 1, "test": 1}
+    texts = [t for path in paths.values() for t in read_texts(path)]
     assert sorted(texts) == sorted(read_texts(dataset))
 
 
 def test_two_way_split_is_reproducible(tmp_path: Path):
     dataset = create_docbin(tmp_path)
+    splits = {"train": 0.7, "dev": 0.3}
 
-    split_dataset(dataset, {"train": 0.7, "dev": 0.3}, tmp_path / "a", seed=1)
-    split_dataset(dataset, {"train": 0.7, "dev": 0.3}, tmp_path / "b", seed=1)
+    a = DataSplitter(dataset, splits, tmp_path / "a", seed=1).run()
+    b = DataSplitter(dataset, splits, tmp_path / "b", seed=1).run()
 
-    assert read_texts(tmp_path / "a" / "train.spacy") == read_texts(
-        tmp_path / "b" / "train.spacy"
-    )
-    assert len(read_texts(tmp_path / "a" / "dev.spacy")) == 3
+    assert read_texts(a["train"]) == read_texts(b["train"])
+    assert len(read_texts(a["dev"])) == 3
 
 
 def test_all_documents_assigned_with_rounding(tmp_path: Path):
     dataset = create_docbin(tmp_path, n_docs=7)
 
-    counts = split_dataset(dataset, {"a": 1 / 3, "b": 1 / 3, "c": 1 / 3}, tmp_path / "s")
+    splitter = DataSplitter(dataset, {"a": 1 / 3, "b": 1 / 3, "c": 1 / 3}, tmp_path / "s")
+    splitter.run()
 
-    assert sum(counts.values()) == 7
+    assert sum(splitter.counts.values()) == 7
 
 
 @pytest.mark.parametrize(
     "splits", [{}, {"train": 0.8, "dev": 0.1}, {"train": 1.2, "dev": -0.2}]
 )
-def test_invalid_splits(tmp_path: Path, splits):
-    dataset = create_docbin(tmp_path)
-
+def test_invalid_splits_fail_on_creation(tmp_path: Path, splits):
     with pytest.raises(ValueError):
-        split_dataset(dataset, splits, tmp_path / "s")
+        DataSplitter(tmp_path / "data.spacy", splits, tmp_path / "s")

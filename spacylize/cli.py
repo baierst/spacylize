@@ -11,9 +11,9 @@ from pathlib import Path
 
 from spacylize.evaluator import ModelEvaluator
 from spacylize.generator import DataGenerator
-from spacylize.splitter import split_dataset
+from spacylize.splitter import DataSplitter
 from spacylize.trainer import ModelTrainer
-from spacylize.validator import DataValidator, clean_dataset
+from spacylize.validator import DataCleaner, DataValidator
 
 app = typer.Typer(
     name="spacylize",
@@ -191,8 +191,9 @@ def clean(
         typer.confirm(f"Are you sure you want to overwrite {dataset}?", abort=True)
     try:
         ids = {int(i) for i in remove.split(",") if i.strip()}
-        removed, total = clean_dataset(dataset, ids, output)
-        typer.echo(f"Removed {removed} of {total} documents.")
+        cleaner = DataCleaner(dataset, ids, output)
+        cleaner.run()
+        typer.echo(f"Removed {cleaner.removed} of {cleaner.total} documents.")
     except Exception as e:
         typer.echo(f"[Error] {e}")
         raise typer.Exit(code=1)
@@ -202,7 +203,7 @@ def clean(
     name="split",
     help="Split a SpaCy dataset into named sets, e.g. train/dev/test.",
 )
-def split(
+def split_dataset(
     input_file: Path = typer.Option(
         ...,
         "--input",
@@ -242,9 +243,9 @@ def split(
             if name in fractions:
                 raise ValueError(f"Duplicate split name '{name}'.")
             fractions[name] = float(fraction)
-        counts = split_dataset(input_file, fractions, output_folder, seed)
-        for name, count in counts.items():
-            typer.echo(f"{name}: {count} documents -> {output_folder / name}.spacy")
+        splitter = DataSplitter(input_file, fractions, output_folder, seed)
+        for name, path in splitter.run().items():
+            typer.echo(f"{name}: {splitter.counts[name]} documents -> {path}")
     except Exception as e:
         typer.echo(f"[Error] {e}")
         raise typer.Exit(code=1)

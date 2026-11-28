@@ -105,9 +105,7 @@ def test_split_command(tmp_path):
     dataset_file.touch()
     output_folder = tmp_path / "splits"
 
-    with patch("spacylize.cli.split_dataset") as mock_split:
-        mock_split.return_value = {"train": 8, "dev": 1, "test": 1}
-
+    with patch("spacylize.cli.DataSplitter") as mock_split:
         result = runner.invoke(
             app,
             [
@@ -134,14 +132,14 @@ def test_split_command(tmp_path):
             output_folder,
             123,
         )
+        mock_split.return_value.run.assert_called_once()
 
 
 def test_split_command_default_splits(tmp_path):
     dataset_file = tmp_path / "data.spacy"
     dataset_file.touch()
 
-    with patch("spacylize.cli.split_dataset") as mock_split:
-        mock_split.return_value = {"train": 8, "dev": 2}
+    with patch("spacylize.cli.DataSplitter") as mock_split:
         result = runner.invoke(
             app, ["split", "-i", str(dataset_file), "-o", str(tmp_path / "splits")]
         )
@@ -154,7 +152,7 @@ def test_split_command_invalid_split(tmp_path):
     dataset_file = tmp_path / "data.spacy"
     dataset_file.touch()
 
-    with patch("spacylize.cli.split_dataset") as mock_split:
+    with patch("spacylize.cli.DataSplitter") as mock_split:
         result = runner.invoke(
             app,
             ["split", "-i", str(dataset_file), "-o", str(tmp_path), "-s", "train"],
@@ -226,7 +224,9 @@ def test_clean_command(tmp_path):
     dataset_file = tmp_path / "data.spacy"
     dataset_file.touch()
 
-    with patch("spacylize.cli.clean_dataset", return_value=(2, 10)) as mock_clean:
+    with patch("spacylize.cli.DataCleaner") as mock_clean:
+        mock_clean.return_value.removed = 2
+        mock_clean.return_value.total = 10
         # Overwriting the dataset asks for confirmation; "n" aborts
         args = ["clean", "--dataset", str(dataset_file), "--remove", "1,3"]
         result = runner.invoke(app, args, input="n\n")
@@ -238,6 +238,7 @@ def test_clean_command(tmp_path):
     assert result.exit_code == 0
     assert "Removed 2 of 10 documents" in result.stdout
     mock_clean.assert_called_once_with(dataset_file, {1, 3}, None)
+    mock_clean.return_value.run.assert_called_once()
 
 
 def test_generate_asks_before_overwriting(tmp_path):
