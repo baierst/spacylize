@@ -253,11 +253,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="api/splitter.html">Dataset Splitting</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="api/splitter.html#spacylize.splitter.DataSplitter"><code class="docutils literal notranslate"><span class="pre">DataSplitter</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="api/splitter.html#spacylize.splitter.DataSplitter.input_file"><code class="docutils literal notranslate"><span class="pre">DataSplitter.input_file</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/splitter.html#spacylize.splitter.DataSplitter.train_file"><code class="docutils literal notranslate"><span class="pre">DataSplitter.train_file</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/splitter.html#spacylize.splitter.DataSplitter.dev_file"><code class="docutils literal notranslate"><span class="pre">DataSplitter.dev_file</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/splitter.html#spacylize.splitter.DataSplitter.dev_size"><code class="docutils literal notranslate"><span class="pre">DataSplitter.dev_size</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/splitter.html#spacylize.splitter.DataSplitter.seed"><code class="docutils literal notranslate"><span class="pre">DataSplitter.seed</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/splitter.html#spacylize.splitter.DataSplitter.counts"><code class="docutils literal notranslate"><span class="pre">DataSplitter.counts</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/splitter.html#spacylize.splitter.DataSplitter.__init__"><code class="docutils literal notranslate"><span class="pre">DataSplitter.__init__()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/splitter.html#spacylize.splitter.DataSplitter.run"><code class="docutils literal notranslate"><span class="pre">DataSplitter.run()</span></code></a></li>
 </ul>
@@ -370,7 +366,7 @@ examples: <code class="docutils literal notranslate"><span class="pre">examples/
 <span class="w">  </span>--prompt-config-path<span class="w"> </span>examples/ner/input/prompt.yaml<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--task<span class="w"> </span>ner<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--n-samples<span class="w"> </span><span class="m">100</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--output-path<span class="w"> </span>examples/ner/output/train.spacy<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--output-path<span class="w"> </span>examples/ner/output/data.spacy<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--topic-check<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--append
 </pre></div>
@@ -382,7 +378,7 @@ examples: <code class="docutils literal notranslate"><span class="pre">examples/
 the issues found (duplicates, off-topic texts, label conflicts, unknown labels, leftover markup) and a
 list of all documents to filter and select for removal.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>spacylize<span class="w"> </span>validate<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--dataset<span class="w"> </span>examples/ner/output/train.spacy<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--dataset<span class="w"> </span>examples/ner/output/data.spacy<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--output-folder<span class="w"> </span>examples/ner/output<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--prompt-config<span class="w"> </span>examples/ner/input/prompt.yaml<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--task<span class="w"> </span>ner<span class="w"> </span><span class="se">\</span>
@@ -393,23 +389,26 @@ list of all documents to filter and select for removal.</p>
 prompt config, or detected), <code class="docutils literal notranslate"><span class="pre">--open</span></code> (opens the report in the browser).</p>
 <p><strong>3. Clean</strong>: remove the documents selected in the report (the report shows this command).</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>spacylize<span class="w"> </span>clean<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--dataset<span class="w"> </span>examples/ner/output/train.spacy<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--dataset<span class="w"> </span>examples/ner/output/data.spacy<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--remove<span class="w"> </span><span class="m">3</span>,7,12<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--output<span class="w"> </span>examples/ner/output/clean.spacy
 </pre></div>
 </div>
 <p>Optional: <code class="docutils literal notranslate"><span class="pre">--output</span></code> (writes a new file; by default the dataset is overwritten after asking).</p>
 <p>The numbers refer to the validated dataset, so run <code class="docutils literal notranslate"><span class="pre">validate</span></code> again before selecting more.</p>
-<p><strong>4. Split, train and evaluate</strong> (planned, not implemented yet):</p>
+<p><strong>4. Split</strong>: shuffle the dataset and split it into named sets.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>spacylize<span class="w"> </span>split<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--input<span class="w"> </span>examples/ner/output/train.spacy<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--train<span class="w"> </span>examples/ner/output/train_split.spacy<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--dev<span class="w"> </span>examples/ner/output/dev_split.spacy<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--dev-size<span class="w"> </span><span class="m">0</span>.2<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--input<span class="w"> </span>examples/ner/output/clean.spacy<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--output-folder<span class="w"> </span>examples/ner/output/splits<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--split<span class="w"> </span><span class="nv">train</span><span class="o">=</span><span class="m">0</span>.8<span class="w"> </span>--split<span class="w"> </span><span class="nv">dev</span><span class="o">=</span><span class="m">0</span>.1<span class="w"> </span>--split<span class="w"> </span><span class="nv">test</span><span class="o">=</span><span class="m">0</span>.1<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--seed<span class="w"> </span><span class="m">42</span>
-
-spacylize<span class="w"> </span>train<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--train-data<span class="w"> </span>examples/ner/output/train_split.spacy<span class="w"> </span><span class="se">\</span>
+</pre></div>
+</div>
+<p>Each <code class="docutils literal notranslate"><span class="pre">--split</span> <span class="pre">NAME=FRACTION</span></code> writes <code class="docutils literal notranslate"><span class="pre">&lt;output-folder&gt;/&lt;NAME&gt;.spacy</span></code>; use as many as you need, the
+fractions must sum to 1. Default: <code class="docutils literal notranslate"><span class="pre">train=0.8</span></code>, <code class="docutils literal notranslate"><span class="pre">dev=0.2</span></code>.</p>
+<p><strong>5. Train and evaluate</strong> (planned, not implemented yet):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>spacylize<span class="w"> </span>train<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--train-data<span class="w"> </span>examples/ner/output/splits/train.spacy<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--base-model<span class="w"> </span>en_core_web_sm<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--output-model<span class="w"> </span>examples/ner/output/model<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--n-iter<span class="w"> </span><span class="m">100</span><span class="w"> </span><span class="se">\</span>
@@ -417,7 +416,7 @@ spacylize<span class="w"> </span>train<span class="w"> </span><span class="se">\
 
 spacylize<span class="w"> </span>evaluate<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--model<span class="w"> </span>examples/ner/output/model<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--data<span class="w"> </span>examples/ner/output/dev_split.spacy
+<span class="w">  </span>--data<span class="w"> </span>examples/ner/output/splits/test.spacy
 </pre></div>
 </div>
 </section>

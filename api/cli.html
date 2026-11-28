@@ -254,11 +254,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="splitter.html">Dataset Splitting</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="splitter.html#spacylize.splitter.DataSplitter"><code class="docutils literal notranslate"><span class="pre">DataSplitter</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="splitter.html#spacylize.splitter.DataSplitter.input_file"><code class="docutils literal notranslate"><span class="pre">DataSplitter.input_file</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="splitter.html#spacylize.splitter.DataSplitter.train_file"><code class="docutils literal notranslate"><span class="pre">DataSplitter.train_file</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="splitter.html#spacylize.splitter.DataSplitter.dev_file"><code class="docutils literal notranslate"><span class="pre">DataSplitter.dev_file</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="splitter.html#spacylize.splitter.DataSplitter.dev_size"><code class="docutils literal notranslate"><span class="pre">DataSplitter.dev_size</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="splitter.html#spacylize.splitter.DataSplitter.seed"><code class="docutils literal notranslate"><span class="pre">DataSplitter.seed</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="splitter.html#spacylize.splitter.DataSplitter.counts"><code class="docutils literal notranslate"><span class="pre">DataSplitter.counts</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="splitter.html#spacylize.splitter.DataSplitter.__init__"><code class="docutils literal notranslate"><span class="pre">DataSplitter.__init__()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="splitter.html#spacylize.splitter.DataSplitter.run"><code class="docutils literal notranslate"><span class="pre">DataSplitter.run()</span></code></a></li>
 </ul>
@@ -373,15 +369,14 @@ using LLM-powered data generation.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="spacylize.cli.split_dataset">
-<span class="sig-prename descclassname"><span class="pre">spacylize.cli.</span></span><span class="sig-name descname"><span class="pre">split_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;typer.models.OptionInfo</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">train_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;typer.models.OptionInfo</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dev_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;typer.models.OptionInfo</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dev_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;typer.models.OptionInfo</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;typer.models.OptionInfo</span> <span class="pre">object&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spacylize/cli.html#split_dataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spacylize.cli.split_dataset" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">spacylize.cli.</span></span><span class="sig-name descname"><span class="pre">split_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;typer.models.OptionInfo</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_folder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;typer.models.OptionInfo</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">splits</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;typer.models.OptionInfo</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;typer.models.OptionInfo</span> <span class="pre">object&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spacylize/cli.html#split_dataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spacylize.cli.split_dataset" title="Link to this definition"></a></dt>
 <dd><p>CLI entry point for splitting a SpaCy dataset.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>input_file</strong> (<em>Path</em>)</p></li>
-<li><p><strong>train_file</strong> (<em>Path</em>)</p></li>
-<li><p><strong>dev_file</strong> (<em>Path</em>)</p></li>
-<li><p><strong>dev_size</strong> (<em>float</em>)</p></li>
+<li><p><strong>output_folder</strong> (<em>Path</em>)</p></li>
+<li><p><strong>splits</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>)</p></li>
 <li><p><strong>seed</strong> (<em>int</em>)</p></li>
 </ul>
 </dd>

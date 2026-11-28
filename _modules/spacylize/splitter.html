@@ -251,11 +251,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/splitter.html">Dataset Splitting</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../api/splitter.html#spacylize.splitter.DataSplitter"><code class="docutils literal notranslate"><span class="pre">DataSplitter</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../api/splitter.html#spacylize.splitter.DataSplitter.input_file"><code class="docutils literal notranslate"><span class="pre">DataSplitter.input_file</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../api/splitter.html#spacylize.splitter.DataSplitter.train_file"><code class="docutils literal notranslate"><span class="pre">DataSplitter.train_file</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../api/splitter.html#spacylize.splitter.DataSplitter.dev_file"><code class="docutils literal notranslate"><span class="pre">DataSplitter.dev_file</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../api/splitter.html#spacylize.splitter.DataSplitter.dev_size"><code class="docutils literal notranslate"><span class="pre">DataSplitter.dev_size</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../api/splitter.html#spacylize.splitter.DataSplitter.seed"><code class="docutils literal notranslate"><span class="pre">DataSplitter.seed</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/splitter.html#spacylize.splitter.DataSplitter.counts"><code class="docutils literal notranslate"><span class="pre">DataSplitter.counts</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/splitter.html#spacylize.splitter.DataSplitter.__init__"><code class="docutils literal notranslate"><span class="pre">DataSplitter.__init__()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/splitter.html#spacylize.splitter.DataSplitter.run"><code class="docutils literal notranslate"><span class="pre">DataSplitter.run()</span></code></a></li>
 </ul>
@@ -312,71 +308,92 @@
            <div itemprop="articleBody">
              
   <h1>Source code for spacylize.splitter</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Dataset splitting module for creating train/dev splits.</span>
+<span></span><span class="sd">&quot;&quot;&quot;Dataset splitting module.</span>
 
-<span class="sd">This module provides functionality to split SpaCy datasets into training</span>
-<span class="sd">and development sets for model training and validation.</span>
+<span class="sd">Splits a SpaCy dataset into any number of named sets, e.g. train/dev or</span>
+<span class="sd">train/dev/test, using given fractions.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
+<span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">random</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">loguru</span><span class="w"> </span><span class="kn">import</span> <span class="n">logger</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">spacy</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">spacy.tokens</span><span class="w"> </span><span class="kn">import</span> <span class="n">DocBin</span>
 
 
 <div class="viewcode-block" id="DataSplitter">
 <a class="viewcode-back" href="../../api/splitter.html#spacylize.splitter.DataSplitter">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">DataSplitter</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Splitter for SpaCy datasets into training and development sets.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Shuffle a dataset and split it into named sets.</span>
 
-<span class="sd">    Splits a SpaCy binary dataset into separate training and development</span>
-<span class="sd">    files using a specified split ratio.</span>
+<span class="sd">    Each set is written to ``&lt;output_folder&gt;/&lt;name&gt;.spacy``.</span>
 
 <span class="sd">    Attributes:</span>
-<span class="sd">        input_file: Path to the input SpaCy dataset (.spacy).</span>
-<span class="sd">        train_file: Path where the training split will be saved.</span>
-<span class="sd">        dev_file: Path where the development split will be saved.</span>
-<span class="sd">        dev_size: Fraction of data to allocate to the dev set (0.0-1.0).</span>
-<span class="sd">        seed: Random seed for reproducible splitting.</span>
-
-<span class="sd">    Note:</span>
-<span class="sd">        This class is not yet fully implemented.</span>
+<span class="sd">        counts: Number of documents per set, filled by :meth:`run`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="DataSplitter.__init__">
 <a class="viewcode-back" href="../../api/splitter.html#spacylize.splitter.DataSplitter.__init__">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">input_file</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span>
-        <span class="n">train_file</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span>
-        <span class="n">dev_file</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span>
-        <span class="n">dev_size</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
-        <span class="n">seed</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-    <span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataset_path</span><span class="p">,</span> <span class="n">splits</span><span class="p">,</span> <span class="n">output_folder</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the DataSplitter.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            input_file: Path to the input SpaCy dataset (.spacy).</span>
-<span class="sd">            train_file: Output path for the training set.</span>
-<span class="sd">            dev_file: Output path for the development set.</span>
-<span class="sd">            dev_size: Fraction of data for the dev set (e.g., 0.2 for 20%).</span>
-<span class="sd">            seed: Random seed for reproducibility.</span>
+<span class="sd">            dataset_path: Path to the SpaCy dataset file (.spacy).</span>
+<span class="sd">            splits: Mapping of set name to fraction, e.g.</span>
+<span class="sd">                ``{&quot;train&quot;: 0.8, &quot;dev&quot;: 0.1, &quot;test&quot;: 0.1}``. The fractions</span>
+<span class="sd">                must be positive and sum to 1.</span>
+<span class="sd">            output_folder: Folder where the sets will be written.</span>
+<span class="sd">            seed: Random seed for a reproducible shuffle.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If no sets are given, a fraction is not positive or</span>
+<span class="sd">                the fractions do not sum to 1.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">input_file</span> <span class="o">=</span> <span class="n">input_file</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">train_file</span> <span class="o">=</span> <span class="n">train_file</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">dev_file</span> <span class="o">=</span> <span class="n">dev_file</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">dev_size</span> <span class="o">=</span> <span class="n">dev_size</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">seed</span> <span class="o">=</span> <span class="n">seed</span></div>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">splits</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;At least one split is required.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">fraction</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">fraction</span> <span class="ow">in</span> <span class="n">splits</span><span class="o">.</span><span class="n">values</span><span class="p">()):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Split fractions must be greater than 0.&quot;</span><span class="p">)</span>
+        <span class="n">total</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">splits</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">math</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">total</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">abs_tol</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Split fractions must sum to 1, got </span><span class="si">{</span><span class="n">total</span><span class="si">:</span><span class="s2">g</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">dataset_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">dataset_path</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">splits</span> <span class="o">=</span> <span class="n">splits</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output_folder</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">output_folder</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">seed</span> <span class="o">=</span> <span class="n">seed</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">counts</span> <span class="o">=</span> <span class="p">{}</span></div>
 
 
 <div class="viewcode-block" id="DataSplitter.run">
 <a class="viewcode-back" href="../../api/splitter.html#spacylize.splitter.DataSplitter.run">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Run the dataset splitting process.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Split the dataset and write the sets.</span>
 
-<span class="sd">        Note:</span>
-<span class="sd">            This method is not yet implemented.</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: Path of the written file per set name.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;DataSplitter is not yet implemented.&quot;</span><span class="p">)</span></div>
+        <span class="n">vocab</span> <span class="o">=</span> <span class="n">spacy</span><span class="o">.</span><span class="n">blank</span><span class="p">(</span><span class="s2">&quot;en&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">vocab</span>
+        <span class="n">docs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">DocBin</span><span class="p">()</span><span class="o">.</span><span class="n">from_disk</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dataset_path</span><span class="p">)</span><span class="o">.</span><span class="n">get_docs</span><span class="p">(</span><span class="n">vocab</span><span class="p">))</span>
+        <span class="n">random</span><span class="o">.</span><span class="n">Random</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">seed</span><span class="p">)</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">docs</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">output_folder</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="n">paths</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">cumulative</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="n">names</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">splits</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">names</span><span class="p">:</span>
+            <span class="n">cumulative</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">splits</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+            <span class="c1"># Cumulative boundaries assign every document exactly once; the</span>
+            <span class="c1"># last set always ends at the last document, whatever the rounding.</span>
+            <span class="n">end</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">docs</span><span class="p">)</span> <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="n">names</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">else</span> <span class="nb">round</span><span class="p">(</span><span class="n">cumulative</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">docs</span><span class="p">))</span>
+            <span class="n">part</span> <span class="o">=</span> <span class="n">docs</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">end</span><span class="p">]</span>
+            <span class="n">paths</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_folder</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">.spacy&quot;</span>
+            <span class="n">DocBin</span><span class="p">(</span><span class="n">docs</span><span class="o">=</span><span class="n">part</span><span class="p">,</span> <span class="n">store_user_data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">to_disk</span><span class="p">(</span><span class="n">paths</span><span class="p">[</span><span class="n">name</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">counts</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">part</span><span class="p">)</span>
+            <span class="n">start</span> <span class="o">=</span> <span class="n">end</span>
+        <span class="k">return</span> <span class="n">paths</span></div>
 </div>
 
 </pre></div>

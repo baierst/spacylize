@@ -251,11 +251,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="api/splitter.html">Dataset Splitting</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="api/splitter.html#spacylize.splitter.DataSplitter"><code class="docutils literal notranslate"><span class="pre">DataSplitter</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="api/splitter.html#spacylize.splitter.DataSplitter.input_file"><code class="docutils literal notranslate"><span class="pre">DataSplitter.input_file</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/splitter.html#spacylize.splitter.DataSplitter.train_file"><code class="docutils literal notranslate"><span class="pre">DataSplitter.train_file</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/splitter.html#spacylize.splitter.DataSplitter.dev_file"><code class="docutils literal notranslate"><span class="pre">DataSplitter.dev_file</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/splitter.html#spacylize.splitter.DataSplitter.dev_size"><code class="docutils literal notranslate"><span class="pre">DataSplitter.dev_size</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/splitter.html#spacylize.splitter.DataSplitter.seed"><code class="docutils literal notranslate"><span class="pre">DataSplitter.seed</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/splitter.html#spacylize.splitter.DataSplitter.counts"><code class="docutils literal notranslate"><span class="pre">DataSplitter.counts</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/splitter.html#spacylize.splitter.DataSplitter.__init__"><code class="docutils literal notranslate"><span class="pre">DataSplitter.__init__()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/splitter.html#spacylize.splitter.DataSplitter.run"><code class="docutils literal notranslate"><span class="pre">DataSplitter.run()</span></code></a></li>
 </ul>
@@ -323,7 +319,6 @@
  | <a href="#F"><strong>F</strong></a>
  | <a href="#G"><strong>G</strong></a>
  | <a href="#H"><strong>H</strong></a>
- | <a href="#I"><strong>I</strong></a>
  | <a href="#J"><strong>J</strong></a>
  | <a href="#L"><strong>L</strong></a>
  | <a href="#M"><strong>M</strong></a>
@@ -417,6 +412,8 @@
       </ul></li>
       <li><a href="api/prompt_config.html#id1">content (spacylize.prompt_config.PromptMessage attribute)</a>, <a href="api/prompt_config.html#spacylize.prompt_config.PromptMessage.content">[1]</a>
 </li>
+      <li><a href="api/splitter.html#spacylize.splitter.DataSplitter.counts">counts (spacylize.splitter.DataSplitter attribute)</a>
+</li>
   </ul></td>
 </tr></table>
 
@@ -433,14 +430,10 @@
 </li>
       <li><a href="api/prompt_config.html#id19">description (spacylize.prompt_config.TextCatCategory attribute)</a>, <a href="api/prompt_config.html#spacylize.prompt_config.TextCatCategory.description">[1]</a>
 </li>
-      <li><a href="api/splitter.html#spacylize.splitter.DataSplitter.dev_file">dev_file (spacylize.splitter.DataSplitter attribute)</a>
-</li>
-      <li><a href="api/splitter.html#spacylize.splitter.DataSplitter.dev_size">dev_size (spacylize.splitter.DataSplitter attribute)</a>
+      <li><a href="api/analysis.html#spacylize.analysis.diversity">diversity() (in module spacylize.analysis)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/analysis.html#spacylize.analysis.diversity">diversity() (in module spacylize.analysis)</a>
-</li>
       <li><a href="api/generator.html#spacylize.generator.DocumentBuilder">DocumentBuilder (class in spacylize.generator)</a>
 </li>
       <li><a href="api/prompt_config.html#id11">domain (spacylize.prompt_config.NERStructuredConfig attribute)</a>, <a href="api/prompt_config.html#spacylize.prompt_config.NERStructuredConfig.domain">[1]</a>
@@ -508,14 +501,6 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/validator.html#spacylize.validator.DataValidator.html_path">html_path (spacylize.validator.DataValidator attribute)</a>
-</li>
-  </ul></td>
-</tr></table>
-
-<h2 id="I">I</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/splitter.html#spacylize.splitter.DataSplitter.input_file">input_file (spacylize.splitter.DataSplitter attribute)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -722,8 +707,6 @@
 <h2 id="S">S</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/splitter.html#spacylize.splitter.DataSplitter.seed">seed (spacylize.splitter.DataSplitter attribute)</a>
-</li>
       <li>
     spacylize.analysis
 
@@ -868,8 +851,6 @@
       <li><a href="api/llm.html#spacylize.llm.topic_score">topic_score() (in module spacylize.llm)</a>
 </li>
       <li><a href="api/trainer.html#spacylize.trainer.ModelTrainer.train_data">train_data (spacylize.trainer.ModelTrainer attribute)</a>
-</li>
-      <li><a href="api/splitter.html#spacylize.splitter.DataSplitter.train_file">train_file (spacylize.splitter.DataSplitter attribute)</a>
 </li>
       <li><a href="api/cli.html#spacylize.cli.train_pipeline">train_pipeline() (in module spacylize.cli)</a>
 </li>
