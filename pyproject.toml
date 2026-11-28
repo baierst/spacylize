@@ -42,7 +42,6 @@ extend-exclude = ["docs/build"]
 # Ruff's default rules, plus type hints on all function and method arguments
 # and return values.
 extend-select = ["ANN"]
-ignore = ["ANN401"]  # allow typing.Any
 
 [tool.ruff.lint.per-file-ignores]
 "tests/*" = ["ANN"]

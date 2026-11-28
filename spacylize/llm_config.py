@@ -7,7 +7,7 @@ from YAML files, including environment variable expansion.
 import os
 import re
 from pathlib import Path
-from typing import Any
+from typing import TypeAlias
 
 import yaml
 from pydantic import BaseModel, Field, ValidationError
@@ -39,8 +39,13 @@ class LLMConfig(BaseModel):
 
 _ENV_VAR_PATTERN = re.compile(r"\$\{([^}]+)\}")
 
+# A value as loaded from a YAML file.
+ConfigValue: TypeAlias = (
+    str | int | float | bool | None | list["ConfigValue"] | dict[str, "ConfigValue"]
+)
 
-def expand_env_vars(value: Any) -> Any:
+
+def expand_env_vars(value: ConfigValue) -> ConfigValue:
     """Recursively expand environment variable references in configuration values.
 
     Replaces ${VAR_NAME} patterns with their environment variable values.
