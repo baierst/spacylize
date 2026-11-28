@@ -4,9 +4,10 @@ This module provides the foundation for task-specific prompt templating
 using Jinja2 templates.
 """
 
-from jinja2 import Environment, FileSystemLoader
 from pathlib import Path
-from typing import Dict, Any
+from typing import Any
+
+from jinja2 import Environment, FileSystemLoader
 
 
 class PromptTemplate:
@@ -29,7 +30,7 @@ class PromptTemplate:
         return Path(__file__).parent
 
     @classmethod
-    def render(cls, config: Dict[str, Any]) -> tuple[str, str]:
+    def render(cls, config: dict[str, Any]) -> tuple[str, str]:
         """Render system and user prompts from template files.
 
         Args:

@@ -4,7 +4,6 @@ This module provides a unified interface for interacting with different LLM
 providers (OpenAI, Anthropic, Ollama, etc.) via the LiteLLM library.
 """
 
-from typing import Optional
 import dotenv
 from litellm import completion, systemone
 
@@ -27,11 +26,11 @@ class LLMClient:
     def __init__(
         self,
         model: str,
-        api_key: Optional[str] = None,
-        api_base: Optional[str] = None,
+        api_key: str | None = None,
+        api_base: str | None = None,
         max_tokens: int = 1024,
-        think: Optional[bool] = None,
-    ):
+        think: bool | None = None,
+    ) -> None:
         """Initialize the LLM client.
 
         Args:
@@ -51,8 +50,8 @@ class LLMClient:
     def generate(
         self,
         prompt: str,
-        system_prompt: Optional[str] = None,
-        temperature: Optional[float] = None,
+        system_prompt: str | None = None,
+        temperature: float | None = None,
     ) -> str:
         """Generate text using the configured LLM.
 
@@ -92,7 +91,12 @@ class LLMClient:
         return response["choices"][0]["message"]["content"]
 
 
-def topic_score(text, domain, model="ollama/nimble", api_base="http://localhost:11434"):
+def topic_score(
+    text: str,
+    domain: str,
+    model: str = "ollama/nimble",
+    api_base: str = "http://localhost:11434",
+) -> float:
     """Probability (0-1) that a text fits the domain, from a local decision model.
 
     Args:

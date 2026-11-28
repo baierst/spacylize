@@ -12,11 +12,14 @@ from pathlib import Path
 import plotly.graph_objects as go
 from jinja2 import Environment, FileSystemLoader
 from plotly.offline import get_plotlyjs
+from spacy.tokens import Doc
 
 TEMPLATE_DIR = Path(__file__).parent / "templates"
 
 
-def write_dashboard(report, distributions, docs, path):
+def write_dashboard(
+    report: dict, distributions: dict, docs: list[Doc], path: Path | str
+) -> None:
     """Write the validation dashboard as a self-contained HTML file.
 
     Args:
@@ -56,7 +59,7 @@ def write_dashboard(report, distributions, docs, path):
     path.write_text(page, encoding="utf8")
 
 
-def _render(doc, conflicts):
+def _render(doc: Doc, conflicts: dict[str, list[str]]) -> str:
     """Document text as HTML, with categories and highlighted entities.
 
     Entities whose text has several labels in the dataset are shown in red.
@@ -78,13 +81,13 @@ def _render(doc, conflicts):
     return "".join(parts)
 
 
-def _to_html(fig, title, height=300):
+def _to_html(fig: go.Figure, title: str, height: int = 300) -> str:
     """Render a Plotly figure as an HTML snippet (without plotly.js)."""
     fig.update_layout(
         title=title,
         height=height,
         bargap=0.15,
-        margin=dict(l=40, r=20, t=50, b=40),
+        margin={"l": 40, "r": 20, "t": 50, "b": 40},
         template="plotly_white",
     )
     return fig.to_html(

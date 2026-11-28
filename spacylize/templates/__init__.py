@@ -4,6 +4,8 @@ This module provides the registry for mapping task types to their
 corresponding prompt templates.
 """
 
+from typing import ClassVar
+
 from spacylize.templates.base import PromptTemplate
 
 
@@ -28,13 +30,13 @@ class TemplateRegistry:
     template class for a given task type.
     """
 
-    _TEMPLATES = {
+    _TEMPLATES: ClassVar[dict[str, type[PromptTemplate]]] = {
         "ner": NERTemplate,
         "textcat": TextCatTemplate,
     }
 
     @classmethod
-    def get_template(cls, task: str):
+    def get_template(cls, task: str) -> type[PromptTemplate]:
         """Get the template class for a given task type.
 
         Args:

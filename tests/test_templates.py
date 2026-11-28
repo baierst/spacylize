@@ -1,7 +1,8 @@
 """Tests for template rendering system."""
 
 import pytest
-from spacylize.templates import TemplateRegistry, NERTemplate, TextCatTemplate
+
+from spacylize.templates import NERTemplate, TemplateRegistry, TextCatTemplate
 
 
 def test_template_registry_get_ner():
@@ -66,7 +67,7 @@ def test_ner_template_render_with_examples():
         ],
     }
 
-    system_prompt, user_prompt = NERTemplate.render(config)
+    _, user_prompt = NERTemplate.render(config)
 
     # Check examples are included
     assert "[John](PERSON) is here." in user_prompt
@@ -144,7 +145,7 @@ def test_textcat_template_render_with_examples():
         "examples": [{"text": "A wireless keyboard.", "category": "Tech"}],
     }
 
-    system_prompt, user_prompt = TextCatTemplate.render(config)
+    _, user_prompt = TextCatTemplate.render(config)
 
     # Check examples are included
     assert "A wireless keyboard." in user_prompt

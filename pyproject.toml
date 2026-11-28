@@ -33,14 +33,37 @@ build-backend = "setuptools.build_meta"
 [tool.setuptools.package-data]
 spacylize = ["templates/*.jinja2"]
 
-[tool.black]
+[tool.ruff]
 line-length = 88
-target-version = ["py310"]
+target-version = "py310"
+extend-exclude = ["docs/build"]
+
+[tool.ruff.lint]
+# Ruff's default rules, plus type hints on all function and method arguments
+# and return values.
+extend-select = ["ANN"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["ANN"]
+"docs/*" = ["ANN"]
+# CLI commands catch all errors to print them and exit with code 1
+"spacylize/cli.py" = ["BLE001"]
+
+[tool.mypy]
+python_version = "3.10"
+files = ["spacylize"]
+
+[[tool.mypy.overrides]]
+# plotly ships no type information
+module = ["plotly", "plotly.*"]
+ignore_missing_imports = true
 
 [dependency-groups]
 dev = [
-    "black>=25.11.0",
+    "mypy>=2.4.1",
     "pytest>=8.4.2",
+    "ruff>=0.17.6",
+    "types-pyyaml>=6.0.12.20261122",
 ]
 
 docs = [

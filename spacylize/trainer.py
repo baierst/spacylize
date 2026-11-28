@@ -33,7 +33,7 @@ class ModelTrainer:
         output_model: Path,
         n_iter: int,
         dropout: float,
-    ):
+    ) -> None:
         """Initialize the ModelTrainer.
 
         Args:
@@ -49,7 +49,7 @@ class ModelTrainer:
         self.n_iter = n_iter
         self.dropout = dropout
 
-    def run(self):
+    def run(self) -> None:
         """Run the training process.
 
         Note:

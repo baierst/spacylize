@@ -6,9 +6,10 @@ from YAML files for LLM data generation tasks.
 
 import random
 from pathlib import Path
-from typing import Literal, Optional, List, Union
+from typing import Literal
+
 import yaml
-from pydantic import BaseModel, ValidationError, Field, field_validator
+from pydantic import BaseModel, Field, ValidationError, field_validator
 
 from spacylize.llm_config import expand_env_vars
 
@@ -42,8 +43,8 @@ class PromptConfig(BaseModel):
 
     system: PromptMessage
     user: PromptMessage
-    temperature: Optional[float] = None
-    domain: Optional[str] = None
+    temperature: float | None = None
+    domain: str | None = None
 
     model_config = {"extra": "forbid"}
 
@@ -60,7 +61,7 @@ class NERExample(BaseModel):
     """
 
     text: str
-    explanation: Optional[str] = None
+    explanation: str | None = None
 
 
 class NERStructuredConfig(BaseModel):
@@ -84,26 +85,26 @@ class NERStructuredConfig(BaseModel):
     """
 
     task: Literal["ner"] = "ner"
-    entities: List[str] = Field(..., min_length=1)
+    entities: list[str] = Field(..., min_length=1)
     min_entities: int = Field(1, ge=1)
-    domain: Union[str, List[str]]
-    tone: Union[str, List[str]]
-    length: Union[str, List[str]]
-    language: Optional[str] = "en"
-    temperature: Optional[float] = Field(None, ge=0.0, le=1.0)
-    constraints: Optional[List[str]] = []
-    examples: Optional[List[NERExample]] = []
+    domain: str | list[str]
+    tone: str | list[str]
+    length: str | list[str]
+    language: str | None = "en"
+    temperature: float | None = Field(None, ge=0.0, le=1.0)
+    constraints: list[str] | None = []
+    examples: list[NERExample] | None = []
 
     @field_validator("entities")
     @classmethod
-    def validate_entities(cls, v):
+    def validate_entities(cls, v: list[str]) -> list[str]:
         """Ensure at least one entity is specified."""
         if not v:
             raise ValueError("At least one entity required")
         return v
 
     @property
-    def labels(self) -> List[str]:
+    def labels(self) -> list[str]:
         """Configured entity labels."""
         return self.entities
 
@@ -151,25 +152,25 @@ class TextCatStructuredConfig(BaseModel):
     """
 
     task: Literal["textcat"] = "textcat"
-    categories: List[TextCatCategory] = Field(..., min_length=2)
-    domain: Union[str, List[str]]
-    tone: Union[str, List[str]]
-    length: Union[str, List[str]]
-    language: Optional[str] = "en"
-    temperature: Optional[float] = Field(None, ge=0.0, le=1.0)
-    constraints: Optional[List[str]] = []
-    examples: Optional[List[TextCatExample]] = []
+    categories: list[TextCatCategory] = Field(..., min_length=2)
+    domain: str | list[str]
+    tone: str | list[str]
+    length: str | list[str]
+    language: str | None = "en"
+    temperature: float | None = Field(None, ge=0.0, le=1.0)
+    constraints: list[str] | None = []
+    examples: list[TextCatExample] | None = []
 
     @field_validator("categories")
     @classmethod
-    def validate_categories(cls, v):
+    def validate_categories(cls, v: list[TextCatCategory]) -> list[TextCatCategory]:
         """Ensure at least two categories are specified."""
         if len(v) < 2:
             raise ValueError("At least two categories required")
         return v
 
     @property
-    def labels(self) -> List[str]:
+    def labels(self) -> list[str]:
         """Configured category names."""
         return [category.name for category in self.categories]
 
@@ -177,7 +178,9 @@ class TextCatStructuredConfig(BaseModel):
 StructuredConfig = NERStructuredConfig | TextCatStructuredConfig
 
 
-def render_prompt(config: StructuredConfig, rng=None, index=0) -> PromptConfig:
+def render_prompt(
+    config: StructuredConfig, rng: random.Random | None = None, index: int = 0
+) -> PromptConfig:
     """Render the prompts for one sample, varied per sample.
 
     Picks one value for list-valued domain, tone and length. For NER, asks for a
@@ -221,9 +224,7 @@ def render_prompt(config: StructuredConfig, rng=None, index=0) -> PromptConfig:
     )
 
 
-def load_prompt_config(
-    path: Path, output_folder: Optional[Path] = None
-) -> PromptConfig:
+def load_prompt_config(path: Path, output_folder: Path | None = None) -> PromptConfig:
     """Load and render structured prompt configuration from YAML.
 
     This function loads a structured configuration file and uses Jinja2 templates
@@ -262,7 +263,7 @@ def load_prompt_config(
     return prompt_config
 
 
-def load_structured_config(path: Path) -> StructuredConfig:
+def load_structured_config(path: Path | str) -> StructuredConfig:
     """Load and validate a structured prompt configuration from YAML.
 
     Unlike load_prompt_config, this does not render the prompts, so it can be
@@ -275,12 +276,15 @@ def load_structured_config(path: Path) -> StructuredConfig:
         NERStructuredConfig or TextCatStructuredConfig.
 
     Raises:
+        TypeError: If the file does not contain a mapping of fields.
         RuntimeError: If the configuration is invalid or missing required fields.
     """
     with open(path, "r") as f:
         raw = yaml.safe_load(f)
 
     expanded = expand_env_vars(raw)
+    if not isinstance(expanded, dict):
+        raise TypeError("Invalid structured config: expected a mapping of fields.")
 
     task = expanded.get("task")
     if not task:

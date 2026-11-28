@@ -28,9 +28,17 @@ jobs:
       - name: Install dependencies
         run: uv sync --group dev
 
-      - name: Check formatting with Black
+      - name: Check formatting with Ruff
         run: |
-          uv run black --check .
+          uv run ruff format --check .
+
+      - name: Check type hints with Ruff
+        run: |
+          uv run ruff check .
+
+      - name: Check types with mypy
+        run: |
+          uv run mypy
 
       - name: Run tests
         run: |

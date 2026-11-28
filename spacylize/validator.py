@@ -8,31 +8,56 @@ of dataset characteristics.
 import json
 import statistics
 from pathlib import Path
-import spacy
-from spacy.tokens import DocBin
+
 import matplotlib.pyplot as plt
+import spacy
+from spacy.tokens import Doc, DocBin
 
 from spacylize import analysis
 from spacylize.dashboard import write_dashboard
 from spacylize.prompt_config import load_structured_config
 
 
-def clean_dataset(dataset_path, remove, output_path=None):
+class DataCleaner:
     """Remove the given documents from a dataset.
 
-    Args:
-        dataset_path: Path to the SpaCy dataset file (.spacy).
-        remove: Indices of the documents to remove, as shown in the report.
-        output_path: Where to write the cleaned dataset. Overwrites the
-            dataset if None.
-
-    Returns:
-        tuple: Number of removed documents and number of documents before.
+    Attributes:
+        removed: Number of removed documents, filled by :meth:`run`.
+        total: Number of documents before cleaning, filled by :meth:`run`.
     """
-    docs = list(DocBin().from_disk(dataset_path).get_docs(spacy.blank("en").vocab))
-    kept = [doc for i, doc in enumerate(docs) if i not in remove]
-    DocBin(docs=kept, store_user_data=True).to_disk(output_path or dataset_path)
-    return len(docs) - len(kept), len(docs)
+
+    def __init__(
+        self,
+        dataset_path: Path | str,
+        remove: set[int],
+        output_path: Path | str | None = None,
+    ) -> None:
+        """Initialize the DataCleaner.
+
+        Args:
+            dataset_path: Path to the SpaCy dataset file (.spacy).
+            remove: Indices of the documents to remove, as shown in the report.
+            output_path: Where to write the cleaned dataset. Overwrites the
+                dataset if None.
+        """
+        self.dataset_path = Path(dataset_path)
+        self.remove = remove
+        self.output_path = Path(output_path or dataset_path)
+        self.removed = 0
+        self.total = 0
+
+    def run(self) -> Path:
+        """Write the cleaned dataset.
+
+        Returns:
+            Path: Path of the cleaned dataset.
+        """
+        vocab = spacy.blank("en").vocab
+        docs = list(DocBin().from_disk(self.dataset_path).get_docs(vocab))
+        kept = [doc for i, doc in enumerate(docs) if i not in self.remove]
+        DocBin(docs=kept, store_user_data=True).to_disk(self.output_path)
+        self.removed, self.total = len(docs) - len(kept), len(docs)
+        return self.output_path
 
 
 class DataValidator:
@@ -54,11 +79,11 @@ class DataValidator:
 
     def __init__(
         self,
-        dataset_path: str,
-        output_folder: str,
-        task: str = None,
-        prompt_config_path: str = None,
-    ):
+        dataset_path: Path | str,
+        output_folder: Path | str,
+        task: str | None = None,
+        prompt_config_path: Path | str | None = None,
+    ) -> None:
         """Initialize the DataValidator.
 
         Args:
@@ -100,7 +125,7 @@ class DataValidator:
         self.png_path = self.output_folder / f"{dataset_name}_report.png"
         self.html_path = self.output_folder / f"{dataset_name}_report.html"
 
-    def run(self):
+    def run(self) -> None:
         """Run the validation process and generate reports.
 
         Analyzes the dataset using task-specific validation logic,
@@ -119,7 +144,7 @@ class DataValidator:
         else:
             raise ValueError(f"Unsupported task: {self.task}")
 
-    def _validate_ner(self, docs):
+    def _validate_ner(self, docs: list[Doc]) -> None:
         """Validate NER dataset and generate reports.
 
         Args:
@@ -128,7 +153,7 @@ class DataValidator:
         doc_lengths = []
         ents_per_doc = []
         entity_lengths = []
-        entity_label_counts = {}
+        entity_label_counts: dict[str, int] = {}
 
         total_tokens = 0
         total_entities = 0
@@ -183,14 +208,14 @@ class DataValidator:
             entity_lengths,
         )
 
-    def _validate_textcat(self, docs):
+    def _validate_textcat(self, docs: list[Doc]) -> None:
         """Validate text classification dataset and generate reports.
 
         Args:
             docs: List of SpaCy Doc objects with category annotations.
         """
         doc_lengths = []
-        label_counts = {}
+        label_counts: dict[str, int] = {}
 
         for doc in docs:
             doc_lengths.append(len(doc))
@@ -222,7 +247,7 @@ class DataValidator:
         )
         self._write_textcat_plots(doc_lengths, label_counts)
 
-    def _load_docs(self):
+    def _load_docs(self) -> list[Doc]:
         """Load documents from the SpaCy binary dataset.
 
         Returns:
@@ -231,7 +256,7 @@ class DataValidator:
         doc_bin = DocBin().from_disk(self.dataset_path)
         return list(doc_bin.get_docs(self.nlp.vocab))
 
-    def _detect_task(self, docs) -> str:
+    def _detect_task(self, docs: list[Doc]) -> str:
         """Auto-detect task type from the dataset.
 
         Args:
@@ -261,7 +286,7 @@ class DataValidator:
             "Could not detect task type. Dataset appears to have no entities or categories."
         )
 
-    def _summary(self, values):
+    def _summary(self, values: list[int]) -> dict:
         """Compute summary statistics for a list of values.
 
         Args:
@@ -279,7 +304,9 @@ class DataValidator:
             "mean": round(statistics.mean(values), 2),
         }
 
-    def _write_reports(self, docs, report, distributions):
+    def _write_reports(
+        self, docs: list[Doc], report: dict, distributions: dict
+    ) -> None:
         """Add quality checks to the report, then write the JSON report and the dashboard.
 
         Args:
@@ -301,7 +328,7 @@ class DataValidator:
         self._write_json(report)
         write_dashboard(report, distributions, docs, self.html_path)
 
-    def _write_json(self, report):
+    def _write_json(self, report: dict) -> None:
         """Write the validation report to a JSON file.
 
         Args:
@@ -313,11 +340,11 @@ class DataValidator:
 
     def _write_plots(
         self,
-        doc_lengths,
-        ents_per_doc,
-        entity_label_counts,
-        entity_lengths,
-    ):
+        doc_lengths: list[int],
+        ents_per_doc: list[int],
+        entity_label_counts: dict[str, int],
+        entity_lengths: list[int],
+    ) -> None:
         """Generate and save visualization plots for the dataset.
 
         Args:
@@ -354,21 +381,20 @@ class DataValidator:
         axes[1, 0].tick_params(axis="x", rotation=45)
 
         # Entity length distribution
-        if entity_lengths:
-            bins = range(1, max(entity_lengths) + 2)
-        else:
-            bins = [1]
+        bins = list(range(1, max(entity_lengths) + 2)) if entity_lengths else [1]
 
         axes[1, 1].hist(entity_lengths, bins=bins)
         axes[1, 1].set_title("Entity Length (Tokens)")
         axes[1, 1].set_xlabel("Tokens")
         axes[1, 1].set_ylabel("Entities")
 
-        plt.tight_layout(rect=[0, 0, 1, 0.95])
+        plt.tight_layout(rect=(0, 0, 1, 0.95))
         plt.savefig(self.png_path)
         plt.close(fig)
 
-    def _write_textcat_plots(self, doc_lengths, label_counts):
+    def _write_textcat_plots(
+        self, doc_lengths: list[int], label_counts: dict[str, int]
+    ) -> None:
         """Generate and save visualization plots for text classification dataset.
 
         Args:
