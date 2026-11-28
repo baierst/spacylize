@@ -1,58 +1,63 @@
-"""Dataset splitting module for creating train/dev splits.
+"""Dataset splitting module.
 
-This module provides functionality to split SpaCy datasets into training
-and development sets for model training and validation.
+Splits a SpaCy dataset into any number of named sets, e.g. train/dev or
+train/dev/test, using given fractions.
 """
 
+import math
+import random
 from pathlib import Path
 
-from loguru import logger
+import spacy
+from spacy.tokens import DocBin
 
 
-class DataSplitter:
-    """Splitter for SpaCy datasets into training and development sets.
+def split_dataset(dataset_path, splits, output_folder, seed=42):
+    """Shuffle a dataset and split it into named sets.
 
-    Splits a SpaCy binary dataset into separate training and development
-    files using a specified split ratio.
+    Each set is written to ``<output_folder>/<name>.spacy``.
 
-    Attributes:
-        input_file: Path to the input SpaCy dataset (.spacy).
-        train_file: Path where the training split will be saved.
-        dev_file: Path where the development split will be saved.
-        dev_size: Fraction of data to allocate to the dev set (0.0-1.0).
-        seed: Random seed for reproducible splitting.
+    Args:
+        dataset_path: Path to the SpaCy dataset file (.spacy).
+        splits: Mapping of set name to fraction, e.g.
+            ``{"train": 0.8, "dev": 0.1, "test": 0.1}``. The fractions must
+            be positive and sum to 1.
+        output_folder: Folder where the sets will be written.
+        seed: Random seed for a reproducible shuffle.
 
-    Note:
-        This class is not yet fully implemented.
+    Returns:
+        dict: Number of documents per set name.
+
+    Raises:
+        ValueError: If no sets are given, a fraction is not positive or the
+            fractions do not sum to 1.
     """
+    if not splits:
+        raise ValueError("At least one split is required.")
+    if any(fraction <= 0 for fraction in splits.values()):
+        raise ValueError("Split fractions must be greater than 0.")
+    if not math.isclose(sum(splits.values()), 1.0, abs_tol=1e-6):
+        raise ValueError(
+            f"Split fractions must sum to 1, got {sum(splits.values()):g}."
+        )
 
-    def __init__(
-        self,
-        input_file: Path,
-        train_file: Path,
-        dev_file: Path,
-        dev_size: float,
-        seed: int,
-    ):
-        """Initialize the DataSplitter.
+    docs = list(DocBin().from_disk(dataset_path).get_docs(spacy.blank("en").vocab))
+    random.Random(seed).shuffle(docs)
 
-        Args:
-            input_file: Path to the input SpaCy dataset (.spacy).
-            train_file: Output path for the training set.
-            dev_file: Output path for the development set.
-            dev_size: Fraction of data for the dev set (e.g., 0.2 for 20%).
-            seed: Random seed for reproducibility.
-        """
-        self.input_file = input_file
-        self.train_file = train_file
-        self.dev_file = dev_file
-        self.dev_size = dev_size
-        self.seed = seed
+    output_folder = Path(output_folder)
+    output_folder.mkdir(parents=True, exist_ok=True)
 
-    def run(self):
-        """Run the dataset splitting process.
-
-        Note:
-            This method is not yet implemented.
-        """
-        logger.warning("DataSplitter is not yet implemented.")
+    counts = {}
+    start = 0
+    cumulative = 0.0
+    names = list(splits)
+    for name in names:
+        cumulative += splits[name]
+        # Cumulative boundaries assign every document exactly once; the last
+        # set always ends at the last document, whatever the rounding.
+        end = len(docs) if name == names[-1] else round(cumulative * len(docs))
+        part = docs[start:end]
+        DocBin(docs=part, store_user_data=True).to_disk(output_folder / f"{name}.spacy")
+        counts[name] = len(part)
+        start = end
+    return counts

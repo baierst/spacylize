@@ -29,14 +29,14 @@ spacylize generate \
   --prompt-config-path examples/ner/input/prompt.yaml \
   --task ner \
   --n-samples 100 \
-  --output-path examples/ner/output/train.spacy \
+  --output-path examples/ner/output/data.spacy \
   --topic-check \
   --append
 ```
 
 ```bash
 spacylize validate \
-  --dataset examples/ner/output/train.spacy \
+  --dataset examples/ner/output/data.spacy \
   --output-folder examples/ner/output \
   --prompt-config examples/ner/input/prompt.yaml \
   --open
@@ -47,7 +47,7 @@ ones to remove and copy the `spacylize clean` command at the bottom of the repor
 
 ```bash
 spacylize clean \
-  --dataset examples/ner/output/train.spacy \
+  --dataset examples/ner/output/data.spacy \
   --remove 3,7,12
 ```
 

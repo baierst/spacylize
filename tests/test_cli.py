@@ -100,29 +100,69 @@ def test_validate_command(tmp_path):
         instance.run.assert_called_once()
 
 
-def test_split_command():
-    with patch("spacylize.cli.DataSplitter") as mock_splitter:
-        instance = mock_splitter.return_value
+def test_split_command(tmp_path):
+    dataset_file = tmp_path / "data.spacy"
+    dataset_file.touch()
+    output_folder = tmp_path / "splits"
+
+    with patch("spacylize.cli.split_dataset") as mock_split:
+        mock_split.return_value = {"train": 8, "dev": 1, "test": 1}
 
         result = runner.invoke(
             app,
             [
                 "split",
                 "--input",
-                "data.spacy",
-                "--train",
-                "train.spacy",
-                "--dev",
-                "dev.spacy",
-                "--dev-size",
-                "0.25",
+                str(dataset_file),
+                "--output-folder",
+                str(output_folder),
+                "--split",
+                "train=0.8",
+                "--split",
+                "dev=0.1",
+                "--split",
+                "test=0.1",
                 "--seed",
                 "123",
             ],
         )
 
         assert result.exit_code == 0
-        instance.run.assert_called_once()
+        mock_split.assert_called_once_with(
+            dataset_file,
+            {"train": 0.8, "dev": 0.1, "test": 0.1},
+            output_folder,
+            123,
+        )
+
+
+def test_split_command_default_splits(tmp_path):
+    dataset_file = tmp_path / "data.spacy"
+    dataset_file.touch()
+
+    with patch("spacylize.cli.split_dataset") as mock_split:
+        mock_split.return_value = {"train": 8, "dev": 2}
+        result = runner.invoke(
+            app, ["split", "-i", str(dataset_file), "-o", str(tmp_path / "splits")]
+        )
+
+        assert result.exit_code == 0
+        assert mock_split.call_args.args[1] == {"train": 0.8, "dev": 0.2}
+
+
+def test_split_command_invalid_split(tmp_path):
+    dataset_file = tmp_path / "data.spacy"
+    dataset_file.touch()
+
+    with patch("spacylize.cli.split_dataset") as mock_split:
+        result = runner.invoke(
+            app,
+            ["split", "-i", str(dataset_file), "-o", str(tmp_path), "-s", "train"],
+        )
+
+        assert result.exit_code == 1
+        assert "[Error]" in result.output
+        mock_split.assert_not_called()
 
 
 def test_train_command():

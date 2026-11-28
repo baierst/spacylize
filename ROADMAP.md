@@ -30,7 +30,7 @@ pipeline is trained on it.
 
 ## Phase 2 — Training, Evaluation & Iteration
 
-- 📋 Train/dev split
+- ✅ Train/dev/test split (any number of named sets)
 - 📋 Training interface, with saved hyperparameters so runs can be reproduced
 - 📋 Evaluation with per-label metrics
 - 📋 Feedback loop: evaluation points to weak labels and guides targeted data generation
