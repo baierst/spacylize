@@ -224,7 +224,9 @@ def test_clean_command(tmp_path):
     dataset_file = tmp_path / "data.spacy"
     dataset_file.touch()
 
-    with patch("spacylize.cli.clean_dataset", return_value=(2, 10)) as mock_clean:
+    with patch("spacylize.cli.DataCleaner") as mock_clean:
+        mock_clean.return_value.removed = 2
+        mock_clean.return_value.total = 10
         # Overwriting the dataset asks for confirmation; "n" aborts
         args = ["clean", "--dataset", str(dataset_file), "--remove", "1,3"]
         result = runner.invoke(app, args, input="n\n")
@@ -236,6 +238,7 @@ def test_clean_command(tmp_path):
     assert result.exit_code == 0
     assert "Removed 2 of 10 documents" in result.stdout
     mock_clean.assert_called_once_with(dataset_file, {1, 3}, None)
+    mock_clean.return_value.run.assert_called_once()
 
 
 def test_generate_asks_before_overwriting(tmp_path):

@@ -4,7 +4,7 @@ import pytest
 import spacy
 from spacy.tokens import DocBin, Doc
 
-from spacylize.validator import DataValidator, clean_dataset
+from spacylize.validator import DataCleaner, DataValidator
 
 
 def create_dummy_docbin(tmp_path: Path, n_docs=5):
@@ -112,13 +112,15 @@ def test_validator_textcat_dashboard_escapes_html(tmp_path: Path):
     assert report["quality"]["labels"] == {"no_category": 0, "multiple_categories": 0}
 
 
-def test_clean_dataset_removes_selected_documents(tmp_path: Path):
+def test_cleaner_removes_selected_documents(tmp_path: Path):
     nlp = spacy.blank("en")
     texts = ["A red laptop.", "A red laptop.", "A blue phone.", "Bake the bread."]
     path = tmp_path / "train.spacy"
     DocBin(docs=[nlp.make_doc(text) for text in texts]).to_disk(path)
 
-    assert clean_dataset(path, {1, 3}) == (2, 4)
+    cleaner = DataCleaner(path, {1, 3})
+    assert cleaner.run() == path
+    assert (cleaner.removed, cleaner.total) == (2, 4)
 
     kept = list(DocBin().from_disk(path).get_docs(nlp.vocab))
     assert [doc.text for doc in kept] == ["A red laptop.", "A blue phone."]

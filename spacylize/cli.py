@@ -13,7 +13,7 @@ from spacylize.evaluator import ModelEvaluator
 from spacylize.generator import DataGenerator
 from spacylize.splitter import DataSplitter
 from spacylize.trainer import ModelTrainer
-from spacylize.validator import DataValidator, clean_dataset
+from spacylize.validator import DataCleaner, DataValidator
 
 app = typer.Typer(
     name="spacylize",
@@ -191,8 +191,9 @@ def clean(
         typer.confirm(f"Are you sure you want to overwrite {dataset}?", abort=True)
     try:
         ids = {int(i) for i in remove.split(",") if i.strip()}
-        removed, total = clean_dataset(dataset, ids, output)
-        typer.echo(f"Removed {removed} of {total} documents.")
+        cleaner = DataCleaner(dataset, ids, output)
+        cleaner.run()
+        typer.echo(f"Removed {cleaner.removed} of {cleaner.total} documents.")
     except Exception as e:
         typer.echo(f"[Error] {e}")
         raise typer.Exit(code=1)
