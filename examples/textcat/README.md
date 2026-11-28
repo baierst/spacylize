@@ -24,14 +24,14 @@ spacylize generate \
   --prompt-config-path examples/textcat/input/prompt.yaml \
   --task textcat \
   --n-samples 100 \
-  --output-path examples/textcat/output/train.spacy \
+  --output-path examples/textcat/output/data.spacy \
   --topic-check \
   --append
 ```
 
 ```bash
 spacylize validate \
-  --dataset examples/textcat/output/train.spacy \
+  --dataset examples/textcat/output/data.spacy \
   --output-folder examples/textcat/output \
   --prompt-config examples/textcat/input/prompt.yaml \
   --open
@@ -42,7 +42,7 @@ ones to remove and copy the `spacylize clean` command at the bottom of the repor
 
 ```bash
 spacylize clean \
-  --dataset examples/textcat/output/train.spacy \
+  --dataset examples/textcat/output/data.spacy \
   --remove 3,7,12
 ```
 

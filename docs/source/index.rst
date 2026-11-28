@@ -69,7 +69,7 @@ Usage
      --prompt-config-path examples/ner/input/prompt.yaml \
      --task ner \
      --n-samples 100 \
-     --output-path examples/ner/output/train.spacy \
+     --output-path examples/ner/output/data.spacy \
      --topic-check \
      --append
 
@@ -84,7 +84,7 @@ list of all documents to filter and select for removal.
 .. code-block:: bash
 
    spacylize validate \
-     --dataset examples/ner/output/train.spacy \
+     --dataset examples/ner/output/data.spacy \
      --output-folder examples/ner/output \
      --prompt-config examples/ner/input/prompt.yaml \
      --task ner \
@@ -98,7 +98,7 @@ prompt config, or detected), ``--open`` (opens the report in the browser).
 .. code-block:: bash
 
    spacylize clean \
-     --dataset examples/ner/output/train.spacy \
+     --dataset examples/ner/output/data.spacy \
      --remove 3,7,12 \
      --output examples/ner/output/clean.spacy
 
@@ -106,19 +106,25 @@ Optional: ``--output`` (writes a new file; by default the dataset is overwritten
 
 The numbers refer to the validated dataset, so run ``validate`` again before selecting more.
 
-**4. Split, train and evaluate** (planned, not implemented yet):
+**4. Split**: shuffle the dataset and split it into named sets.
 
 .. code-block:: bash
 
    spacylize split \
-     --input examples/ner/output/train.spacy \
-     --train examples/ner/output/train_split.spacy \
-     --dev examples/ner/output/dev_split.spacy \
-     --dev-size 0.2 \
+     --input examples/ner/output/clean.spacy \
+     --output-folder examples/ner/output/splits \
+     --split train=0.8 --split dev=0.1 --split test=0.1 \
      --seed 42
 
+Each ``--split NAME=FRACTION`` writes ``<output-folder>/<NAME>.spacy``; use as many as you need, the
+fractions must sum to 1. Default: ``train=0.8``, ``dev=0.2``.
+
+**5. Train and evaluate** (planned, not implemented yet):
+
+.. code-block:: bash
+
    spacylize train \
-     --train-data examples/ner/output/train_split.spacy \
+     --train-data examples/ner/output/splits/train.spacy \
      --base-model en_core_web_sm \
      --output-model examples/ner/output/model \
      --n-iter 100 \
@@ -126,7 +132,7 @@ The numbers refer to the validated dataset, so run ``validate`` again before sel
 
    spacylize evaluate \
      --model examples/ner/output/model \
-     --data examples/ner/output/dev_split.spacy
+     --data examples/ner/output/splits/test.spacy
 
 More examples
 -------------

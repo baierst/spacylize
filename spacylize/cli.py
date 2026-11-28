@@ -200,20 +200,32 @@ def clean(
 
 @app.command(
     name="split",
-    help="Split a SpaCy binary dataset into training and dev sets.",
+    help="Split a SpaCy dataset into named sets, e.g. train/dev/test.",
 )
 def split_dataset(
     input_file: Path = typer.Option(
-        ..., "--input", "-i", help="Path to the SpaCy dataset (.spacy)."
+        ...,
+        "--input",
+        "-i",
+        help="Path to the SpaCy dataset (.spacy).",
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
     ),
-    train_file: Path = typer.Option(
-        "train.spacy", "--train", "-t", help="Output path for training set."
+    output_folder: Path = typer.Option(
+        ...,
+        "--output-folder",
+        "-o",
+        help="Folder where the sets are written as <name>.spacy.",
+        file_okay=False,
+        dir_okay=True,
     ),
-    dev_file: Path = typer.Option(
-        "dev.spacy", "--dev", "-d", help="Output path for dev set."
-    ),
-    dev_size: float = typer.Option(
-        0.2, "--dev-size", help="Fraction of data for dev set."
+    splits: list[str] = typer.Option(
+        None,
+        "--split",
+        "-s",
+        help="A set as NAME=FRACTION, repeatable, e.g. -s train=0.8 -s dev=0.1 "
+        "-s test=0.1. The fractions must sum to 1. Default: train=0.8, dev=0.2.",
     ),
     seed: int = typer.Option(42, "--seed", help="Random seed for reproducibility."),
 ):
@@ -221,8 +233,18 @@ def split_dataset(
     CLI entry point for splitting a SpaCy dataset.
     """
     try:
-        splitter = DataSplitter(input_file, train_file, dev_file, dev_size, seed)
-        splitter.run()
+        fractions = {}
+        for item in splits or ["train=0.8", "dev=0.2"]:
+            name, sep, fraction = item.partition("=")
+            name = name.strip()
+            if not sep or not name:
+                raise ValueError(f"Invalid split '{item}', expected NAME=FRACTION.")
+            if name in fractions:
+                raise ValueError(f"Duplicate split name '{name}'.")
+            fractions[name] = float(fraction)
+        splitter = DataSplitter(input_file, fractions, output_folder, seed)
+        for name, path in splitter.run().items():
+            typer.echo(f"{name}: {splitter.counts[name]} documents -> {path}")
     except Exception as e:
         typer.echo(f"[Error] {e}")
         raise typer.Exit(code=1)
