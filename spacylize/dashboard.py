@@ -87,7 +87,7 @@ def _to_html(fig: go.Figure, title: str, height: int = 300) -> str:
         title=title,
         height=height,
         bargap=0.15,
-        margin=dict(l=40, r=20, t=50, b=40),
+        margin={"l": 40, "r": 20, "t": 50, "b": 40},
         template="plotly_white",
     )
     return fig.to_html(

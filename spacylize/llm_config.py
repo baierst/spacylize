@@ -7,7 +7,7 @@ from YAML files, including environment variable expansion.
 import os
 import re
 from pathlib import Path
-from typing import Optional, Any
+from typing import Any
 
 import yaml
 from pydantic import BaseModel, Field, ValidationError
@@ -29,10 +29,10 @@ class LLMConfig(BaseModel):
     """
 
     model: str
-    api_key: Optional[str] = Field(default=None)
-    api_base: Optional[str] = None
+    api_key: str | None = Field(default=None)
+    api_base: str | None = None
     max_tokens: int = 1024
-    think: Optional[bool] = None
+    think: bool | None = None
 
     model_config = {"extra": "forbid"}
 

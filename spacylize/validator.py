@@ -8,9 +8,10 @@ of dataset characteristics.
 import json
 import statistics
 from pathlib import Path
+
+import matplotlib.pyplot as plt
 import spacy
 from spacy.tokens import Doc, DocBin
-import matplotlib.pyplot as plt
 
 from spacylize import analysis
 from spacylize.dashboard import write_dashboard

@@ -1,8 +1,9 @@
 import json
 from pathlib import Path
+
 import pytest
 import spacy
-from spacy.tokens import DocBin, Doc
+from spacy.tokens import DocBin
 
 from spacylize.validator import DataCleaner, DataValidator
 
@@ -60,7 +61,6 @@ def test_validator_creates_reports(tmp_path: Path):
 
 def test_validator_handles_empty_dataset(tmp_path: Path):
     # Create an empty DocBin
-    nlp = spacy.blank("en")
     doc_bin = DocBin()
     empty_file = tmp_path / "empty.spacy"
     doc_bin.to_disk(empty_file)
@@ -69,7 +69,7 @@ def test_validator_handles_empty_dataset(tmp_path: Path):
 
     # Empty dataset should raise ValueError since task cannot be auto-detected
     with pytest.raises(ValueError, match="Dataset is empty, cannot detect task type"):
-        validator = DataValidator(dataset_path=empty_file, output_folder=output_folder)
+        DataValidator(dataset_path=empty_file, output_folder=output_folder)
 
 
 def create_textcat_docbin(tmp_path: Path, texts):

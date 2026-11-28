@@ -9,6 +9,7 @@ import random
 import re
 from abc import ABC, abstractmethod
 from pathlib import Path
+from typing import ClassVar
 
 import spacy
 import typer
@@ -32,7 +33,6 @@ class TaskParser(ABC):
     @abstractmethod
     def parse(text: str) -> tuple:
         """Parse annotated text and return task-specific data."""
-        pass
 
 
 class DocumentBuilder(ABC):
@@ -42,7 +42,6 @@ class DocumentBuilder(ABC):
     @abstractmethod
     def build(nlp: Language, parsed_data: tuple) -> Doc:
         """Build a SpaCy Doc from parsed data."""
-        pass
 
 
 class NERParser(TaskParser):
@@ -175,7 +174,7 @@ class TextCatDocumentBuilder(DocumentBuilder):
 class TaskHandler:
     """Registry for task-specific parsers and builders."""
 
-    _HANDLERS = {
+    _HANDLERS: ClassVar[dict[str, tuple[type[TaskParser], type[DocumentBuilder]]]] = {
         "ner": (NERParser, NERDocumentBuilder),
         "textcat": (TextCatParser, TextCatDocumentBuilder),
     }
@@ -315,7 +314,9 @@ class DataGenerator:
                 for doc in bar:
                     try:
                         score = topic_score(doc.text, self.prompt_config.domain)
-                    except Exception as e:
+                    # Any failure of the local model (not installed, not running, ...)
+                    # skips the topic check instead of losing the generated samples.
+                    except Exception as e:  # noqa: BLE001
                         logger.warning(f"Skipping topic check: {e}")
                         break
                     doc.user_data["topic_score"] = round(score, 3)

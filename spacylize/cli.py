@@ -5,9 +5,10 @@ to generate, validate, clean, split, train, and evaluate SpaCy NER datasets
 using LLM-powered data generation.
 """
 
-import typer
 import webbrowser
 from pathlib import Path
+
+import typer
 
 from spacylize.evaluator import ModelEvaluator
 from spacylize.generator import DataGenerator

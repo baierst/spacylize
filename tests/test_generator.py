@@ -1,7 +1,7 @@
-import pytest
 from pathlib import Path
 from unittest.mock import MagicMock, patch
 
+import pytest
 import spacy
 from spacy.tokens import DocBin
 
@@ -127,7 +127,7 @@ def test_data_generator_saves_rendered_prompts(
 
     output_path = tmp_path / "docs.spacy"
 
-    generator = DataGenerator(
+    DataGenerator(
         llm_config_path=Path("llm.yaml"),
         prompt_config_path=Path("prompt.yaml"),
         n_samples=1,

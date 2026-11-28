@@ -6,6 +6,7 @@ check and the per-document issues shown in the report.
 
 import re
 from collections import Counter, defaultdict
+from itertools import pairwise
 
 from spacy.tokens import Doc
 
@@ -21,7 +22,7 @@ def diversity(docs: list[Doc]) -> dict:
     """
     tokens = [[t.lower_ for t in doc if not (t.is_punct or t.is_space)] for doc in docs]
     unigrams = [t for toks in tokens for t in toks]
-    bigrams = [b for toks in tokens for b in zip(toks, toks[1:])]
+    bigrams = [b for toks in tokens for b in pairwise(toks)]
 
     def distinct(items: list) -> float:
         return round(len(set(items)) / len(items), 3) if items else 0

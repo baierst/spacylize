@@ -1,20 +1,19 @@
 """Tests for structured prompt configuration loading and validation."""
 
 import random
+
 import pytest
-import tempfile
-from pathlib import Path
+from pydantic import ValidationError
 
 from spacylize.prompt_config import (
-    load_prompt_config,
-    render_prompt,
-    NERStructuredConfig,
-    TextCatStructuredConfig,
     NERExample,
+    NERStructuredConfig,
     TextCatCategory,
     TextCatExample,
+    TextCatStructuredConfig,
+    load_prompt_config,
+    render_prompt,
 )
-from pydantic import ValidationError
 
 
 def test_ner_structured_config_valid():
