@@ -18,7 +18,9 @@ def create_docbin(tmp_path: Path, n_docs=10):
 
 
 def read_texts(path: Path):
-    return [doc.text for doc in DocBin().from_disk(path).get_docs(spacy.blank("en").vocab)]
+    return [
+        doc.text for doc in DocBin().from_disk(path).get_docs(spacy.blank("en").vocab)
+    ]
 
 
 def test_three_way_split(tmp_path: Path):
@@ -48,7 +50,9 @@ def test_two_way_split_is_reproducible(tmp_path: Path):
 def test_all_documents_assigned_with_rounding(tmp_path: Path):
     dataset = create_docbin(tmp_path, n_docs=7)
 
-    splitter = DataSplitter(dataset, {"a": 1 / 3, "b": 1 / 3, "c": 1 / 3}, tmp_path / "s")
+    splitter = DataSplitter(
+        dataset, {"a": 1 / 3, "b": 1 / 3, "c": 1 / 3}, tmp_path / "s"
+    )
     splitter.run()
 
     assert sum(splitter.counts.values()) == 7
