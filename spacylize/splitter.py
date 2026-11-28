@@ -21,7 +21,13 @@ class DataSplitter:
         counts: Number of documents per set, filled by :meth:`run`.
     """
 
-    def __init__(self, dataset_path, splits, output_folder, seed=42):
+    def __init__(
+        self,
+        dataset_path: Path | str,
+        splits: dict[str, float],
+        output_folder: Path | str,
+        seed: int = 42,
+    ) -> None:
         """Initialize the DataSplitter.
 
         Args:
@@ -50,7 +56,7 @@ class DataSplitter:
         self.seed = seed
         self.counts = {}
 
-    def run(self):
+    def run(self) -> dict[str, Path]:
         """Split the dataset and write the sets.
 
         Returns:

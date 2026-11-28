@@ -66,7 +66,7 @@ def generate_data(
         "--append",
         help="Add the samples to an existing output file instead of overwriting it.",
     ),
-):
+) -> None:
     """
     Generates training data using an LLM based on a prompt configuration.
     """
@@ -138,7 +138,7 @@ def validate_dataset(
         file_okay=True,
         dir_okay=False,
     ),
-):
+) -> None:
     """
     CLI entry point for validating a SpaCy dataset.
     """
@@ -183,7 +183,7 @@ def clean(
         "-o",
         help="Where to write the cleaned dataset. Overwrites the dataset if not given.",
     ),
-):
+) -> None:
     """
     CLI entry point for cleaning a SpaCy dataset.
     """
@@ -229,7 +229,7 @@ def split_dataset(
         "-s test=0.1. The fractions must sum to 1. Default: train=0.8, dev=0.2.",
     ),
     seed: int = typer.Option(42, "--seed", help="Random seed for reproducibility."),
-):
+) -> None:
     """
     CLI entry point for splitting a SpaCy dataset.
     """
@@ -277,7 +277,7 @@ def train_pipeline(
     dropout: float = typer.Option(
         0.3, "--dropout", help="Dropout rate during training."
     ),
-):
+) -> None:
     try:
         trainer = ModelTrainer(train_data, base_model, output_model, n_iter, dropout)
         trainer.run()
@@ -297,7 +297,7 @@ def evaluate_model(
     eval_data: Path = typer.Option(
         ..., "--data", "-d", help="Path to the evaluation data (.spacy)."
     ),
-):
+) -> None:
     try:
         evaluator = ModelEvaluator(model_path, eval_data)
         evaluator.run()

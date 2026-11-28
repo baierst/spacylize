@@ -96,7 +96,7 @@ class NERStructuredConfig(BaseModel):
 
     @field_validator("entities")
     @classmethod
-    def validate_entities(cls, v):
+    def validate_entities(cls, v: List[str]) -> List[str]:
         """Ensure at least one entity is specified."""
         if not v:
             raise ValueError("At least one entity required")
@@ -162,7 +162,7 @@ class TextCatStructuredConfig(BaseModel):
 
     @field_validator("categories")
     @classmethod
-    def validate_categories(cls, v):
+    def validate_categories(cls, v: List[TextCatCategory]) -> List[TextCatCategory]:
         """Ensure at least two categories are specified."""
         if len(v) < 2:
             raise ValueError("At least two categories required")
@@ -177,7 +177,9 @@ class TextCatStructuredConfig(BaseModel):
 StructuredConfig = NERStructuredConfig | TextCatStructuredConfig
 
 
-def render_prompt(config: StructuredConfig, rng=None, index=0) -> PromptConfig:
+def render_prompt(
+    config: StructuredConfig, rng: Optional[random.Random] = None, index: int = 0
+) -> PromptConfig:
     """Render the prompts for one sample, varied per sample.
 
     Picks one value for list-valued domain, tone and length. For NER, asks for a

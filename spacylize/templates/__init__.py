@@ -34,7 +34,7 @@ class TemplateRegistry:
     }
 
     @classmethod
-    def get_template(cls, task: str):
+    def get_template(cls, task: str) -> type[PromptTemplate]:
         """Get the template class for a given task type.
 
         Args:

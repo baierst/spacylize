@@ -23,7 +23,7 @@ class ModelEvaluator:
         This class is not yet fully implemented.
     """
 
-    def __init__(self, model_path: Path, eval_data: Path):
+    def __init__(self, model_path: Path, eval_data: Path) -> None:
         """Initialize the ModelEvaluator.
 
         Args:
@@ -33,7 +33,7 @@ class ModelEvaluator:
         self.model_path = model_path
         self.eval_data = eval_data
 
-    def run(self):
+    def run(self) -> None:
         """Run the evaluation process.
 
         Note:

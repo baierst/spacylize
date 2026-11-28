@@ -31,7 +31,7 @@ class LLMClient:
         api_base: Optional[str] = None,
         max_tokens: int = 1024,
         think: Optional[bool] = None,
-    ):
+    ) -> None:
         """Initialize the LLM client.
 
         Args:
@@ -92,7 +92,12 @@ class LLMClient:
         return response["choices"][0]["message"]["content"]
 
 
-def topic_score(text, domain, model="ollama/nimble", api_base="http://localhost:11434"):
+def topic_score(
+    text: str,
+    domain: str,
+    model: str = "ollama/nimble",
+    api_base: str = "http://localhost:11434",
+) -> float:
     """Probability (0-1) that a text fits the domain, from a local decision model.
 
     Args:

@@ -7,8 +7,10 @@ check and the per-document issues shown in the report.
 import re
 from collections import Counter, defaultdict
 
+from spacy.tokens import Doc
 
-def diversity(docs):
+
+def diversity(docs: list[Doc]) -> dict:
     """Compute lexical diversity metrics.
 
     Args:
@@ -21,7 +23,7 @@ def diversity(docs):
     unigrams = [t for toks in tokens for t in toks]
     bigrams = [b for toks in tokens for b in zip(toks, toks[1:])]
 
-    def distinct(items):
+    def distinct(items: list) -> float:
         return round(len(set(items)) / len(items), 3) if items else 0
 
     openings = Counter(" ".join(toks[:3]) for toks in tokens if len(toks) >= 3)
@@ -32,7 +34,7 @@ def diversity(docs):
     }
 
 
-def label_quality(docs, task):
+def label_quality(docs: list[Doc], task: str) -> dict:
     """Check label quality.
 
     For NER: unique entity values per label and entity texts used with several
@@ -77,7 +79,7 @@ def label_quality(docs, task):
     }
 
 
-def check_labels(docs, task, labels):
+def check_labels(docs: list[Doc], task: str, labels: list[str]) -> dict:
     """Compare the labels in the dataset with the configured labels.
 
     Args:
@@ -105,7 +107,7 @@ def check_labels(docs, task, labels):
     }
 
 
-def off_topic_ids(docs):
+def off_topic_ids(docs: list[Doc]) -> set[int]:
     """Indices of documents with a topic score below 0.5, as stored by generate.
 
     Args:
@@ -119,7 +121,7 @@ def off_topic_ids(docs):
     }
 
 
-def duplicate_ids(texts):
+def duplicate_ids(texts: list[str]) -> set[int]:
     """Indices of documents that repeat an earlier one.
 
     Texts are compared after lower-casing and removing punctuation and extra
@@ -140,7 +142,9 @@ def duplicate_ids(texts):
     return ids
 
 
-def find_issues(docs, task, labels=None):
+def find_issues(
+    docs: list[Doc], task: str, labels: list[str] | None = None
+) -> dict[int, list[str]]:
     """Run the validator checks on each document.
 
     Args:

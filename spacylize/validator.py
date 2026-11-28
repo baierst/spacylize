@@ -9,7 +9,7 @@ import json
 import statistics
 from pathlib import Path
 import spacy
-from spacy.tokens import DocBin
+from spacy.tokens import Doc, DocBin
 import matplotlib.pyplot as plt
 
 from spacylize import analysis
@@ -25,7 +25,12 @@ class DataCleaner:
         total: Number of documents before cleaning, filled by :meth:`run`.
     """
 
-    def __init__(self, dataset_path, remove, output_path=None):
+    def __init__(
+        self,
+        dataset_path: Path | str,
+        remove: set[int],
+        output_path: Path | str | None = None,
+    ) -> None:
         """Initialize the DataCleaner.
 
         Args:
@@ -40,7 +45,7 @@ class DataCleaner:
         self.removed = 0
         self.total = 0
 
-    def run(self):
+    def run(self) -> Path:
         """Write the cleaned dataset.
 
         Returns:
@@ -75,9 +80,9 @@ class DataValidator:
         self,
         dataset_path: str,
         output_folder: str,
-        task: str = None,
-        prompt_config_path: str = None,
-    ):
+        task: str | None = None,
+        prompt_config_path: str | None = None,
+    ) -> None:
         """Initialize the DataValidator.
 
         Args:
@@ -119,7 +124,7 @@ class DataValidator:
         self.png_path = self.output_folder / f"{dataset_name}_report.png"
         self.html_path = self.output_folder / f"{dataset_name}_report.html"
 
-    def run(self):
+    def run(self) -> None:
         """Run the validation process and generate reports.
 
         Analyzes the dataset using task-specific validation logic,
@@ -138,7 +143,7 @@ class DataValidator:
         else:
             raise ValueError(f"Unsupported task: {self.task}")
 
-    def _validate_ner(self, docs):
+    def _validate_ner(self, docs: list[Doc]) -> None:
         """Validate NER dataset and generate reports.
 
         Args:
@@ -202,7 +207,7 @@ class DataValidator:
             entity_lengths,
         )
 
-    def _validate_textcat(self, docs):
+    def _validate_textcat(self, docs: list[Doc]) -> None:
         """Validate text classification dataset and generate reports.
 
         Args:
@@ -241,7 +246,7 @@ class DataValidator:
         )
         self._write_textcat_plots(doc_lengths, label_counts)
 
-    def _load_docs(self):
+    def _load_docs(self) -> list[Doc]:
         """Load documents from the SpaCy binary dataset.
 
         Returns:
@@ -250,7 +255,7 @@ class DataValidator:
         doc_bin = DocBin().from_disk(self.dataset_path)
         return list(doc_bin.get_docs(self.nlp.vocab))
 
-    def _detect_task(self, docs) -> str:
+    def _detect_task(self, docs: list[Doc]) -> str:
         """Auto-detect task type from the dataset.
 
         Args:
@@ -280,7 +285,7 @@ class DataValidator:
             "Could not detect task type. Dataset appears to have no entities or categories."
         )
 
-    def _summary(self, values):
+    def _summary(self, values: list[int]) -> dict:
         """Compute summary statistics for a list of values.
 
         Args:
@@ -298,7 +303,9 @@ class DataValidator:
             "mean": round(statistics.mean(values), 2),
         }
 
-    def _write_reports(self, docs, report, distributions):
+    def _write_reports(
+        self, docs: list[Doc], report: dict, distributions: dict
+    ) -> None:
         """Add quality checks to the report, then write the JSON report and the dashboard.
 
         Args:
@@ -320,7 +327,7 @@ class DataValidator:
         self._write_json(report)
         write_dashboard(report, distributions, docs, self.html_path)
 
-    def _write_json(self, report):
+    def _write_json(self, report: dict) -> None:
         """Write the validation report to a JSON file.
 
         Args:
@@ -332,11 +339,11 @@ class DataValidator:
 
     def _write_plots(
         self,
-        doc_lengths,
-        ents_per_doc,
-        entity_label_counts,
-        entity_lengths,
-    ):
+        doc_lengths: list[int],
+        ents_per_doc: list[int],
+        entity_label_counts: dict[str, int],
+        entity_lengths: list[int],
+    ) -> None:
         """Generate and save visualization plots for the dataset.
 
         Args:
@@ -387,7 +394,9 @@ class DataValidator:
         plt.savefig(self.png_path)
         plt.close(fig)
 
-    def _write_textcat_plots(self, doc_lengths, label_counts):
+    def _write_textcat_plots(
+        self, doc_lengths: list[int], label_counts: dict[str, int]
+    ) -> None:
         """Generate and save visualization plots for text classification dataset.
 
         Args:

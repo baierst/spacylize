@@ -13,7 +13,8 @@ from pathlib import Path
 import spacy
 import typer
 from loguru import logger
-from spacy.tokens import DocBin
+from spacy.language import Language
+from spacy.tokens import Doc, DocBin
 
 from spacylize.llm import LLMClient, topic_score
 from spacylize.llm_config import load_llm_config
@@ -29,7 +30,7 @@ class TaskParser(ABC):
 
     @staticmethod
     @abstractmethod
-    def parse(text: str):
+    def parse(text: str) -> tuple:
         """Parse annotated text and return task-specific data."""
         pass
 
@@ -39,7 +40,7 @@ class DocumentBuilder(ABC):
 
     @staticmethod
     @abstractmethod
-    def build(nlp, parsed_data):
+    def build(nlp: Language, parsed_data: tuple) -> Doc:
         """Build a SpaCy Doc from parsed data."""
         pass
 
@@ -48,7 +49,7 @@ class NERParser(TaskParser):
     """Parser for NER inline annotations: [TEXT](LABEL)"""
 
     @staticmethod
-    def parse(text: str):
+    def parse(text: str) -> tuple[str, list[tuple[int, int, str]]]:
         """Parse NER annotations.
 
         Args:
@@ -86,7 +87,7 @@ class NERDocumentBuilder(DocumentBuilder):
     """Builds SpaCy docs with entity annotations."""
 
     @staticmethod
-    def build(nlp, parsed_data):
+    def build(nlp: Language, parsed_data: tuple) -> Doc:
         """Build NER document with entity spans.
 
         Args:
@@ -113,7 +114,7 @@ class TextCatParser(TaskParser):
     """Parser for text classification annotations."""
 
     @staticmethod
-    def parse(text: str):
+    def parse(text: str) -> tuple[str, dict[str, float]]:
         """Parse textcat annotation format.
 
         Expected format:
@@ -155,7 +156,7 @@ class TextCatDocumentBuilder(DocumentBuilder):
     """Builds SpaCy docs with category annotations."""
 
     @staticmethod
-    def build(nlp, parsed_data):
+    def build(nlp: Language, parsed_data: tuple) -> Doc:
         """Build textcat document with categories.
 
         Args:
@@ -180,7 +181,7 @@ class TaskHandler:
     }
 
     @classmethod
-    def get_handler(cls, task: str):
+    def get_handler(cls, task: str) -> tuple[type[TaskParser], type[DocumentBuilder]]:
         """Get parser and builder for a task.
 
         Args:
@@ -200,7 +201,7 @@ class TaskHandler:
         return cls._HANDLERS[task]
 
     @classmethod
-    def supported_tasks(cls):
+    def supported_tasks(cls) -> list[str]:
         """Get list of supported task types.
 
         Returns:
@@ -216,12 +217,12 @@ class DataGenerator:
         self,
         llm_config_path: Path,
         prompt_config_path: Path,
-        n_samples,
-        output_path,
-        task,
-        topic_check=False,
-        append=False,
-    ):
+        n_samples: int,
+        output_path: Path,
+        task: str,
+        topic_check: bool = False,
+        append: bool = False,
+    ) -> None:
         """Initialize the DataGenerator.
 
         Args:
@@ -259,7 +260,7 @@ class DataGenerator:
         self.topic_check = topic_check
         self.append = append
 
-    def run(self):
+    def run(self) -> None:
         """Run the data generation process.
 
         Generates n_samples of annotated text using the configured LLM,
